@@ -22,7 +22,7 @@ group= "com.jaquadro.minecraft.storagedrawers" // http://maven.apache.org/guides
 archivesBaseName = "StorageDrawers-Natura"
 
 minecraft {
-    version = "1.7.10-10.13.3.1408-1.7.10"
+    version = "1.7.10-10.13.4.1614-1.7.10"
     assetDir = "../../runtime/assets"
 
     replace '@VERSION@', project.version
