@@ -57,6 +57,6 @@ public class TemplateRecipe implements IRecipe
 
     @Override
     public ItemStack getRecipeOutput () {
-        return new ItemStack(ModItems.upgradeTemplate, 2);
+        return new ItemStack(ModItems.upgradeTemplate, 1);
     }
 }
