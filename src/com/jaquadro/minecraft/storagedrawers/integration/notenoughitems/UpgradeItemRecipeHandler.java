@@ -15,19 +15,19 @@ public class UpgradeItemRecipeHandler extends ShapedRecipeHandler
             loadCraftingRecipes((ItemStack) results[0]);
     }
 
-    @Override
-    public void loadCraftingRecipes (ItemStack result) {
-        ItemStack itemTemplate = new ItemStack(ModItems.upgradeTemplate);
-        List<ItemStack> sticks = OreDictionary.getOres("stickWood");
-        List<ItemStack> drawers = OreDictionary.getOres("drawerBasic");
+    //@Override
+    //public void loadCraftingRecipes (ItemStack result) {
+    //  ItemStack itemTemplate = new ItemStack(ModItems.upgradeTemplate);
+    //List<ItemStack> sticks = OreDictionary.getOres("stickWood");
+    //List<ItemStack> drawers = OreDictionary.getOres("drawerBasic");
 
-        if (result.isItemEqual(itemTemplate)) {
-            arecipes.add(new CachedShapedRecipe(3, 3, new Object[] {
-                sticks, sticks, sticks,
-                sticks, drawers, sticks,
-                sticks, sticks, sticks
-            }, result));
+        //if (result.isItemEqual(itemTemplate)) {
+        //  arecipes.add(new CachedShapedRecipe(3, 3, new Object[] {
+        //  sticks, sticks, sticks,
+        //  sticks, drawers, sticks,
+        //  sticks, sticks, sticks
+            //}, result));
         }
-        super.loadCraftingRecipes(result);
-    }
-}
+        //super.loadCraftingRecipes(result);
+    //}
+//}
