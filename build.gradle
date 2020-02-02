@@ -2,6 +2,10 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
+            name = "gt"
+            url = "https://gregtech.overminddl1.com/"
+        }
+        maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
@@ -16,6 +20,9 @@ buildscript {
 }
 
 apply plugin: 'forge'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 version = "1.7.10-1.10.9"
 group= "com.jaquadro.minecraft.storagedrawers" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -45,6 +52,10 @@ sourceSets.api {
 
 repositories {
     maven {
+        name = "gt"
+        url = "https://gregtech.overminddl1.com/"
+    }
+    maven {
         name 'CB Maven FS'
         url "http://chickenbones.net/maven/"
     }
@@ -52,11 +63,6 @@ repositories {
     maven {
         name "Waila Mobius Repo"
         url "http://mobiusstrip.eu/maven"
-    }
-
-    maven {
-        name "FireBall API Depot"
-        url "http://dl.tsr.me/artifactory/libs-release-local"
     }
 
     maven {
@@ -73,16 +79,21 @@ repositories {
         name "MineTweaker3"
         artifactPattern "http://minetweaker3.powerofbytes.com/download/[module]-[revision].[ext]"
     }
+    ivy {
+        name 'gtnh_download_source'
+        artifactPattern "http://downloads.gtnewhorizons.com/Mods_for_Jenkins/[module]-[revision].[ext]"
+    }
 }
 
 dependencies {
-    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.136:dev"
-    compile "codechicken:CodeChickenCore:1.7.10-1.0.6.44:dev"
-    compile "codechicken:NotEnoughItems:1.7.10-1.0.4.107:dev"
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev"
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev"
 
-    compile files("libs/appliedenergistics2-rv3-beta-5-dev.jar")
+    compile files("libs/appliedenergistics2-rv2-beta-33-dev.jar")
 
-    //compile name: 'MineTweaker3', version: "Dev-1.7.10-3.0.9B", ext: 'jar'
+    compile name: 'MineTweaker3', version: "Dev-1.7.10-3.0.10B", ext: 'jar'
+
 
     if (gradle.startParameter.taskNames.contains("idea")) {
         compile project(":BiomesOPlenty")

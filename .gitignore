@@ -23,3 +23,4 @@ tools/TextureBuilder/TextureBuilder/obj/
 *.suo
 logs/
 *.bat
+.idea/
