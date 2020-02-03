@@ -10,6 +10,7 @@ import com.jaquadro.minecraft.storagedrawers.api.registry.IRenderRegistry;
 import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaRegistry;
 import com.jaquadro.minecraft.storagedrawers.core.api.PackFactory;
 import com.jaquadro.minecraft.storagedrawers.core.api.PackRecipes;
+import com.jaquadro.minecraft.storagedrawers.integration.ChiselIntegrationModule;
 import com.jaquadro.minecraft.storagedrawers.integration.ThermalExpansion;
 
 public class Api implements IStorageDrawersApi

@@ -32,6 +32,10 @@ public class IntegrationRegistry
             reg.add(new ThermalExpansion());
         if (Loader.isModLoaded("ThermalFoundation") && StorageDrawers.config.cache.enableThermalFoundationIntegration)
             reg.add(new ThermalFoundation());
+        if (ChiselIntegrationModule.isEnabled())
+            reg.add(new ChiselIntegrationModule());
+        if (GTNHIntegrationModule.isEnabled())
+            reg.add(new GTNHIntegrationModule());
     }
 
     private IntegrationRegistry () {

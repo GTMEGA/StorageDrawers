@@ -53,7 +53,7 @@ public class ConfigManager
         }
     }
 
-    public class ConfigCache {
+    public static class ConfigCache {
         public boolean enableIndicatorUpgrades;
         public boolean enableStorageUpgrades;
         public boolean enableLockUpgrades;
@@ -77,6 +77,8 @@ public class ConfigManager
         public boolean enableRefinedRelocationIntegration;
         public boolean enableThermalExpansionIntegration;
         public boolean enableThermalFoundationIntegration;
+        public boolean enableChiselIntegration;
+        public boolean enableGTNHIntegration;
         public boolean enableTape;
         public boolean enableFallbackRecipes;
         public boolean enableFramedDrawers;
@@ -160,6 +162,17 @@ public class ConfigManager
         public boolean isRefinedRelocationEnabled () {
             return cache.enableRefinedRelocationIntegration;
         }
+
+        @Override
+        public boolean isChiselEnabled () {
+            return cache.enableChiselIntegration;
+        }
+
+        @Override
+        public boolean isGTNHEnabled () {
+            return cache.enableGTNHIntegration;
+        }
+
     }
 
     private class UserConfig implements IUserConfig {
@@ -261,6 +274,8 @@ public class ConfigManager
         cache.enableRefinedRelocationIntegration = config.get(sectionIntegration.getQualifiedName(), "enableRefinedRelocation", true).setLanguageKey(LANG_PREFIX + "integration.enableRefinedRelocation").setRequiresMcRestart(true).getBoolean();
         cache.enableThermalExpansionIntegration = config.get(sectionIntegration.getQualifiedName(), "enableThermalExpansion", true).setLanguageKey(LANG_PREFIX + "integration.enableThermalExpansion").setRequiresMcRestart(true).getBoolean();
         cache.enableThermalFoundationIntegration = config.get(sectionIntegration.getQualifiedName(), "enableThermalFoundation", true).setLanguageKey(LANG_PREFIX + "integration.enableThermalFoundation").setRequiresMcRestart(true).getBoolean();
+        cache.enableChiselIntegration = config.get(sectionIntegration.getQualifiedName(), "enableChisel", true).setLanguageKey(LANG_PREFIX + "integration.enableChisel").setRequiresMcRestart(true).getBoolean();
+        cache.enableGTNHIntegration = config.get(sectionIntegration.getQualifiedName(), "enableGTNH", true).setLanguageKey(LANG_PREFIX + "integration.enableGTNH").setRequiresMcRestart(true).getBoolean();
 
         config.get(sectionBlocksFullDrawers1x1.getQualifiedName(), "enabled", true).setLanguageKey(LANG_PREFIX + "prop.enabled").setRequiresMcRestart(true);
         config.get(sectionBlocksFullDrawers1x1.getQualifiedName(), "baseStorage", 32).setLanguageKey(LANG_PREFIX + "prop.baseStorage").setRequiresWorldRestart(true);

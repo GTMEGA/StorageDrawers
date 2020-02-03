@@ -23,7 +23,7 @@ archivesBaseName = "StorageDrawers-BiomesOPlenty"
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
-    assetDir = "../../runtime/assets"
+    runDir = "../../runtime"
 
     replace '@VERSION@', project.version
     replace 'required-after:StorageDrawers', "required-after:StorageDrawers@[1.7.6,)"

@@ -1,12 +1,10 @@
 package com.jaquadro.minecraft.storagedrawers.core;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
-import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
 import com.jaquadro.minecraft.storagedrawers.core.recipe.FallbackShapedOreRecipe;
 import com.jaquadro.minecraft.storagedrawers.core.recipe.TemplateRecipe;
+import com.jaquadro.minecraft.storagedrawers.integration.ChiselIntegrationModule;
+import com.jaquadro.minecraft.storagedrawers.integration.GTNHIntegrationModule;
 import cpw.mods.fml.common.registry.GameRegistry;
-import minetweaker.mc1710.recipes.ShapedRecipeOre;
 import net.minecraft.block.BlockWood;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -16,39 +14,39 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class ModRecipes
-{
-    public void init () {
+import static com.jaquadro.minecraft.storagedrawers.StorageDrawers.config;
+
+public class ModRecipes {
+
+    public void init() {
         OreDictionary.registerOre("chestWood", new ItemStack(Blocks.chest)); // Remove when porting to 1.8
 
+        if (GTNHIntegrationModule.isEnabled()) return;
         RecipeSorter.register("StorageDrawers:FallbackShapedOreRecipe", FallbackShapedOreRecipe.class, RecipeSorter.Category.SHAPED, "after:forge:shapedore");
-        
-        ConfigManager config = StorageDrawers.config;
-
-        for (int i = 0; i < BlockWood.field_150096_a.length; i++) {
-            if (config.isBlockEnabled("fulldrawers1"))
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.fullDrawers1, config.getBlockRecipeOutput("fulldrawers1"), i), "xxx", " y ", "xxx",
-                    'x', new ItemStack(Blocks.planks, 1, i), 'y', "chestWood"));
-            if (config.isBlockEnabled("fulldrawers2"))
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.fullDrawers2, config.getBlockRecipeOutput("fulldrawers2"), i), "xyx", "xxx", "xyx",
-                    'x', new ItemStack(Blocks.planks, 1, i), 'y', "chestWood"));
-            if (config.isBlockEnabled("halfdrawers2"))
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.halfDrawers2, config.getBlockRecipeOutput("halfdrawers2"), i), "xyx", "xxx", "xyx",
-                    'x', new ItemStack(Blocks.wooden_slab, 1, i), 'y', "chestWood"));
-            if (config.isBlockEnabled("fulldrawers4"))
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.fullDrawers4, config.getBlockRecipeOutput("fulldrawers4"), i), "yxy", "xxx", "yxy",
-                    'x', new ItemStack(Blocks.planks, 1, i), 'y', "chestWood"));
-            if (config.isBlockEnabled("halfdrawers4"))
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.halfDrawers4, config.getBlockRecipeOutput("halfdrawers4"), i), "yxy", "xxx", "yxy",
-                    'x', new ItemStack(Blocks.wooden_slab, 1, i), 'y', "chestWood"));
-            if (config.isBlockEnabled("trim")) {
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.trim, config.getBlockRecipeOutput("trim"), i), "xyx", "yyy", "xyx",
-                    'x', "stickWood", 'y', new ItemStack(Blocks.planks, 1, i)));
+        if (!ChiselIntegrationModule.isEnabled()) {
+            for (int i = 0; i < BlockWood.field_150096_a.length; i++) {
+                if (config.isBlockEnabled("fulldrawers1"))
+                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.fullDrawers1, config.getBlockRecipeOutput("fulldrawers1"), i), "xxx", " y ", "xxx",
+                            'x', new ItemStack(Blocks.planks, 1, i), 'y', "chestWood"));
+                if (config.isBlockEnabled("fulldrawers2"))
+                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.fullDrawers2, config.getBlockRecipeOutput("fulldrawers2"), i), "xyx", "xxx", "xyx",
+                            'x', new ItemStack(Blocks.planks, 1, i), 'y', "chestWood"));
+                if (config.isBlockEnabled("halfdrawers2"))
+                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.halfDrawers2, config.getBlockRecipeOutput("halfdrawers2"), i), "xyx", "xxx", "xyx",
+                            'x', new ItemStack(Blocks.wooden_slab, 1, i), 'y', "chestWood"));
+                if (config.isBlockEnabled("fulldrawers4"))
+                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.fullDrawers4, config.getBlockRecipeOutput("fulldrawers4"), i), "yxy", "xxx", "yxy",
+                            'x', new ItemStack(Blocks.planks, 1, i), 'y', "chestWood"));
+                if (config.isBlockEnabled("halfdrawers4"))
+                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.halfDrawers4, config.getBlockRecipeOutput("halfdrawers4"), i), "yxy", "xxx", "yxy",
+                            'x', new ItemStack(Blocks.wooden_slab, 1, i), 'y', "chestWood"));
+                if (config.isBlockEnabled("trim")) {
+                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.trim, config.getBlockRecipeOutput("trim"), i), "xyx", "yyy", "xyx",
+                            'x', "stickWood", 'y', new ItemStack(Blocks.planks, 1, i)));
+                }
             }
         }
-
-        // Fallback recipes
-        if (config.cache.enableFallbackRecipes) {
+        if (config.cache.enableFallbackRecipes || ChiselIntegrationModule.isEnabled()) {
             if (config.isBlockEnabled("fulldrawers1"))
                 GameRegistry.addRecipe(new FallbackShapedOreRecipe(new ItemStack(ModBlocks.fullDrawers1, config.getBlockRecipeOutput("fulldrawers1"), 0), "xxx", " y ", "xxx",
                     'x', "plankWood", 'y', "chestWood"));

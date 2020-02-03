@@ -5,12 +5,13 @@ import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
 import com.jaquadro.minecraft.storagedrawers.api.pack.IExtendedDataResolver;
 import com.jaquadro.minecraft.storagedrawers.api.pack.IPackBlockFactory;
 import com.jaquadro.minecraft.storagedrawers.api.pack.IPackDataResolver;
-import com.jaquadro.minecraft.storagedrawers.block.pack.BlockSortingTrimPack;
-import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
-import com.jaquadro.minecraft.storagedrawers.integration.IntegrationRegistry;
 import com.jaquadro.minecraft.storagedrawers.block.pack.BlockDrawersPack;
 import com.jaquadro.minecraft.storagedrawers.block.pack.BlockSortingDrawersPack;
+import com.jaquadro.minecraft.storagedrawers.block.pack.BlockSortingTrimPack;
 import com.jaquadro.minecraft.storagedrawers.block.pack.BlockTrimPack;
+import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
+import com.jaquadro.minecraft.storagedrawers.integration.ChiselIntegrationModule;
+import com.jaquadro.minecraft.storagedrawers.integration.IntegrationRegistry;
 import com.jaquadro.minecraft.storagedrawers.integration.notenoughitems.NEIStorageDrawersConfig;
 import com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation.SortingBlockRegistry;
 import com.jaquadro.minecraft.storagedrawers.item.pack.ItemDrawersPack;
@@ -23,10 +24,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class PackFactory implements IPackBlockFactory
-{
+public class PackFactory implements IPackBlockFactory {
     @Override
-    public Block createBlock (BlockConfiguration blockConfig, IPackDataResolver dataResolver) {
+    public Block createBlock(BlockConfiguration blockConfig, IPackDataResolver dataResolver) {
         switch (blockConfig.getBlockType()) {
             case Drawers:
                 return new BlockDrawersPack(dataResolver, blockConfig.getDrawerCount(), blockConfig.isHalfDepth()).setConfigName(getConfigName(blockConfig));
@@ -40,55 +40,43 @@ public class PackFactory implements IPackBlockFactory
                 if (IntegrationRegistry.instance().isModLoaded("RefinedRelocation"))
                     return new BlockSortingTrimPack(dataResolver);
                 return null;
+            default:
+                return null;
         }
-
-        return null;
     }
 
-    private static String getConfigName (BlockConfiguration blockConfig) {
-        if (blockConfig.getDrawerCount() == 1)
-            return "fullDrawers1";
-        if (blockConfig.getDrawerCount() == 2 && !blockConfig.isHalfDepth())
-            return "fullDrawers2";
-        if (blockConfig.getDrawerCount() == 4 && !blockConfig.isHalfDepth())
-            return "fullDrawers4";
-        if (blockConfig.getDrawerCount() == 2 && blockConfig.isHalfDepth())
-            return "halfDrawers2";
-        if (blockConfig.getDrawerCount() == 4 && blockConfig.isHalfDepth())
-            return "halfDrawers4";
-
-        return "";
+    private static String getConfigName(BlockConfiguration blockConfig) {
+        return (blockConfig.isHalfDepth() ? "half" : "full") + "Drawer" + blockConfig.getDrawerCount();
     }
 
     @Override
-    public void registerBlock (Block block, String name) {
+    public void registerBlock(Block block, String name) {
         if (block instanceof BlockSortingDrawersPack) {
             GameRegistry.registerBlock(block, ItemSortingDrawersPack.class, name);
             StorageDrawers.proxy.registerDrawer(block);
-        }
-        else if (block instanceof BlockDrawersPack) {
+        } else if (block instanceof BlockDrawersPack) {
             GameRegistry.registerBlock(block, ItemDrawersPack.class, name);
             OreDictionary.registerOre("drawerBasic", new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE));
             StorageDrawers.proxy.registerDrawer(block);
-        }
-        else if (block instanceof BlockSortingTrimPack)
+        } else if (block instanceof BlockSortingTrimPack)
             GameRegistry.registerBlock(block, ItemSortingTrimPack.class, name);
         else if (block instanceof BlockTrimPack)
             GameRegistry.registerBlock(block, ItemTrimPack.class, name);
+        ChiselIntegrationModule.registerPackBlock(block);
     }
 
     @Override
-    public void bindSortingBlock (Block basicBlock, Block sortingBlock) {
+    public void bindSortingBlock(Block basicBlock, Block sortingBlock) {
         SortingBlockRegistry.register(basicBlock, sortingBlock);
     }
 
     @Override
-    public void hideBlock (String blockID) {
+    public void hideBlock(String blockID) {
         NEIStorageDrawersConfig.hideBlock(blockID);
     }
 
     @Override
-    public void registerResolver (IExtendedDataResolver resolver) {
+    public void registerResolver(IExtendedDataResolver resolver) {
         ConfigManager config = StorageDrawers.config;
         if (config.isBlockEnabled("fulldrawers1")) {
             StorageDrawers.blockRegistry.register(BlockConfiguration.BasicFull1, resolver);

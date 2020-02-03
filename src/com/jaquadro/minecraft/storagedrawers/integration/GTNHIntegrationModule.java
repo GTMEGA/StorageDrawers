@@ -1,0 +1,29 @@
+package com.jaquadro.minecraft.storagedrawers.integration;
+
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.integration.gtnh.ModRecipes;
+import cpw.mods.fml.common.Loader;
+
+public class GTNHIntegrationModule extends IntegrationModule {
+
+    private static final boolean GTNHEnabled = (Loader.isModLoaded("gregtech") && StorageDrawers.config.integrationConfig.isGTNHEnabled());
+
+    public static boolean isEnabled() {
+        return GTNHEnabled;
+    }
+
+    @Override
+    public String getModID() {
+        return null;
+    }
+
+    @Override
+    public void init() throws Throwable {
+        ModRecipes.init();
+    }
+
+    @Override
+    public void postInit() {
+
+    }
+}
