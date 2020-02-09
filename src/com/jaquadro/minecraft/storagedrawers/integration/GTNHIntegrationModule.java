@@ -14,7 +14,7 @@ public class GTNHIntegrationModule extends IntegrationModule {
 
     @Override
     public String getModID() {
-        return null;
+        return "gtnh";
     }
 
     @Override
