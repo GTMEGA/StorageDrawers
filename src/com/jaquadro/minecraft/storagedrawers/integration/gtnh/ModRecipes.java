@@ -387,6 +387,15 @@ public class ModRecipes {
     }
 
     private static void upgradeTemplateRecipes() {
+        if (!(config.cache.enableIndicatorUpgrades
+                || config.cache.enableLockUpgrades
+                || config.cache.enablePersonalUpgrades
+                || config.cache.enableRedstoneUpgrades
+                || config.cache.enableShroudUpgrades
+                || config.cache.enableSortingUpgrades
+                || config.cache.enableStorageUpgrades
+                || config.cache.enableVoidUpgrades)) return;
+
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeTemplate),
                 new String[]{
                         "sps",
@@ -398,14 +407,6 @@ public class ModRecipes {
                 'd', ORE_drawerBasic,
                 't', ORE_craftingToolScrewdriver));
 
-        if (!(config.cache.enableIndicatorUpgrades
-                || config.cache.enableLockUpgrades
-                || config.cache.enablePersonalUpgrades
-                || config.cache.enableRedstoneUpgrades
-                || config.cache.enableShroudUpgrades
-                || config.cache.enableSortingUpgrades
-                || config.cache.enableStorageUpgrades
-                || config.cache.enableVoidUpgrades)) return;
         for (ItemStack drawer : drawerBasicW)
             RA.addAssemblerRecipe(new ItemStack[]{drawer, piston}, NF, upgradeTemplate, 1200, 16);
     }
