@@ -22,12 +22,33 @@ import static gregtech.api.enums.GT_Values.RA;
 public class ModRecipes {
 
     private static final String MOD_ID_CB = "CarpentersBlocks";
+    private static final String FLUID_NAME_refinedglue = "refinedglue";
+    private static final String ORE_boltGold = "boltGold";
     private static final String ORE_chestWood = "chestWood";
+    private static final String ORE_circuitGood = "circuitGood";
+    private static final String ORE_craftingToolSaw = "craftingToolSaw";
+    private static final String ORE_craftingToolScrewdriver = "craftingToolScrewdriver";
     private static final String ORE_drawerBasic = "drawerBasic";
+    private static final String ORE_fenceWood = "fenceWood";
+    private static final String ORE_plateDiamond = "plateDiamond";
+    private static final String ORE_plateDenseObsidian = "plateDenseObsidian";
+    private static final String ORE_plateEnderEye = "plateEnderEye";
+    private static final String ORE_plateEmerald = "plateEmerald";
+    private static final String ORE_plateGold = "plateGold";
+    private static final String ORE_plateIron = "plateIron";
     private static final String ORE_plateObsidian = "plateObsidian";
     private static final String ORE_plateRedstone = "plateRedstone";
+    private static final String ORE_plateStainlessSteel = "plateStainlessSteel";
+    private static final String ORE_plateSteel = "plateSteel";
+    private static final String ORE_screwSteel = "screwSteel";
     private static final String ORE_slabWood = "slabWood";
+    private static final String ORE_stickDiamond = "stickDiamond";
+    private static final String ORE_stickEmerald = "stickEmerald";
+    private static final String ORE_stickGold = "stickGold";
+    private static final String ORE_stickIron = "stickIron";
+    private static final String ORE_stickObsidian = "stickObsidian";
     private static final String ORE_stickWood = "stickWood";
+    private static final String ORE_stoneConcrete = "stoneConcrete";
     private static final String name_blockCarpentersBlock = "blockCarpentersBlock";
 
     // Lists of Wildcard Meta slabWood ItemStacks suitable to optimize the number of Gregtech Assembler recipes registered
@@ -323,11 +344,11 @@ public class ModRecipes {
                         "sss",
                         "pdp",
                         "oio"},
-                's', "stoneConcrete",
-                'p', new ItemStack(Blocks.piston),
+                's', ORE_stoneConcrete,
+                'p', piston,
                 'd', ORE_drawerBasic,
                 'o', ORE_plateObsidian,
-                'i', "plateIron"));
+                'i', ORE_plateIron));
     }
 
     private static void controllerRecipes() {
@@ -337,32 +358,32 @@ public class ModRecipes {
                         "scs",
                         "gbg",
                         "odo"},
-                's', "plateStainlessSteel",
-                'c', "circuitGood",
+                's', ORE_plateStainlessSteel,
+                'c', ORE_circuitGood,
                 'g', comparatorGate,
                 'b', ORE_drawerBasic,
                 'o', ORE_plateObsidian,
-                'd', "plateDiamond"));
+                'd', ORE_plateDiamond));
     }
 
     private static void controllerSlaveRecipes() {
         if (!config.isBlockEnabled("controllerSlave")) return;
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.controllerSlave), "scs", "gbg", "oeo",
-                's', "plateStainlessSteel",
-                'c', "circuitGood",
+                's', ORE_plateStainlessSteel,
+                'c', ORE_circuitGood,
                 'g', comparatorGate,
                 'b', ORE_drawerBasic,
                 'o', ORE_plateObsidian,
-                'e', "plateEnderEye"));
+                'e', ORE_plateEnderEye));
     }
 
     private static void framingTableRecipes() {
         if (!config.cache.enableFramedDrawers) return;
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.framingTable), "ttt", "fsf", "fdf",
                 't', ModBlocks.trim,
-                'f', "fenceWood",
+                'f', ORE_fenceWood,
                 's', ORE_stickWood,
-                'd', "craftingToolScrewdriver"));
+                'd', ORE_craftingToolScrewdriver));
     }
 
     private static void upgradeTemplateRecipes() {
@@ -374,6 +395,18 @@ public class ModRecipes {
                 || config.cache.enableSortingUpgrades
                 || config.cache.enableStorageUpgrades
                 || config.cache.enableVoidUpgrades)) return;
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeTemplate),
+                new String[]{
+                        "sps",
+                        "sds",
+                        " t "
+                },
+                's', ORE_screwSteel,
+                'p', piston,
+                'd', ORE_drawerBasic,
+                't', ORE_craftingToolScrewdriver));
+
         for (ItemStack drawer : drawerBasicW)
             RA.addAssemblerRecipe(new ItemStack[]{drawer, piston}, NF, upgradeTemplate, 1200, 16);
     }
@@ -387,8 +420,8 @@ public class ModRecipes {
                         "pup",
                         "upu",
                         "psp"},
-                'p', "plateIron",
-                's', "stickIron",
+                'p', ORE_plateIron,
+                's', ORE_stickIron,
                 'u', ModItems.upgradeTemplate));
 
         // Upgarde Gold
@@ -397,8 +430,8 @@ public class ModRecipes {
                         "pup",
                         "upu",
                         "psp"},
-                'p', "plateGold",
-                's', "stickGold",
+                'p', ORE_plateGold,
+                's', ORE_stickGold,
                 'u', ModItems.upgradeTemplate));
 
         // Upgarde Obsidian
@@ -408,7 +441,7 @@ public class ModRecipes {
                         "upu",
                         "psp"},
                 'p', ORE_plateObsidian,
-                's', "stickObsidian",
+                's', ORE_stickObsidian,
                 'u', ModItems.upgradeTemplate));
 
         // Upgarde Diamond
@@ -417,8 +450,8 @@ public class ModRecipes {
                         "pup",
                         "upu",
                         "psp"},
-                'p', "plateDiamond",
-                's', "stickDiamond",
+                'p', ORE_plateDiamond,
+                's', ORE_stickDiamond,
                 'u', ModItems.upgradeTemplate));
 
         // Upgarde Emerald
@@ -427,8 +460,8 @@ public class ModRecipes {
                         "pup",
                         "upu",
                         "psp"},
-                'p', "plateEmerald",
-                's', "stickEmerald",
+                'p', ORE_plateEmerald,
+                's', ORE_stickEmerald,
                 'u', ModItems.upgradeTemplate));
     }
 
@@ -482,7 +515,7 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeVoid), "sws", "ouo", "sws",
                 's', ORE_stickWood,
                 'w', redAlloyWire,
-                'o', "plateDenseObsidian",
+                'o', ORE_plateDenseObsidian,
                 'u', ModItems.upgradeTemplate));
     }
 
@@ -491,12 +524,12 @@ public class ModRecipes {
 
         // Drawer Key recipe
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeLock), " bs", "uso", "gt ",
-                'b', "boltGold",
-                's', "plateSteel",
+                'b', ORE_boltGold,
+                's', ORE_plateSteel,
                 'u', ModItems.upgradeTemplate,
-                'o', "stickGold",
-                'g', "plateGold",
-                't', "craftingToolSaw"));
+                'o', ORE_stickGold,
+                'g', ORE_plateGold,
+                't', ORE_craftingToolSaw));
     }
 
     private static void shroudKeyUpgradeRecipes() {
@@ -520,8 +553,8 @@ public class ModRecipes {
         RA.addAssemblerRecipe(new ItemStack[]{
                         new ItemStack(Items.paper),
                         GT_Utility.getIntegratedCircuit(1)},
-                new FluidStack((FluidRegistry.getFluid("refinedglue") != null) ?
-                        FluidRegistry.getFluid("refinedglue") :
+                new FluidStack((FluidRegistry.getFluid(FLUID_NAME_refinedglue) != null) ?
+                        FluidRegistry.getFluid(FLUID_NAME_refinedglue) :
                         FluidRegistry.getFluid("glue"), // Fallback glue
                         144),
                 new ItemStack(ModItems.tape),
@@ -531,6 +564,7 @@ public class ModRecipes {
     /* Same as cpw.mods.fml.common.registry.GameRegistry.makeItemStack
      * But with working stackSize
      */
+    @SuppressWarnings("SameParameterValue")
     private static ItemStack makeItemStack(String itemName, int meta, int stackSize, String nbtString) {
         final ItemStack rStack = GameRegistry.makeItemStack(itemName, meta, stackSize, nbtString);
         rStack.stackSize = stackSize;
