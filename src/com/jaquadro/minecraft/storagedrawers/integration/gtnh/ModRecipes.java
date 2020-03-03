@@ -30,6 +30,7 @@ public class ModRecipes {
     private static final String ORE_craftingToolScrewdriver = "craftingToolScrewdriver";
     private static final String ORE_drawerBasic = "drawerBasic";
     private static final String ORE_fenceWood = "fenceWood";
+    private static final String ORE_plateAluminium = "plateAluminium";
     private static final String ORE_plateDiamond = "plateDiamond";
     private static final String ORE_plateDenseObsidian = "plateDenseObsidian";
     private static final String ORE_plateEnderEye = "plateEnderEye";
@@ -40,6 +41,7 @@ public class ModRecipes {
     private static final String ORE_plateRedstone = "plateRedstone";
     private static final String ORE_plateStainlessSteel = "plateStainlessSteel";
     private static final String ORE_plateSteel = "plateSteel";
+    private static final String ORE_plateTitanium = "plateTitanium";
     private static final String ORE_screwSteel = "screwSteel";
     private static final String ORE_slabWood = "slabWood";
     private static final String ORE_stickDiamond = "stickDiamond";
@@ -49,7 +51,7 @@ public class ModRecipes {
     private static final String ORE_stickObsidian = "stickObsidian";
     private static final String ORE_stickWood = "stickWood";
     private static final String ORE_stoneConcrete = "stoneConcrete";
-    private static final String name_blockCarpentersBlock = "blockCarpentersBlock";
+    private static final String NAME_blockCarpentersBlock = "blockCarpentersBlock";
 
     // Lists of Wildcard Meta slabWood ItemStacks suitable to optimize the number of Gregtech Assembler recipes registered
     private static final ImmutableList<ItemStack> slabWood8WList;
@@ -69,11 +71,11 @@ public class ModRecipes {
     private static final ItemStack integratedCircuit14 = GT_Utility.getIntegratedCircuit(14);
 
     // Ingredients for Framed Drawers recipes
-    private static final ItemStack carpentersBlock8 = GameRegistry.findItemStack(MOD_ID_CB, name_blockCarpentersBlock, 8);
-    private static final ItemStack carpentersBlock7 = GameRegistry.findItemStack(MOD_ID_CB, name_blockCarpentersBlock, 7);
-    private static final ItemStack carpentersBlock5 = GameRegistry.findItemStack(MOD_ID_CB, name_blockCarpentersBlock, 5);
-    private static final ItemStack carpentersBlock4 = GameRegistry.findItemStack(MOD_ID_CB, name_blockCarpentersBlock, 4);
-    private static final ItemStack carpentersBlock1 = GameRegistry.findItemStack(MOD_ID_CB, name_blockCarpentersBlock, 1);
+    private static final ItemStack carpentersBlock8 = GameRegistry.findItemStack(MOD_ID_CB, NAME_blockCarpentersBlock, 8);
+    private static final ItemStack carpentersBlock7 = GameRegistry.findItemStack(MOD_ID_CB, NAME_blockCarpentersBlock, 7);
+    private static final ItemStack carpentersBlock5 = GameRegistry.findItemStack(MOD_ID_CB, NAME_blockCarpentersBlock, 5);
+    private static final ItemStack carpentersBlock4 = GameRegistry.findItemStack(MOD_ID_CB, NAME_blockCarpentersBlock, 4);
+    private static final ItemStack carpentersBlock1 = GameRegistry.findItemStack(MOD_ID_CB, NAME_blockCarpentersBlock, 1);
 
     // Ingredients for Trims
     private static final ItemStack stick4 = new ItemStack(Items.stick, 4);
@@ -396,7 +398,7 @@ public class ModRecipes {
                 || config.cache.enableStorageUpgrades
                 || config.cache.enableVoidUpgrades)) return;
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeTemplate),
+        GameRegistry.addRecipe(new ShapedOreRecipe(upgradeTemplate,
                 new String[]{
                         "sps",
                         "sds",
@@ -422,47 +424,51 @@ public class ModRecipes {
                         "psp"},
                 'p', ORE_plateIron,
                 's', ORE_stickIron,
-                'u', ModItems.upgradeTemplate));
+                'u', upgradeTemplate));
 
         // Upgarde Gold
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgrade, 1, 3),
                 new String[]{
                         "pup",
-                        "upu",
+                        "utu",
                         "psp"},
                 'p', ORE_plateGold,
                 's', ORE_stickGold,
-                'u', ModItems.upgradeTemplate));
+                'u', upgradeTemplate,
+                't', ORE_plateSteel));
 
         // Upgarde Obsidian
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgrade, 1, 4),
                 new String[]{
                         "pup",
-                        "upu",
+                        "utu",
                         "psp"},
                 'p', ORE_plateObsidian,
                 's', ORE_stickObsidian,
-                'u', ModItems.upgradeTemplate));
+                'u', upgradeTemplate,
+                't', ORE_plateAluminium));
 
         // Upgarde Diamond
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgrade, 1, 5),
                 new String[]{
                         "pup",
-                        "upu",
+                        "utu",
                         "psp"},
                 'p', ORE_plateDiamond,
                 's', ORE_stickDiamond,
-                'u', ModItems.upgradeTemplate));
+                'u', upgradeTemplate,
+                't', ORE_plateStainlessSteel));
 
         // Upgarde Emerald
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgrade, 1, 6),
                 new String[]{
                         "pup",
-                        "upu",
+                        "utu",
                         "psp"},
                 'p', ORE_plateEmerald,
                 's', ORE_stickEmerald,
-                'u', ModItems.upgradeTemplate));
+                'u', upgradeTemplate,
+                't', ORE_plateTitanium));
     }
 
     private static void statusUpgradeRecipes() {
@@ -472,14 +478,14 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeStatus, 1, 1), "twt", "wuw", "rwr",
                 't', new ItemStack(Blocks.redstone_torch),
                 'w', redAlloyWire,
-                'u', ModItems.upgradeTemplate,
+                'u', upgradeTemplate,
                 'r', ORE_plateRedstone));
 
         // Status Upgrade II recipe
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeStatus, 1, 2), "gwg", "wuw", "rwr",
                 'g', comparatorGate,
                 'w', redAlloyWire,
-                'u', ModItems.upgradeTemplate,
+                'u', upgradeTemplate,
                 'r', ORE_plateRedstone));
     }
 
@@ -490,21 +496,21 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeRedstone, 1, 0), "rsr", "sus", "rwr",
                 'r', ORE_plateRedstone,
                 's', ORE_stickWood,
-                'u', ModItems.upgradeTemplate,
+                'u', upgradeTemplate,
                 'w', redAlloyWire));
 
         // Redstone Max Upgrade recipe
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeRedstone, 1, 1), "rrr", "sus", "sws",
                 'r', ORE_plateRedstone,
                 's', ORE_stickWood,
-                'u', ModItems.upgradeTemplate,
+                'u', upgradeTemplate,
                 'w', redAlloyWire));
 
         // Redstone Min recipe
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeRedstone, 1, 2), "sws", "sus", "rrr",
                 'r', ORE_plateRedstone,
                 's', ORE_stickWood,
-                'u', ModItems.upgradeTemplate,
+                'u', upgradeTemplate,
                 'w', redAlloyWire));
     }
 
@@ -516,7 +522,7 @@ public class ModRecipes {
                 's', ORE_stickWood,
                 'w', redAlloyWire,
                 'o', ORE_plateDenseObsidian,
-                'u', ModItems.upgradeTemplate));
+                'u', upgradeTemplate));
     }
 
     private static void lockUpgradeRecipes() {
@@ -526,7 +532,7 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeLock), " bs", "uso", "gt ",
                 'b', ORE_boltGold,
                 's', ORE_plateSteel,
-                'u', ModItems.upgradeTemplate,
+                'u', upgradeTemplate,
                 'o', ORE_stickGold,
                 'g', ORE_plateGold,
                 't', ORE_craftingToolSaw));
