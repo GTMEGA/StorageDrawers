@@ -33,6 +33,7 @@ public class TileEntityDrawersStandard extends TileEntityDrawers {
         return new DrawerData(getStorageProvider(), slot);
     }
 
+
     private class StandardStorageProvider extends DefaultStorageProvider {
         public StandardStorageProvider() {
             super(TileEntityDrawersStandard.this, TileEntityDrawersStandard.this);
@@ -41,7 +42,7 @@ public class TileEntityDrawersStandard extends TileEntityDrawers {
         @Override
         public int getSlotStackCapacity(int slot) {
             ConfigManager config = StorageDrawers.config;
-            return getEffectiveStorageMultiplier() * getDrawerCapacity();
+            return getEffectiveStorageMultiplier() * (isDowngraded(slot) ? 1 : getDrawerCapacity());
         }
 
         @Override

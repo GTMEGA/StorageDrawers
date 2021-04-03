@@ -5,10 +5,7 @@ import com.jaquadro.minecraft.storagedrawers.api.inventory.IDrawerInventory;
 import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroupInteractive;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.ILockable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IProtectable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.ISealable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
 import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
 import com.jaquadro.minecraft.storagedrawers.core.ModItems;
@@ -38,7 +35,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.UUID;
 
-public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawerGroupInteractive, ISidedInventory, IUpgradeProvider, ILockable, ISealable, IProtectable
+public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawerGroupInteractive, ISidedInventory, IUpgradeProvider, ILockable, ISealable, IProtectable, IDowngradable
 {
     private IDrawer[] drawers;
     private IDrawerInventory inventory;
@@ -50,6 +47,8 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
     private boolean shrouded = false;
     private boolean taped = false;
     private boolean hideUpgrade = false;
+    private boolean downgraded = false;
+
     private UUID owner;
     private String securityKey;
 
@@ -93,6 +92,7 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
     }
 
     public int getMaxStorageLevel () {
+        // Could use iterables and lambdas instead
         int maxLevel = 1;
         for (ItemStack upgrade : upgrades) {
             if (upgrade != null && upgrade.getItem() == ModItems.upgrade)
@@ -114,7 +114,6 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
 
     public int getEffectiveStorageMultiplier () {
         ConfigManager config = StorageDrawers.config;
-
         int multiplier = 0;
         for (ItemStack stack : upgrades) {
             if (stack != null && stack.getItem() == ModItems.upgrade)
@@ -152,6 +151,7 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
             return false;
 
         setUpgrade(slot, upgrade);
+        checkDowngraded();
         return true;
     }
 
@@ -337,18 +337,25 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
     }
 
     public boolean isDowngraded() {
-        return false;
+        return downgraded;
     }
 
-    public void setDowngraded() {
-        if (!false) {
-            // TODO: Implement config method
-        }
+    public boolean canDowngrade() {
+        // TODO: Config check
+        return true;
+    }
+
+    public boolean checkDowngraded() {
         for (ItemStack stack : upgrades) {
             if (stack != null && stack.getItem() == ModItems.upgradeDowngrade) {
-
+                return (downgraded = true);
             }
         }
+        return (downgraded = false);
+    }
+
+    public void setDowngraded(boolean state) {
+        downgraded = state;
     }
 
     public boolean isVoid () {
@@ -632,6 +639,8 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
             addUpgrade(new ItemStack(ModItems.upgradeStatus, 1, tag.getByte("Stat")));
         if (tag.hasKey("Void"))
             addUpgrade(new ItemStack(ModItems.upgradeVoid));
+        if (tag.hasKey("Down"))
+            addUpgrade(new ItemStack(ModItems.upgradeDowngrade));
     }
 
     @Override
@@ -647,6 +656,8 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
         customName = null;
         if (tag.hasKey("CustomName", Constants.NBT.TAG_STRING))
             customName = tag.getString("CustomName");
+
+        downgraded = tag.hasKey("Down") && tag.getBoolean("Down");
     }
 
     @Override
@@ -660,6 +671,11 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
 
         if (hasCustomInventoryName())
             tag.setString("CustomName", customName);
+
+        if (checkDowngraded())
+            tag.setBoolean("Down", downgraded);
+
+
     }
 
     @Override
