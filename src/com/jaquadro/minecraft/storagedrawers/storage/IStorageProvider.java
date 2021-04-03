@@ -19,6 +19,8 @@ public interface IStorageProvider
 
     public boolean isShrouded (int slot);
 
+    public boolean isDowngraded (int slot);
+
     public boolean setIsShrouded (int slot, boolean state);
 
     public boolean isStorageUnlimited (int slot);

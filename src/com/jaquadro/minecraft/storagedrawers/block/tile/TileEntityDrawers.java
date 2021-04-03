@@ -336,6 +336,21 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
         return true;
     }
 
+    public boolean isDowngraded() {
+        return false;
+    }
+
+    public void setDowngraded() {
+        if (!false) {
+            // TODO: Implement config method
+        }
+        for (ItemStack stack : upgrades) {
+            if (stack != null && stack.getItem() == ModItems.upgradeDowngrade) {
+
+            }
+        }
+    }
+
     public boolean isVoid () {
         if (!StorageDrawers.config.cache.enableVoidUpgrades)
             return false;

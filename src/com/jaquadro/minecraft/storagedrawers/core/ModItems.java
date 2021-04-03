@@ -17,6 +17,7 @@ public class ModItems
     public static ItemShroudKey shroudKey;
     public static ItemPersonalKey personalKey;
     public static ItemTape tape;
+    public static Item upgradeDowngrade;
 
     public void init () {
         upgradeTemplate = new Item().setUnlocalizedName(makeName("upgradeTemplate")).setTextureName(StorageDrawers.MOD_ID + ":upgrade_template").setCreativeTab(ModCreativeTabs.tabStorageDrawers);
@@ -26,6 +27,8 @@ public class ModItems
         upgradeVoid = new ItemUpgradeVoid(makeName("upgradeVoid"));
         upgradeCreative = new ItemUpgradeCreative(makeName("upgradeCreative"));
         upgradeRedstone = new ItemUpgradeRedstone(makeName("upgradeRedstone"));
+        upgradeDowngrade = new ItemUpgradeDowngrade(makeName("upgradeDowngrade"));
+
         shroudKey = new ItemShroudKey(makeName("shroudKey"));
         personalKey = new ItemPersonalKey(makeName("personalKey"));
         tape = new ItemTape(makeName("tape"));
@@ -50,6 +53,9 @@ public class ModItems
             GameRegistry.registerItem(personalKey, "personalKey");
         if (StorageDrawers.config.cache.enableTape)
             GameRegistry.registerItem(tape, "tape");
+        if (true) {
+            GameRegistry.registerItem(upgradeDowngrade, "upgradeDowngrade");
+        }
     }
 
     public static String makeName (String name) {
