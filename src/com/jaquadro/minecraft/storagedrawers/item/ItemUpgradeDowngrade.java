@@ -1,5 +1,6 @@
 package com.jaquadro.minecraft.storagedrawers.item;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,8 +15,8 @@ public class ItemUpgradeDowngrade extends Item {
 
     public ItemUpgradeDowngrade(String name) {
         setUnlocalizedName(name);
-        setHasSubtypes(true);
         setCreativeTab(ModCreativeTabs.tabStorageDrawers);
+        setTextureName(StorageDrawers.MOD_ID + ":upgrade_downgrade");
         setMaxDamage(0);
     }
 

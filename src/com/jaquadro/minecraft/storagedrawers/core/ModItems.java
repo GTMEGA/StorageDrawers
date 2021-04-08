@@ -17,7 +17,7 @@ public class ModItems
     public static ItemShroudKey shroudKey;
     public static ItemPersonalKey personalKey;
     public static ItemTape tape;
-    public static Item upgradeDowngrade;
+    public static ItemUpgradeDowngrade upgradeDowngrade;
 
     public void init () {
         upgradeTemplate = new Item().setUnlocalizedName(makeName("upgradeTemplate")).setTextureName(StorageDrawers.MOD_ID + ":upgrade_template").setCreativeTab(ModCreativeTabs.tabStorageDrawers);
