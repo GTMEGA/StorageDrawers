@@ -53,9 +53,7 @@ public class ModItems
             GameRegistry.registerItem(personalKey, "personalKey");
         if (StorageDrawers.config.cache.enableTape)
             GameRegistry.registerItem(tape, "tape");
-        if (true) {
-            GameRegistry.registerItem(upgradeDowngrade, "upgradeDowngrade");
-        }
+        GameRegistry.registerItem(upgradeDowngrade, "upgradeDowngrade");
     }
 
     public static String makeName (String name) {
