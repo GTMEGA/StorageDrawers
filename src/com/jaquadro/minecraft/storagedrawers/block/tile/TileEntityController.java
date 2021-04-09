@@ -5,6 +5,7 @@ import com.jaquadro.minecraft.storagedrawers.api.inventory.IDrawerInventory;
 import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
 import com.jaquadro.minecraft.storagedrawers.api.storage.*;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockSlave;
 import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
 import com.jaquadro.minecraft.storagedrawers.util.ItemMetaListRegistry;
@@ -128,6 +129,8 @@ public class TileEntityController extends TileEntity implements IDrawerGroup, IP
 
     private int drawerSize = 0;
     private int range;
+    private int maxDrawers;
+    private int drawersCount;
 
     private long lastClickTime;
     private UUID lastClickUUID;
@@ -138,6 +141,7 @@ public class TileEntityController extends TileEntity implements IDrawerGroup, IP
         invSlotList.add(new SlotRecord(null, 0));
         inventorySlots = new int[] { 0 };
         range = StorageDrawers.config.getControllerRange();
+        maxDrawers = StorageDrawers.config.getControllerMaxDrawers();
     }
 
     public int getDirection () {
@@ -544,6 +548,8 @@ public class TileEntityController extends TileEntity implements IDrawerGroup, IP
         searchDiscovered.clear();
         searchDiscovered.add(root);
 
+        drawersCount = 0;
+
         while (!searchQueue.isEmpty()) {
             BlockCoord coord = searchQueue.remove();
             int depth = Math.max(Math.max(Math.abs(coord.x() - x), Math.abs(coord.y() - y)), Math.abs(coord.z() - z));
@@ -562,7 +568,7 @@ public class TileEntityController extends TileEntity implements IDrawerGroup, IP
 
             if (block instanceof BlockSlave) {
                 ((BlockSlave) block).getTileEntitySafe(worldObj, coord.x(), coord.y(), coord.z());
-            }
+            } else if (block instanceof BlockDrawers && ++drawersCount > maxDrawers) break;
 
             updateRecordInfo(coord, record, worldObj.getTileEntity(coord.x(), coord.y(), coord.z()));
             record.mark = true;

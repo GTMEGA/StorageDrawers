@@ -303,6 +303,7 @@ public class ConfigManager
 
         config.get(sectionBlocksController.getQualifiedName(), "enabled", true).setLanguageKey(LANG_PREFIX + "prop.enabled").setRequiresMcRestart(true);
         config.get(sectionBlocksController.getQualifiedName(), "range", 12).setLanguageKey(LANG_PREFIX + "prop.controllerRange");
+        config.get(sectionBlocksController.getQualifiedName(), "maxDrawers", 2048).setLanguageKey(LANG_PREFIX + "prop.controllerMaxDrawers");
 
         config.get(sectionBlocksTrim.getQualifiedName(), "enabled", true).setLanguageKey(LANG_PREFIX + "prop.enabled").setRequiresMcRestart(true);
         config.get(sectionBlocksTrim.getQualifiedName(), "recipeOutput", 4).setLanguageKey(LANG_PREFIX + "prop.recipeOutput").setRequiresMcRestart(true);
@@ -320,6 +321,7 @@ public class ConfigManager
         cache.addonSeparateVanilla = config.get(sectionAddons.getQualifiedName(), "useSeparateCreativeTabs", true).setLanguageKey(LANG_PREFIX + "addons.separateTabs").setRequiresMcRestart(true).getBoolean();
 
         getControllerRange();
+        getControllerMaxDrawers();
 
         if (config.hasChanged())
             config.save();
@@ -360,6 +362,11 @@ public class ConfigManager
     public int getControllerRange () {
         ConfigSection section = blockSectionsMap.get("controller");
         return section.getCategory().get("range").getInt();
+    }
+
+    public int getControllerMaxDrawers () {
+        ConfigSection section = blockSectionsMap.get("controller");
+        return section.getCategory().get("maxDrawers").getInt();
     }
 
     public int getStorageUpgradeMultiplier (int level) {
