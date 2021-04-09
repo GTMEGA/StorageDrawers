@@ -326,8 +326,13 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
 
                 return true;
             }
+            /**
+             * Gee, it'd be nice if we could make all of these Items descend from one thing, almost like children
+             * and it would great if we could just find if it was an instance of said thing.
+             * Crazy concept!
+             * */
             else if (item.getItem() == ModItems.upgrade || item.getItem() == ModItems.upgradeStatus || item.getItem() == ModItems.upgradeVoid ||
-                item.getItem() == ModItems.upgradeCreative || item.getItem() == ModItems.upgradeRedstone) {
+                item.getItem() == ModItems.upgradeCreative || item.getItem() == ModItems.upgradeRedstone || item.getItem() == ModItems.upgradeDowngrade) {
                 if (!tileDrawers.addUpgrade(item)) {
                     player.addChatMessage(new ChatComponentTranslation("storagedrawers.msg.maxUpgrades"));
                     return false;

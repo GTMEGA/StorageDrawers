@@ -93,6 +93,10 @@ public class ModRecipes {
                 'x', "gemDiamond", 'y', "stickWood", 'z', ModItems.upgradeTemplate));
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgrade, 1, 6), "xyx", "yzy", "xyx",
                 'x', "gemEmerald", 'y', "stickWood", 'z', ModItems.upgradeTemplate));
+
+
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.upgradeDowngrade, 1, 0), "xyx", "yzy", "xyx",
+                    'x', Items.flint, 'y', "stickWood", 'z', ModItems.upgradeTemplate));
         }
 
         if (config.cache.enableIndicatorUpgrades) {

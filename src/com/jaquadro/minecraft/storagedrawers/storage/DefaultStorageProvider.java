@@ -53,6 +53,11 @@ public class DefaultStorageProvider implements IStorageProvider
     }
 
     @Override
+    public boolean isDowngraded(int slot) {
+        return false;
+    }
+
+    @Override
     public boolean setIsShrouded (int slot, boolean state) {
         return false;
     }
