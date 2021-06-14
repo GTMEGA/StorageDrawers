@@ -802,6 +802,10 @@ public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawe
 
     public void clientUpdateCount (int slot, int count) {
         IDrawer drawer = getDrawer(slot);
+        if (drawer == null) {
+            FMLLog.log(StorageDrawers.MOD_ID, Level.ERROR, "Drawer at (" + this.xCoord + "," + this.yCoord + "," + this.zCoord + ") has no slot " + slot + ". Drawers.length is " + drawers.length);
+            return;
+        }
         if (drawer.getStoredItemCount() != count) {
             drawer.setStoredItemCount(count);
 
