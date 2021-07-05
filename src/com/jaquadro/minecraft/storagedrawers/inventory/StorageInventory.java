@@ -181,13 +181,14 @@ public class StorageInventory implements IDrawerInventory
             return;
 
         IInventoryAdapter adapter = (IInventoryAdapter)drawer;
+        
+        if (drawer.isEmpty()) {
+            setInventorySlotContents(drawer, item);
+            return;
+        }
+                
         switch (getInventorySlotType(slot)) {
             case INPUT:
-                if (drawer.isEmpty()) {
-                    setInventorySlotContents(drawer, item);
-                    return;
-                }
-
                 adapter.setInStack(item);
                 break;
             case OUTPUT:
