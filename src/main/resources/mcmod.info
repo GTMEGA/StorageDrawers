@@ -1,0 +1,13 @@
+[
+{
+	"modid": "${modId}",
+	"name": "${modName}",
+	"description": "Multi-drawer storage blocks for quick storage and retrieval.",
+	"version": "${modVersion}",
+    "mcversion": "${minecraftVersion}",
+	"credits": "By jaquadro",
+	"logoFile": "",
+	"url": "http://www.jaquadro.com/",
+	"authors": [ "jaquadro" ]
+}
+]
