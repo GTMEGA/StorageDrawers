@@ -1,0 +1,26 @@
+// Add your dependencies here
+
+dependencies {
+    compileOnly("com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:master-SNAPSHOT:api") {
+        transitive = false
+    }
+    compileOnly("com.github.GTNewHorizons:GT5-Unofficial:master-SNAPSHOT:dev") {
+        transitive = false
+    }
+    compileOnly("com.github.GTNewHorizons:NotEnoughItems:master-SNAPSHOT:dev") {
+        transitive = false
+    }
+    compileOnly("com.github.GTNewHorizons:waila:master-SNAPSHOT:dev") {
+        transitive = false
+    }
+
+    compileOnly("thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev") {
+        transitive = false
+    }
+    compileOnly("curse.maven:refined-relocation-75811:2262970") {
+        transitive = false
+    }
+    compileOnly("curse.maven:minetweaker3-224029:2255759") {
+        transitive = false
+    }
+}
