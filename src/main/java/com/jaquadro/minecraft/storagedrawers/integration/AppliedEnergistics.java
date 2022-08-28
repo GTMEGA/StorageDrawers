@@ -8,13 +8,10 @@ import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.data.IAEItemStack;
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.integration.ae2.*;
-
 import java.lang.reflect.Constructor;
 
-public class AppliedEnergistics extends IntegrationModule
-{
-    private static class ReflectionFactory implements IStorageBusMonitorFactory
-    {
+public class AppliedEnergistics extends IntegrationModule {
+    private static class ReflectionFactory implements IStorageBusMonitorFactory {
         private Class classInventoryAdaptor;
         private Class classMEAdaptor;
         private Class classMonitor;
@@ -22,7 +19,7 @@ public class AppliedEnergistics extends IntegrationModule
         private Constructor constMEAdaptor;
         private Constructor constMonitor;
 
-        public boolean init () {
+        public boolean init() {
             try {
                 classInventoryAdaptor = Class.forName("appeng.util.InventoryAdaptor");
                 classMEAdaptor = Class.forName("appeng.util.inv.IMEAdaptor");
@@ -32,21 +29,20 @@ public class AppliedEnergistics extends IntegrationModule
                 constMonitor = classMonitor.getConstructor(classInventoryAdaptor);
 
                 return true;
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 return false;
             }
         }
 
         @Override
-        public IMEMonitor<IAEItemStack> createStorageBusMonitor (IMEInventory<IAEItemStack> inventory, BaseActionSource src) {
+        public IMEMonitor<IAEItemStack> createStorageBusMonitor(
+                IMEInventory<IAEItemStack> inventory, BaseActionSource src) {
             try {
                 Object adaptor = constMEAdaptor.newInstance(inventory, src);
                 Object monitor = constMonitor.newInstance(adaptor);
 
                 return (IMEMonitor<IAEItemStack>) monitor;
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 return null;
             }
         }
@@ -55,7 +51,8 @@ public class AppliedEnergistics extends IntegrationModule
     private static class APIFactory implements IStorageBusMonitorFactory {
 
         @Override
-        public IMEMonitor<IAEItemStack> createStorageBusMonitor (IMEInventory<IAEItemStack> inventory, BaseActionSource src) {
+        public IMEMonitor<IAEItemStack> createStorageBusMonitor(
+                IMEInventory<IAEItemStack> inventory, BaseActionSource src) {
             return null;
         }
     }
@@ -63,31 +60,34 @@ public class AppliedEnergistics extends IntegrationModule
     private IStorageBusMonitorFactory factory;
 
     @Override
-    public String getModID () {
+    public String getModID() {
         return "appliedenergistics2";
     }
 
     @Override
-    public void init () throws Throwable {
+    public void init() throws Throwable {
         ShapedRecipeHandler shapedHandler = new ShapedRecipeHandler();
         if (shapedHandler.isValid())
             StorageDrawers.recipeHandlerRegistry.registerRecipeHandler(shapedHandler.getRecipeClass(), shapedHandler);
 
         ShapelessRecipeHandler shapelessHandler = new ShapelessRecipeHandler();
         if (shapelessHandler.isValid())
-            StorageDrawers.recipeHandlerRegistry.registerRecipeHandler(shapelessHandler.getRecipeClass(), shapelessHandler);
+            StorageDrawers.recipeHandlerRegistry.registerRecipeHandler(
+                    shapelessHandler.getRecipeClass(), shapelessHandler);
 
         StorageDrawers.recipeHandlerRegistry.registerIngredientHandler(IIngredient.class, new IngredientHandler());
 
         ReflectionFactory rfactory = new ReflectionFactory();
-        if (!rfactory.init())
-            throw new Exception("No valid Storage Bus Monitor factory");
+        if (!rfactory.init()) throw new Exception("No valid Storage Bus Monitor factory");
 
         factory = rfactory;
     }
 
     @Override
-    public void postInit () {
-        AEApi.instance().registries().externalStorage().addExternalStorageInterface(new DrawerExternalStorageHandler(factory));
+    public void postInit() {
+        AEApi.instance()
+                .registries()
+                .externalStorage()
+                .addExternalStorageInterface(new DrawerExternalStorageHandler(factory));
     }
 }

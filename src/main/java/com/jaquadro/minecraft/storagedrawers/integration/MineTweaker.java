@@ -5,22 +5,19 @@ import com.jaquadro.minecraft.storagedrawers.integration.minetweaker.OreDictiona
 import com.jaquadro.minecraft.storagedrawers.integration.minetweaker.OreDictionaryWhitelist;
 import minetweaker.MineTweakerAPI;
 
-public class MineTweaker extends IntegrationModule
-{
+public class MineTweaker extends IntegrationModule {
     @Override
-    public String getModID () {
+    public String getModID() {
         return "MineTweaker3";
     }
 
     @Override
-    public void init () throws Throwable {
+    public void init() throws Throwable {
         MineTweakerAPI.registerClass(OreDictionaryBlacklist.class);
         MineTweakerAPI.registerClass(OreDictionaryWhitelist.class);
         MineTweakerAPI.registerClass(Compaction.class);
     }
 
     @Override
-    public void postInit () {
-
-    }
+    public void postInit() {}
 }

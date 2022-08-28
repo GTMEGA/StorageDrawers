@@ -17,7 +17,7 @@ public class TileSortingTrim extends TileEntity implements ISortingMember {
 
     @Override
     public void updateEntity() {
-        if(isFirstTick) {
+        if (isFirstTick) {
             sortingHandler.onTileAdded();
             isFirstTick = false;
         }
@@ -35,5 +35,4 @@ public class TileSortingTrim extends TileEntity implements ISortingMember {
         sortingHandler.onTileRemoved();
         super.onChunkUnload();
     }
-
 }

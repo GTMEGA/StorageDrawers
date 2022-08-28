@@ -7,7 +7,6 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 import com.jaquadro.minecraft.storagedrawers.config.CompTierRegistry;
 import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
-import com.jaquadro.minecraft.storagedrawers.integration.IntegrationModule;
 import com.jaquadro.minecraft.storagedrawers.network.CountUpdateMessage;
 import com.jaquadro.minecraft.storagedrawers.storage.*;
 import cpw.mods.fml.common.FMLLog;
@@ -15,6 +14,10 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,13 +26,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.Level;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class TileEntityDrawersComp extends TileEntityDrawers
-{
+public class TileEntityDrawersComp extends TileEntityDrawers {
     private static InventoryLookup lookup1 = new InventoryLookup(1, 1);
     private static InventoryLookup lookup2 = new InventoryLookup(2, 2);
     private static InventoryLookup lookup3 = new InventoryLookup(3, 3);
@@ -42,20 +39,19 @@ public class TileEntityDrawersComp extends TileEntityDrawers
     private ItemStack[] protoStack;
     private int[] convRate;
 
-    public TileEntityDrawersComp () {
+    public TileEntityDrawersComp() {
         super(3);
 
         protoStack = new ItemStack[getDrawerCount()];
         convRate = new int[getDrawerCount()];
     }
 
-    protected ICentralInventory getCentralInventory () {
-        if (centralInventory == null)
-            centralInventory = new CompCentralInventory();
+    protected ICentralInventory getCentralInventory() {
+        if (centralInventory == null) centralInventory = new CompCentralInventory();
         return centralInventory;
     }
 
-    public int getStoredItemRemainder (int slot) {
+    public int getStoredItemRemainder(int slot) {
         int count = centralInventory.getStoredItemCount(slot);
         if (slot > 0 && convRate[slot] > 0)
             count -= centralInventory.getStoredItemCount(slot - 1) * (convRate[slot - 1] / convRate[slot]);
@@ -64,43 +60,38 @@ public class TileEntityDrawersComp extends TileEntityDrawers
     }
 
     @Override
-    protected IDrawer createDrawer (int slot) {
+    protected IDrawer createDrawer(int slot) {
         return new CompDrawerData(getCentralInventory(), slot);
     }
 
     @Override
-    public boolean isDrawerEnabled (int slot) {
-        if (slot > 0 && convRate[slot] == 0)
-            return false;
+    public boolean isDrawerEnabled(int slot) {
+        if (slot > 0 && convRate[slot] == 0) return false;
 
         return super.isDrawerEnabled(slot);
     }
 
     @Override
-    public int putItemsIntoSlot (int slot, ItemStack stack, int count) {
+    public int putItemsIntoSlot(int slot, ItemStack stack, int count) {
         int added = 0;
         if (stack != null && convRate != null && convRate[0] == 0) {
             populateSlots(stack);
 
             for (int i = 0; i < getDrawerCount(); i++) {
-                if (BaseDrawerData.areItemsEqual(protoStack[i], stack))
-                    added = super.putItemsIntoSlot(i, stack, count);
+                if (BaseDrawerData.areItemsEqual(protoStack[i], stack)) added = super.putItemsIntoSlot(i, stack, count);
             }
 
             for (int i = 0; i < getDrawerCount(); i++) {
                 IDrawer drawer = getDrawer(i);
-                if (drawer instanceof CompDrawerData)
-                    ((CompDrawerData) drawer).refresh();
+                if (drawer instanceof CompDrawerData) ((CompDrawerData) drawer).refresh();
             }
-
-
         }
 
         return added + super.putItemsIntoSlot(slot, stack, count);
     }
 
     @Override
-    public void readFromPortableNBT (NBTTagCompound tag) {
+    public void readFromPortableNBT(NBTTagCompound tag) {
         pooledCount = 0;
 
         for (int i = 0; i < getDrawerCount(); i++) {
@@ -112,41 +103,34 @@ public class TileEntityDrawersComp extends TileEntityDrawers
 
         pooledCount = tag.getInteger("Count");
 
-        if (tag.hasKey("Conv0"))
-            convRate[0] = tag.getByte("Conv0");
-        if (tag.hasKey("Conv1"))
-            convRate[1] = tag.getByte("Conv1");
-        if (tag.hasKey("Conv2"))
-            convRate[2] = tag.getByte("Conv2");
+        if (tag.hasKey("Conv0")) convRate[0] = tag.getByte("Conv0");
+        if (tag.hasKey("Conv1")) convRate[1] = tag.getByte("Conv1");
+        if (tag.hasKey("Conv2")) convRate[2] = tag.getByte("Conv2");
 
         for (int i = 0; i < getDrawerCount(); i++) {
             IDrawer drawer = getDrawer(i);
-            if (drawer instanceof CompDrawerData)
-                ((CompDrawerData) drawer).refresh();
+            if (drawer instanceof CompDrawerData) ((CompDrawerData) drawer).refresh();
         }
 
         if (worldObj != null && !worldObj.isRemote) {
-            //TileEntityDrawersComp.this.markDirty();
+            // TileEntityDrawersComp.this.markDirty();
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
     }
 
     @Override
-    public void writeToPortableNBT (NBTTagCompound tag) {
+    public void writeToPortableNBT(NBTTagCompound tag) {
         super.writeToPortableNBT(tag);
 
         tag.setInteger("Count", pooledCount);
 
-        if (convRate[0] > 0)
-            tag.setByte("Conv0", (byte)convRate[0]);
-        if (convRate[1] > 0)
-            tag.setByte("Conv1", (byte)convRate[1]);
-        if (convRate[2] > 0)
-            tag.setByte("Conv2", (byte)convRate[2]);
+        if (convRate[0] > 0) tag.setByte("Conv0", (byte) convRate[0]);
+        if (convRate[1] > 0) tag.setByte("Conv1", (byte) convRate[1]);
+        if (convRate[2] > 0) tag.setByte("Conv2", (byte) convRate[2]);
     }
 
     @Override
-    public void clientUpdateCount (int slot, int count) {
+    public void clientUpdateCount(int slot, int count) {
         if (count != pooledCount) {
             pooledCount = count;
             getWorldObj().func_147479_m(xCoord, yCoord, zCoord); // markBlockForRenderUpdate
@@ -154,23 +138,29 @@ public class TileEntityDrawersComp extends TileEntityDrawers
     }
 
     @Override
-    public String getInventoryName () {
+    public String getInventoryName() {
         return hasCustomInventoryName() ? super.getInventoryName() : "storageDrawers.container.compDrawers";
     }
 
-    private void populateSlots (ItemStack stack) {
+    private void populateSlots(ItemStack stack) {
         int index = 0;
 
         ItemStack uTier1 = findHigherTier(stack);
         if (uTier1 != null) {
             if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Picked candidate " + uTier1.toString() + " with conv=" + lookupSizeResult);
+                FMLLog.log(
+                        StorageDrawers.MOD_ID,
+                        Level.INFO,
+                        "Picked candidate " + uTier1.toString() + " with conv=" + lookupSizeResult);
 
             int uCount1 = lookupSizeResult;
             ItemStack uTier2 = findHigherTier(uTier1);
             if (uTier2 != null) {
                 if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                    FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Picked candidate " + uTier2.toString() + " with conv=" + lookupSizeResult);
+                    FMLLog.log(
+                            StorageDrawers.MOD_ID,
+                            Level.INFO,
+                            "Picked candidate " + uTier2.toString() + " with conv=" + lookupSizeResult);
 
                 populateSlot(index++, uTier2, lookupSizeResult * uCount1);
             }
@@ -180,51 +170,56 @@ public class TileEntityDrawersComp extends TileEntityDrawers
 
         populateSlot(index++, stack, 1);
 
-        if (index == 3)
-            return;
+        if (index == 3) return;
 
         ItemStack lTier1 = findLowerTier(stack);
         if (lTier1 != null) {
             if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Picked candidate " + lTier1.toString() + " with conv=" + lookupSizeResult);
+                FMLLog.log(
+                        StorageDrawers.MOD_ID,
+                        Level.INFO,
+                        "Picked candidate " + lTier1.toString() + " with conv=" + lookupSizeResult);
 
             populateSlot(index++, lTier1, 1);
-            for (int i = 0; i < index - 1; i++)
-                convRate[i] *= lookupSizeResult;
+            for (int i = 0; i < index - 1; i++) convRate[i] *= lookupSizeResult;
         }
 
-        if (index == 3 || lTier1 == null)
-            return;
+        if (index == 3 || lTier1 == null) return;
 
         ItemStack lTier2 = findLowerTier(lTier1);
         if (lTier2 != null) {
             if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Picked candidate " + lTier2.toString() + " with conv=" + lookupSizeResult);
+                FMLLog.log(
+                        StorageDrawers.MOD_ID,
+                        Level.INFO,
+                        "Picked candidate " + lTier2.toString() + " with conv=" + lookupSizeResult);
 
             populateSlot(index++, lTier2, 1);
-            for (int i = 0; i < index - 1; i++)
-                convRate[i] *= lookupSizeResult;
+            for (int i = 0; i < index - 1; i++) convRate[i] *= lookupSizeResult;
         }
     }
 
-    private void populateSlot (int slot, ItemStack stack, int conversion) {
+    private void populateSlot(int slot, ItemStack stack, int conversion) {
         convRate[slot] = conversion;
         protoStack[slot] = stack.copy();
-        //centralInventory.setStoredItem(slot, stack, 0);
-        //getDrawer(slot).setStoredItem(stack, 0);
+        // centralInventory.setStoredItem(slot, stack, 0);
+        // getDrawer(slot).setStoredItem(stack, 0);
 
         if (worldObj != null && worldObj.isRemote)
             getWorldObj().func_147479_m(xCoord, yCoord, zCoord); // markBlockForRenderUpdate
     }
 
-    private ItemStack findHigherTier (ItemStack stack) {
+    private ItemStack findHigherTier(ItemStack stack) {
         if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
             FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Finding ascending candidates for " + stack.toString());
 
         CompTierRegistry.Record record = StorageDrawers.compRegistry.findHigherTier(stack);
         if (record != null) {
             if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Found " + record.upper.toString() + " in registry with conv=" + record.convRate);
+                FMLLog.log(
+                        StorageDrawers.MOD_ID,
+                        Level.INFO,
+                        "Found " + record.upper.toString() + " in registry with conv=" + record.convRate);
 
             lookupSizeResult = record.convRate;
             return record.upper;
@@ -251,15 +246,17 @@ public class TileEntityDrawersComp extends TileEntityDrawers
 
                 for (int j = 0, n2 = backCandidates.size(); j < n2; j++) {
                     ItemStack comp = backCandidates.get(j);
-                    if (comp.stackSize != size)
-                        continue;
+                    if (comp.stackSize != size) continue;
 
-                    if (!DrawerData.areItemsEqual(comp, stack, false))
-                        continue;
+                    if (!DrawerData.areItemsEqual(comp, stack, false)) continue;
 
                     candidates.add(match);
                     if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                        FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Found ascending candidate for " + stack.toString() + ": " + match.toString() + " size=" + lookupSizeResult + ", inverse=" + comp.toString());
+                        FMLLog.log(
+                                StorageDrawers.MOD_ID,
+                                Level.INFO,
+                                "Found ascending candidate for " + stack.toString() + ": " + match.toString() + " size="
+                                        + lookupSizeResult + ", inverse=" + comp.toString());
 
                     break;
                 }
@@ -269,11 +266,9 @@ public class TileEntityDrawersComp extends TileEntityDrawers
         }
 
         ItemStack modMatch = findMatchingModCandidate(stack, candidates);
-        if (modMatch != null)
-            return modMatch;
+        if (modMatch != null) return modMatch;
 
-        if (candidates.size() > 0)
-            return candidates.get(0);
+        if (candidates.size() > 0) return candidates.get(0);
 
         if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
             FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "No candidates found");
@@ -281,7 +276,7 @@ public class TileEntityDrawersComp extends TileEntityDrawers
         return null;
     }
 
-    private List<ItemStack> findAllMatchingRecipes (InventoryCrafting crafting) {
+    private List<ItemStack> findAllMatchingRecipes(InventoryCrafting crafting) {
         List<ItemStack> candidates = new ArrayList<ItemStack>();
 
         CraftingManager cm = CraftingManager.getInstance();
@@ -291,22 +286,24 @@ public class TileEntityDrawersComp extends TileEntityDrawers
             IRecipe recipe = (IRecipe) recipeList.get(i);
             if (recipe.matches(crafting, worldObj)) {
                 ItemStack result = recipe.getCraftingResult(crafting);
-                if (result != null && result.getItem() != null)
-                    candidates.add(result);
+                if (result != null && result.getItem() != null) candidates.add(result);
             }
         }
 
         return candidates;
     }
 
-    private ItemStack findLowerTier (ItemStack stack) {
+    private ItemStack findLowerTier(ItemStack stack) {
         if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
             FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Finding descending candidates for " + stack.toString());
 
         CompTierRegistry.Record record = StorageDrawers.compRegistry.findLowerTier(stack);
         if (record != null) {
             if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Found " + record.lower.toString() + " in registry with conv=" + record.convRate);
+                FMLLog.log(
+                        StorageDrawers.MOD_ID,
+                        Level.INFO,
+                        "Found " + record.lower.toString() + " in registry with conv=" + record.convRate);
 
             lookupSizeResult = record.convRate;
             return record.lower;
@@ -323,8 +320,7 @@ public class TileEntityDrawersComp extends TileEntityDrawers
             ItemStack match = null;
 
             ItemStack output = recipe.getRecipeOutput();
-            if (!DrawerData.areItemsEqual(stack, output, true))
-                continue;
+            if (!DrawerData.areItemsEqual(stack, output, true)) continue;
 
             IRecipeHandler handler = StorageDrawers.recipeHandlerRegistry.getRecipeHandler(recipe.getClass());
             while (handler != null) {
@@ -353,9 +349,17 @@ public class TileEntityDrawersComp extends TileEntityDrawers
                         candidatesRate.put(match, lookupSizeResult);
 
                         if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                            FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Found descending candidate for " + stack.toString() + ": " + match.toString() + " size=" + lookupSizeResult + ", inverse=" + comp.toString());
+                            FMLLog.log(
+                                    StorageDrawers.MOD_ID,
+                                    Level.INFO,
+                                    "Found descending candidate for " + stack.toString() + ": " + match.toString()
+                                            + " size=" + lookupSizeResult + ", inverse=" + comp.toString());
                     } else if (!worldObj.isRemote && StorageDrawers.config.cache.debugTrace)
-                        FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "Back-check failed for " + match.toString() + " size=" + lookupSizeResult + ", inverse=" + comp.toString());
+                        FMLLog.log(
+                                StorageDrawers.MOD_ID,
+                                Level.INFO,
+                                "Back-check failed for " + match.toString() + " size=" + lookupSizeResult + ", inverse="
+                                        + comp.toString());
                 }
             }
         }
@@ -379,7 +383,7 @@ public class TileEntityDrawersComp extends TileEntityDrawers
         return null;
     }
 
-    private ItemStack findMatchingModCandidate (ItemStack reference, List<ItemStack> candidates) {
+    private ItemStack findMatchingModCandidate(ItemStack reference, List<ItemStack> candidates) {
         String referenceName = GameData.getItemRegistry().getNameForObject(reference.getItem());
         if (referenceName != null) {
             GameRegistry.UniqueIdentifier referneceID = new GameRegistry.UniqueIdentifier(referenceName);
@@ -387,8 +391,7 @@ public class TileEntityDrawersComp extends TileEntityDrawers
                 String matchName = GameData.getItemRegistry().getNameForObject(candidate.getItem());
                 if (matchName != null) {
                     GameRegistry.UniqueIdentifier matchID = new GameRegistry.UniqueIdentifier(matchName);
-                    if (referneceID.modId.equals(matchID.modId))
-                        return candidate;
+                    if (referneceID.modId.equals(matchID.modId)) return candidate;
                 }
             }
         }
@@ -396,93 +399,73 @@ public class TileEntityDrawersComp extends TileEntityDrawers
         return null;
     }
 
-    private ItemStack tryMatch (ItemStack stack, List list) {
-        if (list.size() != 9 && list.size() != 4)
-            return null;
+    private ItemStack tryMatch(ItemStack stack, List list) {
+        if (list.size() != 9 && list.size() != 4) return null;
 
         Object item = list.get(0);
         if (item instanceof ItemStack) {
-            ItemStack item1 = (ItemStack)item;
+            ItemStack item1 = (ItemStack) item;
             for (int i = 1, n = list.size(); i < n; i++) {
                 Object item2 = list.get(i);
-                if (item2.getClass() != ItemStack.class)
-                    return null;
-                if (!item1.isItemEqual((ItemStack)item2))
-                    return null;
+                if (item2.getClass() != ItemStack.class) return null;
+                if (!item1.isItemEqual((ItemStack) item2)) return null;
             }
             return item1;
-        }
-        else if (item instanceof ArrayList) {
+        } else if (item instanceof ArrayList) {
             for (int i = 1, n = list.size(); i < n; i++) {
-                if (item != list.get(i))
-                    return null;
+                if (item != list.get(i)) return null;
             }
 
-            ArrayList itemList = (ArrayList)item;
+            ArrayList itemList = (ArrayList) item;
             if (itemList.size() > 0) {
                 Object item1 = itemList.get(0);
-                if (item1 instanceof ItemStack)
-                    return (ItemStack)item1;
+                if (item1 instanceof ItemStack) return (ItemStack) item1;
             }
         }
 
         return null;
     }
 
-    private ItemStack tryMatch (ItemStack stack, Object[] list) {
-        if (list.length != 9 && list.length != 4)
-            return null;
+    private ItemStack tryMatch(ItemStack stack, Object[] list) {
+        if (list.length != 9 && list.length != 4) return null;
 
         Object item = list[0];
-        if (item == null)
-            return null;
+        if (item == null) return null;
 
         if (item instanceof ItemStack) {
-            ItemStack item1 = (ItemStack)item;
+            ItemStack item1 = (ItemStack) item;
             for (int i = 1, n = list.length; i < n; i++) {
                 Object item2 = list[i];
-                if (item2 == null || item2.getClass() != ItemStack.class)
-                    return null;
-                if (!item1.isItemEqual((ItemStack)item2))
-                    return null;
+                if (item2 == null || item2.getClass() != ItemStack.class) return null;
+                if (!item1.isItemEqual((ItemStack) item2)) return null;
             }
             return item1;
-        }
-        else if (item instanceof ArrayList) {
+        } else if (item instanceof ArrayList) {
             for (int i = 1, n = list.length; i < n; i++) {
-                if (item != list[i])
-                    return null;
+                if (item != list[i]) return null;
             }
 
-            ArrayList itemList = (ArrayList)item;
+            ArrayList itemList = (ArrayList) item;
             if (itemList.size() > 0) {
                 Object item1 = findMatchingModCandidate(stack, itemList);
-                if (item1 == null)
-                    item1 = itemList.get(0);
+                if (item1 == null) item1 = itemList.get(0);
 
-                if (item1 instanceof ItemStack)
-                    return (ItemStack)item1;
+                if (item1 instanceof ItemStack) return (ItemStack) item1;
             }
-        }
-        else {
+        } else {
             IIngredientHandler handler = StorageDrawers.recipeHandlerRegistry.getIngredientHandler(item.getClass());
-            if (handler == null)
-                return null;
+            if (handler == null) return null;
 
             ItemStack item1 = handler.getItemStack(item);
-            if (item1 == null)
-                return null;
+            if (item1 == null) return null;
 
             for (int i = 1, n = list.length; i < n; i++) {
                 Object item2 = list[i];
-                if (item2 == null || item.getClass() != item2.getClass())
-                    return null;
+                if (item2 == null || item.getClass() != item2.getClass()) return null;
 
                 item2 = handler.getItemStack(item2);
-                if (item2 == null || item2.getClass() != ItemStack.class)
-                    return null;
-                if (!item1.isItemEqual((ItemStack)item2))
-                    return null;
+                if (item2 == null || item2.getClass() != ItemStack.class) return null;
+                if (!item1.isItemEqual((ItemStack) item2)) return null;
             }
 
             return item1;
@@ -491,22 +474,20 @@ public class TileEntityDrawersComp extends TileEntityDrawers
         return null;
     }
 
-    private void setupLookup (InventoryLookup inv, ItemStack stack) {
-        for (int i = 0, n = inv.getSizeInventory(); i < n; i++)
-            inv.setInventorySlotContents(i, stack);
+    private void setupLookup(InventoryLookup inv, ItemStack stack) {
+        for (int i = 0, n = inv.getSizeInventory(); i < n; i++) inv.setInventorySlotContents(i, stack);
 
         lookupSizeResult = inv.getSizeInventory();
     }
 
-    private class CompCentralInventory implements ICentralInventory
-    {
+    private class CompCentralInventory implements ICentralInventory {
         @Override
-        public ItemStack getStoredItemPrototype (int slot) {
+        public ItemStack getStoredItemPrototype(int slot) {
             return protoStack[slot];
         }
 
         @Override
-        public IDrawer setStoredItem (int slot, ItemStack itemPrototype, int amount) {
+        public IDrawer setStoredItem(int slot, ItemStack itemPrototype, int amount) {
             if (itemPrototype != null && convRate != null && convRate[0] == 0) {
                 IDrawer target = null;
                 populateSlots(itemPrototype);
@@ -518,57 +499,48 @@ public class TileEntityDrawersComp extends TileEntityDrawers
                 }
 
                 for (int i = 0; i < getDrawerCount(); i++) {
-                    if (i == slot)
-                        continue;
+                    if (i == slot) continue;
 
                     IDrawer drawer = getDrawer(i);
-                    if (drawer instanceof CompDrawerData)
-                        ((CompDrawerData) drawer).refresh();
+                    if (drawer instanceof CompDrawerData) ((CompDrawerData) drawer).refresh();
                 }
 
                 if (worldObj != null && !worldObj.isRemote) {
-                    //TileEntityDrawersComp.this.markDirty();
+                    // TileEntityDrawersComp.this.markDirty();
                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 }
 
                 return target;
-            }
-            else if (itemPrototype == null) {
-                //setStoredItemCount(slot, 0);
+            } else if (itemPrototype == null) {
+                // setStoredItemCount(slot, 0);
                 pooledCount = 0;
                 clear();
-                if (worldObj != null && !worldObj.isRemote)
-                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                if (worldObj != null && !worldObj.isRemote) worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             }
 
             return getDrawer(slot);
         }
 
         @Override
-        public int getStoredItemCount (int slot) {
-            if (convRate == null || convRate[slot] == 0)
-                return 0;
+        public int getStoredItemCount(int slot) {
+            if (convRate == null || convRate[slot] == 0) return 0;
 
-            if (TileEntityDrawersComp.this.isVending())
-                return Integer.MAX_VALUE;
+            if (TileEntityDrawersComp.this.isVending()) return Integer.MAX_VALUE;
 
             return pooledCount / convRate[slot];
         }
 
         @Override
-        public void setStoredItemCount (int slot, int amount) {
-            if (convRate == null || convRate[slot] == 0)
-                return;
+        public void setStoredItemCount(int slot, int amount) {
+            if (convRate == null || convRate[slot] == 0) return;
 
-            if (TileEntityDrawersComp.this.isVending())
-                return;
+            if (TileEntityDrawersComp.this.isVending()) return;
 
             int oldCount = pooledCount;
             pooledCount = (pooledCount % convRate[slot]) + convRate[slot] * amount;
 
             int poolMax = getMaxCapacity(0) * convRate[0];
-            if (pooledCount > poolMax)
-                pooledCount = poolMax;
+            if (pooledCount > poolMax) pooledCount = poolMax;
 
             if (pooledCount != oldCount) {
                 if (pooledCount != 0 || TileEntityDrawersComp.this.isLocked(LockAttribute.LOCK_POPULATED))
@@ -576,7 +548,7 @@ public class TileEntityDrawersComp extends TileEntityDrawers
                 else {
                     clear();
                     if (worldObj != null && !worldObj.isRemote) {
-                        //TileEntityDrawersComp.this.markDirty();
+                        // TileEntityDrawersComp.this.markDirty();
                         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     }
                 }
@@ -584,134 +556,123 @@ public class TileEntityDrawersComp extends TileEntityDrawers
         }
 
         @Override
-        public int getMaxCapacity (int slot) {
-            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0)
-                return 0;
+        public int getMaxCapacity(int slot) {
+            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0) return 0;
 
             if (TileEntityDrawersComp.this.isUnlimited() || TileEntityDrawersComp.this.isVending()) {
-                if (convRate == null || protoStack[slot] == null || convRate[slot] == 0)
-                    return Integer.MAX_VALUE;
+                if (convRate == null || protoStack[slot] == null || convRate[slot] == 0) return Integer.MAX_VALUE;
                 return Integer.MAX_VALUE / convRate[slot];
             }
 
-            return protoStack[0].getItem().getItemStackLimit(protoStack[0]) * getStackCapacity(0) * getConversionRate(slot);
+            return protoStack[0].getItem().getItemStackLimit(protoStack[0])
+                    * getStackCapacity(0)
+                    * getConversionRate(slot);
         }
 
         @Override
-        public int getMaxCapacity (int slot, ItemStack itemPrototype) {
-            if (itemPrototype == null || itemPrototype.getItem() == null)
-                return 0;
+        public int getMaxCapacity(int slot, ItemStack itemPrototype) {
+            if (itemPrototype == null || itemPrototype.getItem() == null) return 0;
 
             if (TileEntityDrawersComp.this.isUnlimited() || TileEntityDrawersComp.this.isVending()) {
-                if (convRate == null || protoStack[slot] == null || convRate[slot] == 0)
-                    return Integer.MAX_VALUE;
+                if (convRate == null || protoStack[slot] == null || convRate[slot] == 0) return Integer.MAX_VALUE;
                 return Integer.MAX_VALUE / convRate[slot];
             }
 
             if (convRate == null || protoStack[0] == null || convRate[0] == 0)
                 return itemPrototype.getItem().getItemStackLimit(itemPrototype) * getBaseStackCapacity();
 
-            if (BaseDrawerData.areItemsEqual(protoStack[slot], itemPrototype))
-                return getMaxCapacity(slot);
+            if (BaseDrawerData.areItemsEqual(protoStack[slot], itemPrototype)) return getMaxCapacity(slot);
 
             return 0;
         }
 
         @Override
-        public int getRemainingCapacity (int slot) {
-            if (TileEntityDrawersComp.this.isVending())
-                return Integer.MAX_VALUE;
+        public int getRemainingCapacity(int slot) {
+            if (TileEntityDrawersComp.this.isVending()) return Integer.MAX_VALUE;
 
             return getMaxCapacity(slot) - getStoredItemCount(slot);
         }
 
         @Override
-        public int getStoredItemStackSize (int slot) {
-            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0)
-                return 0;
+        public int getStoredItemStackSize(int slot) {
+            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0) return 0;
 
             return protoStack[slot].getItem().getItemStackLimit(protoStack[slot]);
         }
 
         @Override
-        public int getItemCapacityForInventoryStack (int slot) {
-            if (isVoid())
-                return Integer.MAX_VALUE;
-            else
-                return getMaxCapacity(slot);
+        public int getItemCapacityForInventoryStack(int slot) {
+            if (isVoid()) return Integer.MAX_VALUE;
+            else return getMaxCapacity(slot);
         }
 
         @Override
-        public int getConversionRate (int slot) {
-            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0)
-                return 0;
+        public int getConversionRate(int slot) {
+            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0) return 0;
 
             return convRate[0] / convRate[slot];
         }
 
         @Override
-        public int getStoredItemRemainder (int slot) {
+        public int getStoredItemRemainder(int slot) {
             return TileEntityDrawersComp.this.getStoredItemRemainder(slot);
         }
 
         @Override
-        public boolean isSmallestUnit (int slot) {
-            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0)
-                return false;
+        public boolean isSmallestUnit(int slot) {
+            if (protoStack[slot] == null || convRate == null || convRate[slot] == 0) return false;
 
             return convRate[slot] == 1;
         }
 
         @Override
-        public boolean isVoidSlot (int slot) {
+        public boolean isVoidSlot(int slot) {
             return isVoid();
         }
 
         @Override
-        public boolean isShroudedSlot (int slot) {
+        public boolean isShroudedSlot(int slot) {
             return isShrouded();
         }
 
         @Override
-        public boolean setIsSlotShrouded (int slot, boolean state) {
+        public boolean setIsSlotShrouded(int slot, boolean state) {
             setIsShrouded(state);
             return true;
         }
 
         @Override
-        public boolean isLocked (int slot, LockAttribute attr) {
+        public boolean isLocked(int slot, LockAttribute attr) {
             return TileEntityDrawersComp.this.isLocked(attr);
         }
 
         @Override
-        public void writeToNBT (int slot, NBTTagCompound tag) {
+        public void writeToNBT(int slot, NBTTagCompound tag) {
             ItemStack protoStack = getStoredItemPrototype(slot);
             if (protoStack != null && protoStack.getItem() != null) {
                 tag.setShort("Item", (short) Item.getIdFromItem(protoStack.getItem()));
                 tag.setShort("Meta", (short) protoStack.getItemDamage());
                 tag.setInteger("Count", 0); // TODO: Remove when ready to break 1.1.7 compat
 
-                if (protoStack.getTagCompound() != null)
-                    tag.setTag("Tags", protoStack.getTagCompound());
+                if (protoStack.getTagCompound() != null) tag.setTag("Tags", protoStack.getTagCompound());
             }
         }
 
         @Override
-        public void readFromNBT (int slot, NBTTagCompound tag) {
+        public void readFromNBT(int slot, NBTTagCompound tag) {
             if (tag.hasKey("Item")) {
                 Item item = Item.getItemById(tag.getShort("Item"));
                 if (item != null) {
                     ItemStack stack = new ItemStack(item);
                     stack.setItemDamage(tag.getShort("Meta"));
-                    if (tag.hasKey("Tags"))
-                        stack.setTagCompound(tag.getCompoundTag("Tags"));
+                    if (tag.hasKey("Tags")) stack.setTagCompound(tag.getCompoundTag("Tags"));
 
                     protoStack[slot] = stack;
                 }
             }
         }
 
-        private void clear () {
+        private void clear() {
             for (int i = 0; i < getDrawerCount(); i++) {
                 protoStack[i] = null;
                 convRate[i] = 0;
@@ -721,17 +682,15 @@ public class TileEntityDrawersComp extends TileEntityDrawers
             TileEntityDrawersComp.this.markDirty();
         }
 
-        public void refresh () {
+        public void refresh() {
             for (int i = 0; i < getDrawerCount(); i++) {
                 IDrawer drawer = getDrawer(i);
-                if (drawer instanceof CompDrawerData)
-                    ((CompDrawerData) drawer).refresh();
+                if (drawer instanceof CompDrawerData) ((CompDrawerData) drawer).refresh();
             }
         }
 
-        private int getStackCapacity (int slot) {
-            if (convRate == null || convRate[slot] == 0)
-                return 0;
+        private int getStackCapacity(int slot) {
+            if (convRate == null || convRate[slot] == 0) return 0;
 
             int slotStacks = getBaseStackCapacity();
 
@@ -739,62 +698,59 @@ public class TileEntityDrawersComp extends TileEntityDrawers
             return stackLimit / convRate[slot];
         }
 
-        private int getBaseStackCapacity () {
+        private int getBaseStackCapacity() {
             ConfigManager config = StorageDrawers.config;
-            return TileEntityDrawersComp.this.getEffectiveStorageMultiplier() * TileEntityDrawersComp.this.getDrawerCapacity();
+            return TileEntityDrawersComp.this.getEffectiveStorageMultiplier()
+                    * TileEntityDrawersComp.this.getDrawerCapacity();
         }
 
-        public void markAmountDirty () {
-            if (getWorldObj().isRemote)
-                return;
+        public void markAmountDirty() {
+            if (getWorldObj().isRemote) return;
 
             IMessage message = new CountUpdateMessage(xCoord, yCoord, zCoord, 0, pooledCount);
-            NetworkRegistry.TargetPoint targetPoint = new NetworkRegistry.TargetPoint(getWorldObj().provider.dimensionId, xCoord, yCoord, zCoord, 500);
+            NetworkRegistry.TargetPoint targetPoint =
+                    new NetworkRegistry.TargetPoint(getWorldObj().provider.dimensionId, xCoord, yCoord, zCoord, 500);
 
             StorageDrawers.network.sendToAllAround(message, targetPoint);
         }
 
-        public void markDirty (int slot) {
-            if (getWorldObj().isRemote)
-                return;
+        public void markDirty(int slot) {
+            if (getWorldObj().isRemote) return;
 
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
         }
     }
 
-    private static class InventoryLookup extends InventoryCrafting
-    {
+    private static class InventoryLookup extends InventoryCrafting {
         private ItemStack[] stackList;
 
-        public InventoryLookup (int width, int height) {
+        public InventoryLookup(int width, int height) {
             super(null, width, height);
             stackList = new ItemStack[width * height];
         }
 
         @Override
-        public int getSizeInventory ()
-        {
+        public int getSizeInventory() {
             return this.stackList.length;
         }
 
         @Override
-        public ItemStack getStackInSlot (int slot)
-        {
+        public ItemStack getStackInSlot(int slot) {
             return slot >= this.getSizeInventory() ? null : this.stackList[slot];
         }
 
         @Override
-        public ItemStack getStackInSlotOnClosing (int slot) {
+        public ItemStack getStackInSlotOnClosing(int slot) {
             return null;
         }
 
         @Override
-        public ItemStack decrStackSize (int slot, int count) {
+        public ItemStack decrStackSize(int slot, int count) {
             return null;
         }
 
         @Override
-        public void setInventorySlotContents (int slot, ItemStack stack) {
+        public void setInventorySlotContents(int slot, ItemStack stack) {
             stackList[slot] = stack;
         }
     }

@@ -6,71 +6,63 @@ import com.jaquadro.minecraft.storagedrawers.block.BlockTrim;
 import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-import java.util.List;
-
-public class BlockTrimPack extends BlockTrim implements IPackBlock
-{
+public class BlockTrimPack extends BlockTrim implements IPackBlock {
     private IPackDataResolver resolver;
 
-    public BlockTrimPack (IPackDataResolver resolver) {
+    public BlockTrimPack(IPackDataResolver resolver) {
         super(resolver.getBlockName(BlockConfiguration.Trim));
 
         this.resolver = resolver;
 
         CreativeTabs tabs = resolver.getCreativeTabs(BlockType.Trim);
-        if (StorageDrawers.config.cache.addonSeparateVanilla && tabs != null)
-            setCreativeTab(tabs);
-        else
-            setCreativeTab(ModCreativeTabs.tabStorageDrawers);
+        if (StorageDrawers.config.cache.addonSeparateVanilla && tabs != null) setCreativeTab(tabs);
+        else setCreativeTab(ModCreativeTabs.tabStorageDrawers);
     }
 
-    public String[] getUnlocalizedNames () {
+    public String[] getUnlocalizedNames() {
         String[] names = new String[16];
         for (int i = 0; i < 16; i++) {
-            if (resolver.isValidMetaValue(i))
-                names[i] = resolver.getUnlocalizedName(i);
+            if (resolver.isValidMetaValue(i)) names[i] = resolver.getUnlocalizedName(i);
         }
 
         return names;
     }
 
     @Override
-    public IPackDataResolver getDataResolver () {
+    public IPackDataResolver getDataResolver() {
         return resolver;
     }
 
     @Override
-    public void getSubBlocks (Item item, CreativeTabs creativeTabs, List list) {
-        if (!StorageDrawers.config.cache.addonShowVanilla)
-            return;
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        if (!StorageDrawers.config.cache.addonShowVanilla) return;
 
         for (int i = 0; i < 16; i++) {
-            if (resolver.isValidMetaValue(i))
-                list.add(new ItemStack(item, 1, i));
+            if (resolver.isValidMetaValue(i)) list.add(new ItemStack(item, 1, i));
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon (int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         meta = meta % 16;
         return iconTrim[meta];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons (IIconRegister register) {
+    public void registerBlockIcons(IIconRegister register) {
         iconTrim = new IIcon[16];
 
         for (int i = 0; i < 16; i++) {
-            if (!resolver.isValidMetaValue(i))
-                continue;
+            if (!resolver.isValidMetaValue(i)) continue;
 
             iconTrim[i] = register.registerIcon(resolver.getTexturePath(TextureType.TrimBlock, i));
         }

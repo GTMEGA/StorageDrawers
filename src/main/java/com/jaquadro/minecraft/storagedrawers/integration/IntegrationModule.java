@@ -6,17 +6,14 @@ import cpw.mods.fml.common.versioning.ArtifactVersion;
 import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
 import cpw.mods.fml.common.versioning.InvalidVersionSpecificationException;
 import cpw.mods.fml.common.versioning.VersionRange;
-
 import java.util.List;
 
-public abstract class IntegrationModule
-{
-    public abstract String getModID ();
+public abstract class IntegrationModule {
+    public abstract String getModID();
 
-    public boolean versionCheck () {
+    public boolean versionCheck() {
         String pattern = versionPattern();
-        if (pattern == null)
-            return true;
+        if (pattern == null) return true;
 
         List<ModContainer> modList = Loader.instance().getModList();
         for (int i = 0, n = modList.size(); i < n; i++) {
@@ -26,8 +23,7 @@ public abstract class IntegrationModule
                     VersionRange validVersions = VersionRange.createFromVersionSpec(pattern);
                     ArtifactVersion version = new DefaultArtifactVersion(mod.getVersion());
                     return validVersions.containsVersion(version);
-                }
-                catch (InvalidVersionSpecificationException e) {
+                } catch (InvalidVersionSpecificationException e) {
                     return false;
                 }
             }
@@ -36,11 +32,11 @@ public abstract class IntegrationModule
         return false;
     }
 
-    protected String versionPattern () {
+    protected String versionPattern() {
         return null;
     }
 
-    public abstract void init () throws Throwable;
+    public abstract void init() throws Throwable;
 
-    public abstract void postInit ();
+    public abstract void postInit();
 }

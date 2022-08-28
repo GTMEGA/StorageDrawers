@@ -16,26 +16,24 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSortingDrawers extends BlockDrawers
-{
+public class BlockSortingDrawers extends BlockDrawers {
     @SideOnly(Side.CLIENT)
     protected IIcon[] iconSort;
 
-    public BlockSortingDrawers (String blockName, int drawerCount, boolean halfDepth) {
+    public BlockSortingDrawers(String blockName, int drawerCount, boolean halfDepth) {
         super(blockName, drawerCount, halfDepth);
 
         setCreativeTab(RefinedRelocation.tabStorageDrawers);
     }
 
-    public static boolean upgradeToSorting (World world, int x, int y, int z) {
+    public static boolean upgradeToSorting(World world, int x, int y, int z) {
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (!(tile instanceof TileEntityDrawersStandard) || tile instanceof TileSortingDrawersStandard)
-            return false;
+        if (!(tile instanceof TileEntityDrawersStandard) || tile instanceof TileSortingDrawersStandard) return false;
 
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        TileEntityDrawersStandard oldDrawer = (TileEntityDrawersStandard)tile;
+        TileEntityDrawersStandard oldDrawer = (TileEntityDrawersStandard) tile;
         TileSortingDrawersStandard newDrawer = new TileSortingDrawersStandard();
 
         NBTTagCompound tag = new NBTTagCompound();
@@ -56,35 +54,33 @@ public class BlockSortingDrawers extends BlockDrawers
     }
 
     @Override
-    public BlockType retrimType () {
+    public BlockType retrimType() {
         return BlockType.DrawersSorting;
     }
 
     @Override
-    public TileSortingDrawersStandard createNewTileEntity (World world, int meta) {
+    public TileSortingDrawersStandard createNewTileEntity(World world, int meta) {
         return new TileSortingDrawersStandard();
     }
 
     @Override
-    public IIcon getIcon (int side, int meta) {
-        if (side == 1 && !halfDepth)
-            return iconSort[meta];
+    public IIcon getIcon(int side, int meta) {
+        if (side == 1 && !halfDepth) return iconSort[meta];
 
         return super.getIcon(side, meta);
     }
 
     @SideOnly(Side.CLIENT)
-    protected IIcon getIcon (IBlockAccess blockAccess, int x, int y, int z, int side, int level) {
+    protected IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int level) {
         int meta = blockAccess.getBlockMetadata(x, y, z) % iconSort.length;
-        if (side == 1 && !halfDepth)
-            return iconSort[meta];
+        if (side == 1 && !halfDepth) return iconSort[meta];
 
         return super.getIcon(blockAccess, x, y, z, side, level);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons (IIconRegister register) {
+    public void registerBlockIcons(IIconRegister register) {
         super.registerBlockIcons(register);
 
         String[] subtex = BlockWood.field_150096_a;

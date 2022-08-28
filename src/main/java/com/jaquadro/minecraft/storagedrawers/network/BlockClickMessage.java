@@ -9,8 +9,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-public class BlockClickMessage implements IMessage
-{
+public class BlockClickMessage implements IMessage {
     private int x;
     private int y;
     private int z;
@@ -20,9 +19,9 @@ public class BlockClickMessage implements IMessage
     private float hitZ;
     private boolean invertShift;
 
-    public BlockClickMessage () { }
+    public BlockClickMessage() {}
 
-    public BlockClickMessage (int x, int y, int z, int side, float hitX, float hitY, float hitZ, boolean invertShift) {
+    public BlockClickMessage(int x, int y, int z, int side, float hitX, float hitY, float hitZ, boolean invertShift) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -34,7 +33,7 @@ public class BlockClickMessage implements IMessage
     }
 
     @Override
-    public void fromBytes (ByteBuf buf) {
+    public void fromBytes(ByteBuf buf) {
         x = buf.readInt();
         y = buf.readShort();
         z = buf.readInt();
@@ -46,7 +45,7 @@ public class BlockClickMessage implements IMessage
     }
 
     @Override
-    public void toBytes (ByteBuf buf) {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(x);
         buf.writeShort(y);
         buf.writeInt(z);
@@ -57,15 +56,25 @@ public class BlockClickMessage implements IMessage
         buf.writeBoolean(invertShift);
     }
 
-    public static class Handler implements IMessageHandler<BlockClickMessage, IMessage>
-    {
+    public static class Handler implements IMessageHandler<BlockClickMessage, IMessage> {
         @Override
-        public IMessage onMessage (BlockClickMessage message, MessageContext ctx) {
+        public IMessage onMessage(BlockClickMessage message, MessageContext ctx) {
             if (ctx.side == Side.SERVER) {
                 World world = ctx.getServerHandler().playerEntity.getEntityWorld();
                 Block block = world.getBlock(message.x, message.y, message.z);
                 if (block instanceof IExtendedBlockClickHandler)
-                    ((IExtendedBlockClickHandler) block).onBlockClicked(world, message.x, message.y, message.z, ctx.getServerHandler().playerEntity, message.side, message.hitX, message.hitY, message.hitZ, message.invertShift);
+                    ((IExtendedBlockClickHandler) block)
+                            .onBlockClicked(
+                                    world,
+                                    message.x,
+                                    message.y,
+                                    message.z,
+                                    ctx.getServerHandler().playerEntity,
+                                    message.side,
+                                    message.hitX,
+                                    message.hitY,
+                                    message.hitZ,
+                                    message.invertShift);
             }
 
             return null;

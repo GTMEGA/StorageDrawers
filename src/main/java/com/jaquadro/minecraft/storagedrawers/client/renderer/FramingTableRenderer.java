@@ -11,24 +11,20 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
 
-public class FramingTableRenderer implements ISimpleBlockRenderingHandler
-{
+public class FramingTableRenderer implements ISimpleBlockRenderingHandler {
     private CommonFramingRenderer framingRenderer = new CommonFramingRenderer();
 
     @Override
-    public void renderInventoryBlock (Block block, int metadata, int modelId, RenderBlocks renderer) {
-        if (!(block instanceof BlockFramingTable))
-            return;
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+        if (!(block instanceof BlockFramingTable)) return;
 
-        BlockFramingTable framingTable = (BlockFramingTable)block;
+        BlockFramingTable framingTable = (BlockFramingTable) block;
 
         boolean blendEnabled = GL11.glIsEnabled(GL11.GL_BLEND);
-        if (blendEnabled)
-            GL11.glDisable(GL11.GL_BLEND);
+        if (blendEnabled) GL11.glDisable(GL11.GL_BLEND);
 
         boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
-        if (!depthMask)
-            GL11.glDepthMask(true);
+        if (!depthMask) GL11.glDepthMask(true);
 
         GL11.glPushMatrix();
         GL11.glRotatef(90, 0, 1, 0);
@@ -42,41 +38,33 @@ public class FramingTableRenderer implements ISimpleBlockRenderingHandler
 
         RenderHelper.instance.state.clearUVRotation(RenderHelper.YPOS);
 
-        if (!blendEnabled)
-            GL11.glDisable(GL11.GL_BLEND);
-        if (!depthMask)
-            GL11.glDepthMask(false);
+        if (!blendEnabled) GL11.glDisable(GL11.GL_BLEND);
+        if (!depthMask) GL11.glDepthMask(false);
 
         GL11.glPopMatrix();
     }
 
     @Override
-    public boolean renderWorldBlock (IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-        if (!(block instanceof BlockFramingTable))
-            return false;
+    public boolean renderWorldBlock(
+            IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+        if (!(block instanceof BlockFramingTable)) return false;
 
-        BlockFramingTable framingTable = (BlockFramingTable)block;
+        BlockFramingTable framingTable = (BlockFramingTable) block;
         int meta = world.getBlockMetadata(x, y, z);
         int side = meta & 0x7;
         boolean right = (meta & 0x08) == 0;
 
-        if (side == 2 || side == 3)
-            right = !right;
+        if (side == 2 || side == 3) right = !right;
 
         RenderHelper.instance.state.setRotateTransform(side, RenderHelper.ZNEG);
         RenderHelper.instance.state.setUVRotation(RenderHelper.YPOS, RenderHelper.instance.state.rotateTransform);
 
         if (ClientProxy.renderPass == 0) {
-            if (right)
-                framingRenderer.renderRight(world, x, y, z, framingTable);
-            else
-                framingRenderer.renderLeft(world, x, y, z, framingTable);
-        }
-        else if (ClientProxy.renderPass == 1) {
-            if (right)
-                framingRenderer.renderOverlayRight(world, x, y, z, framingTable);
-            else
-                framingRenderer.renderOverlayLeft(world, x, y, z, framingTable);
+            if (right) framingRenderer.renderRight(world, x, y, z, framingTable);
+            else framingRenderer.renderLeft(world, x, y, z, framingTable);
+        } else if (ClientProxy.renderPass == 1) {
+            if (right) framingRenderer.renderOverlayRight(world, x, y, z, framingTable);
+            else framingRenderer.renderOverlayLeft(world, x, y, z, framingTable);
         }
 
         RenderHelper.instance.state.clearRotateTransform();
@@ -86,12 +74,12 @@ public class FramingTableRenderer implements ISimpleBlockRenderingHandler
     }
 
     @Override
-    public boolean shouldRender3DInInventory (int modelId) {
+    public boolean shouldRender3DInInventory(int modelId) {
         return true;
     }
 
     @Override
-    public int getRenderId () {
+    public int getRenderId() {
         return StorageDrawers.proxy.framingTableRenderID;
     }
 }

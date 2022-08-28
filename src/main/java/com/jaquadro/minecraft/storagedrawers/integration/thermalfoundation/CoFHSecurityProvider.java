@@ -6,33 +6,31 @@ import com.jaquadro.minecraft.storagedrawers.integration.ThermalFoundation;
 import com.jaquadro.minecraft.storagedrawers.security.DefaultSecurityProvider;
 import com.mojang.authlib.GameProfile;
 
-public class CoFHSecurityProvider implements ISecurityProvider
-{
+public class CoFHSecurityProvider implements ISecurityProvider {
     ThermalFoundation foundation;
     private DefaultSecurityProvider defaultProvider = new DefaultSecurityProvider();
 
-    public CoFHSecurityProvider (ThermalFoundation foundation) {
+    public CoFHSecurityProvider(ThermalFoundation foundation) {
         this.foundation = foundation;
     }
 
     @Override
-    public String getProviderID () {
+    public String getProviderID() {
         return "cofh";
     }
 
     @Override
-    public boolean hasOwnership (GameProfile profile, IProtectable target) {
+    public boolean hasOwnership(GameProfile profile, IProtectable target) {
         return defaultProvider.hasOwnership(profile, target);
     }
 
     @Override
-    public boolean hasAccess (GameProfile profile, IProtectable target) {
-        if (target.getOwner() == null)
-            return true;
+    public boolean hasAccess(GameProfile profile, IProtectable target) {
+        if (target.getOwner() == null) return true;
 
         GameProfile ownerProfile = (profile.getId().equals(target.getOwner()))
-            ? new GameProfile(profile.getId(), profile.getName())
-            : new GameProfile(target.getOwner(), null);
+                ? new GameProfile(profile.getId(), profile.getName())
+                : new GameProfile(target.getOwner(), null);
 
         return foundation.playerHasAccess(profile.getName(), ownerProfile);
     }

@@ -5,25 +5,18 @@ import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersComp;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
 import com.jaquadro.minecraft.storagedrawers.core.ModBlocks;
 import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
-import com.jaquadro.minecraft.storagedrawers.integration.RefinedRelocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import java.util.List;
-
-public class ItemUpgradeSorting extends Item
-{
-    public ItemUpgradeSorting (String name) {
+public class ItemUpgradeSorting extends Item {
+    public ItemUpgradeSorting(String name) {
         setUnlocalizedName(name);
         setCreativeTab(ModCreativeTabs.tabStorageDrawers);
         setTextureName(StorageDrawers.MOD_ID + ":upgrade_sorting");
@@ -32,26 +25,34 @@ public class ItemUpgradeSorting extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation (ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
         String name = getUnlocalizedName(itemStack);
         list.add(StatCollector.translateToLocalFormatted(name + ".description"));
     }
 
     @Override
-    public boolean onItemUseFirst (ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        if (world.isRemote)
-            return false;
+    public boolean onItemUseFirst(
+            ItemStack stack,
+            EntityPlayer player,
+            World world,
+            int x,
+            int y,
+            int z,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ) {
+        if (world.isRemote) return false;
 
-        if(world.getBlock(x, y, z) == ModBlocks.trim) {
-            if(BlockSortingTrim.upgradeToSorting(world, x, y, z)) {
+        if (world.getBlock(x, y, z) == ModBlocks.trim) {
+            if (BlockSortingTrim.upgradeToSorting(world, x, y, z)) {
                 stack.stackSize--;
                 return true;
             }
         }
 
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile == null)
-            return false;
+        if (tile == null) return false;
 
         if (tile instanceof TileEntityDrawersStandard) {
             if (BlockSortingDrawers.upgradeToSorting(world, x, y, z)) {

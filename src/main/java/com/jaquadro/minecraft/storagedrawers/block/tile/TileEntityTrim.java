@@ -7,50 +7,47 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityTrim extends TileEntity
-{
+public class TileEntityTrim extends TileEntity {
     private ItemStack materialSide;
     private ItemStack materialTrim;
 
-    public ItemStack getMaterialSide () {
+    public ItemStack getMaterialSide() {
         return materialSide;
     }
 
-    public ItemStack getMaterialTrim () {
+    public ItemStack getMaterialTrim() {
         return materialTrim;
     }
 
-    public ItemStack getEffectiveMaterialSide () {
+    public ItemStack getEffectiveMaterialSide() {
         return materialSide;
     }
 
-    public ItemStack getEffectiveMaterialTrim () {
+    public ItemStack getEffectiveMaterialTrim() {
         return materialTrim != null ? materialTrim : materialSide;
     }
 
-    public void setMaterialSide (ItemStack material) {
+    public void setMaterialSide(ItemStack material) {
         materialSide = material;
     }
 
-    public void setMaterialTrim (ItemStack material) {
+    public void setMaterialTrim(ItemStack material) {
         materialTrim = material;
     }
 
     @Override
-    public void readFromNBT (NBTTagCompound tag) {
+    public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         materialSide = null;
-        if (tag.hasKey("MatS"))
-            materialSide = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("MatS"));
+        if (tag.hasKey("MatS")) materialSide = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("MatS"));
 
         materialTrim = null;
-        if (tag.hasKey("MatT"))
-            materialTrim = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("MatT"));
+        if (tag.hasKey("MatT")) materialTrim = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("MatT"));
     }
 
     @Override
-    public void writeToNBT (NBTTagCompound tag) {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (materialSide != null) {
@@ -67,7 +64,7 @@ public class TileEntityTrim extends TileEntity
     }
 
     @Override
-    public Packet getDescriptionPacket () {
+    public Packet getDescriptionPacket() {
         NBTTagCompound tag = new NBTTagCompound();
         writeToNBT(tag);
 
@@ -75,7 +72,7 @@ public class TileEntityTrim extends TileEntity
     }
 
     @Override
-    public void onDataPacket (NetworkManager net, S35PacketUpdateTileEntity pkt) {
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         readFromNBT(pkt.func_148857_g());
         getWorldObj().func_147479_m(xCoord, yCoord, zCoord); // markBlockForRenderUpdate
     }

@@ -7,23 +7,22 @@ import com.jaquadro.minecraft.storagedrawers.api.registry.IRecipeHandlerRegistry
 import com.jaquadro.minecraft.storagedrawers.api.registry.IRenderRegistry;
 import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaRegistry;
 
-public interface IStorageDrawersApi
-{
+public interface IStorageDrawersApi {
     /**
      * Recipe handlers are used to make custom recipes compatible with compacting drawers.
      */
-    IRecipeHandlerRegistry recipeHandlerRegistry ();
+    IRecipeHandlerRegistry recipeHandlerRegistry();
 
-    IRenderRegistry renderRegistry ();
+    IRenderRegistry renderRegistry();
 
-    IWailaRegistry wailaRegistry ();
+    IWailaRegistry wailaRegistry();
 
-    IPackBlockFactory packFactory ();
+    IPackBlockFactory packFactory();
 
     /**
      * User-managed configuration for the Storage Drawers mod.
      */
-    IUserConfig userConfig ();
+    IUserConfig userConfig();
 
-    void registerStandardPackRecipes (IExtendedDataResolver resolver);
+    void registerStandardPackRecipes(IExtendedDataResolver resolver);
 }

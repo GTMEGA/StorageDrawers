@@ -7,16 +7,15 @@ import net.minecraft.block.BlockWood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemBasicDrawers extends ItemDrawers
-{
+public class ItemBasicDrawers extends ItemDrawers {
     protected final Block blockTemplate;
     protected final String[] blockNames;
 
-    public ItemBasicDrawers (Block block) {
+    public ItemBasicDrawers(Block block) {
         this(block, BlockWood.field_150096_a);
     }
 
-    protected ItemBasicDrawers (Block block, String[] names) {
+    protected ItemBasicDrawers(Block block, String[] names) {
         super(block);
         setHasSubtypes(true);
         blockTemplate = block;
@@ -38,8 +37,7 @@ public class ItemBasicDrawers extends ItemDrawers
     public String getUnlocalizedName(ItemStack stack) {
         int i = stack.getItemDamage();
 
-        if (i < 0 || i >= blockNames.length)
-            i = 0;
+        if (i < 0 || i >= blockNames.length) i = 0;
 
         return super.getUnlocalizedName() + "." + blockNames[i];
     }

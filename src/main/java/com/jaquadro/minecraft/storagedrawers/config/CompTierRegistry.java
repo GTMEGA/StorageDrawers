@@ -1,15 +1,13 @@
 package com.jaquadro.minecraft.storagedrawers.config;
 
 import cpw.mods.fml.common.Loader;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CompTierRegistry
-{
+public class CompTierRegistry {
     public class Record {
         public ItemStack upper;
         public ItemStack lower;
@@ -18,7 +16,7 @@ public class CompTierRegistry
 
     private List<Record> records = new ArrayList<Record>();
 
-    public CompTierRegistry () {
+    public CompTierRegistry() {
         register(new ItemStack(Blocks.clay), new ItemStack(Items.clay_ball), 4);
         register(new ItemStack(Blocks.snow), new ItemStack(Items.snowball), 4);
         register(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust), 4);
@@ -31,9 +29,8 @@ public class CompTierRegistry
             register(new ItemStack(Blocks.sandstone), new ItemStack(Blocks.sand), 4);
     }
 
-    public boolean register (ItemStack upper, ItemStack lower, int convRate) {
-        if (upper == null || lower == null)
-            return false;
+    public boolean register(ItemStack upper, ItemStack lower, int convRate) {
+        if (upper == null || lower == null) return false;
 
         unregisterUpperTarget(upper);
         unregisterLowerTarget(lower);
@@ -51,7 +48,7 @@ public class CompTierRegistry
         return true;
     }
 
-    public boolean unregisterUpperTarget (ItemStack stack) {
+    public boolean unregisterUpperTarget(ItemStack stack) {
         for (Record r : records) {
             if (ItemStack.areItemStacksEqual(stack, r.upper)) {
                 records.remove(r);
@@ -62,7 +59,7 @@ public class CompTierRegistry
         return false;
     }
 
-    public boolean unregisterLowerTarget (ItemStack stack) {
+    public boolean unregisterLowerTarget(ItemStack stack) {
         for (Record r : records) {
             if (ItemStack.areItemStacksEqual(stack, r.lower)) {
                 records.remove(r);
@@ -73,27 +70,23 @@ public class CompTierRegistry
         return false;
     }
 
-    public Record findHigherTier (ItemStack stack) {
-        if (stack == null || stack.getItem() == null)
-            return null;
+    public Record findHigherTier(ItemStack stack) {
+        if (stack == null || stack.getItem() == null) return null;
 
         for (int i = 0, n = records.size(); i < n; i++) {
             Record r = records.get(i);
-            if (stack.isItemEqual(r.lower) && ItemStack.areItemStackTagsEqual(stack, r.lower))
-                return r;
+            if (stack.isItemEqual(r.lower) && ItemStack.areItemStackTagsEqual(stack, r.lower)) return r;
         }
 
         return null;
     }
 
-    public Record findLowerTier (ItemStack stack) {
-        if (stack == null || stack.getItem() == null)
-            return null;
+    public Record findLowerTier(ItemStack stack) {
+        if (stack == null || stack.getItem() == null) return null;
 
         for (int i = 0, n = records.size(); i < n; i++) {
             Record r = records.get(i);
-            if (stack.isItemEqual(r.upper) && ItemStack.areItemStackTagsEqual(stack, r.upper))
-                return r;
+            if (stack.isItemEqual(r.upper) && ItemStack.areItemStackTagsEqual(stack, r.upper)) return r;
         }
 
         return null;

@@ -11,37 +11,30 @@ import net.minecraft.block.BlockWood;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 
-public class DataResolver extends ExtendedDataResolver
-{
+public class DataResolver extends ExtendedDataResolver {
     private static String[] textureNames = BlockWood.field_150096_a;
 
-    public DataResolver (String modID) {
+    public DataResolver(String modID) {
         super(modID, textureNames);
     }
 
     @Override
-    public CreativeTabs getCreativeTabs (BlockType type) {
+    public CreativeTabs getCreativeTabs(BlockType type) {
         return ModCreativeTabs.tabStorageDrawers;
     }
 
     @Override
-    public Block getBlock (BlockConfiguration blockConfig) {
+    public Block getBlock(BlockConfiguration blockConfig) {
         switch (blockConfig.getBlockType()) {
             case Drawers:
-                if (blockConfig.getDrawerCount() == 1)
-                    return ModBlocks.fullDrawers1;
-                if (blockConfig.getDrawerCount() == 2 && !blockConfig.isHalfDepth())
-                    return ModBlocks.fullDrawers2;
-                if (blockConfig.getDrawerCount() == 4 && !blockConfig.isHalfDepth())
-                    return ModBlocks.fullDrawers4;
-                if (blockConfig.getDrawerCount() == 2 && blockConfig.isHalfDepth())
-                    return ModBlocks.halfDrawers2;
-                if (blockConfig.getDrawerCount() == 4 && blockConfig.isHalfDepth())
-                    return ModBlocks.halfDrawers4;
+                if (blockConfig.getDrawerCount() == 1) return ModBlocks.fullDrawers1;
+                if (blockConfig.getDrawerCount() == 2 && !blockConfig.isHalfDepth()) return ModBlocks.fullDrawers2;
+                if (blockConfig.getDrawerCount() == 4 && !blockConfig.isHalfDepth()) return ModBlocks.fullDrawers4;
+                if (blockConfig.getDrawerCount() == 2 && blockConfig.isHalfDepth()) return ModBlocks.halfDrawers2;
+                if (blockConfig.getDrawerCount() == 4 && blockConfig.isHalfDepth()) return ModBlocks.halfDrawers4;
                 break;
             case DrawersSorting:
-                if (blockConfig.getDrawerCount() == 1)
-                    return RefinedRelocation.fullDrawers1;
+                if (blockConfig.getDrawerCount() == 1) return RefinedRelocation.fullDrawers1;
                 if (blockConfig.getDrawerCount() == 2 && !blockConfig.isHalfDepth())
                     return RefinedRelocation.fullDrawers2;
                 if (blockConfig.getDrawerCount() == 4 && !blockConfig.isHalfDepth())
@@ -60,8 +53,7 @@ public class DataResolver extends ExtendedDataResolver
     }
 
     @Override
-    public void init () {
-        for (int i = 0, p = 0, m = 0; i < 6; i++, p++, m++)
-            setPlankSlab(i, Blocks.planks, p, Blocks.wooden_slab, m);
+    public void init() {
+        for (int i = 0, p = 0, m = 0; i < 6; i++, p++, m++) setPlankSlab(i, Blocks.planks, p, Blocks.wooden_slab, m);
     }
 }

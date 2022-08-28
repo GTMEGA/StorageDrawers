@@ -8,14 +8,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 
-public class SlotCraftResult extends Slot
-{
+public class SlotCraftResult extends Slot {
     private final IInventory inputInventory;
     private final int[] inputSlots;
     private EntityPlayer player;
     private int amountCrafted;
 
-    public SlotCraftResult (EntityPlayer player, IInventory inputInventory, IInventory inventory, int[] inputSlots, int slot, int x, int y) {
+    public SlotCraftResult(
+            EntityPlayer player,
+            IInventory inputInventory,
+            IInventory inventory,
+            int[] inputSlots,
+            int slot,
+            int x,
+            int y) {
         super(inventory, slot, x, y);
 
         this.player = player;
@@ -24,32 +30,31 @@ public class SlotCraftResult extends Slot
     }
 
     @Override
-    public boolean isItemValid (ItemStack stack) {
+    public boolean isItemValid(ItemStack stack) {
         return false;
     }
 
     @Override
-    public ItemStack decrStackSize (int count) {
-        if (getHasStack())
-            amountCrafted += Math.min(count, getStack().stackSize);
+    public ItemStack decrStackSize(int count) {
+        if (getHasStack()) amountCrafted += Math.min(count, getStack().stackSize);
 
         return super.decrStackSize(count);
     }
 
     @Override
-    protected void onCrafting (ItemStack stack, int count) {
+    protected void onCrafting(ItemStack stack, int count) {
         amountCrafted += count;
         super.onCrafting(stack, count);
     }
 
     @Override
-    protected void onCrafting (ItemStack stack) {
+    protected void onCrafting(ItemStack stack) {
         stack.onCrafting(player.worldObj, player, amountCrafted);
         amountCrafted = 0;
     }
 
     @Override
-    public void onPickupFromSlot (EntityPlayer player, ItemStack itemStack) {
+    public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
         FMLCommonHandler.instance().firePlayerCraftingEvent(player, itemStack, inputInventory);
         onCrafting(itemStack);
 
@@ -60,16 +65,18 @@ public class SlotCraftResult extends Slot
 
                 if (itemTarget.getItem().hasContainerItem(itemTarget)) {
                     ItemStack itemContainer = itemTarget.getItem().getContainerItem(itemTarget);
-                    if (itemContainer != null && itemContainer.isItemStackDamageable() && itemContainer.getItemDamage() > itemContainer.getMaxDamage()) {
+                    if (itemContainer != null
+                            && itemContainer.isItemStackDamageable()
+                            && itemContainer.getItemDamage() > itemContainer.getMaxDamage()) {
                         MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(this.player, itemContainer));
                         continue;
                     }
 
-                    if (!itemTarget.getItem().doesContainerItemLeaveCraftingGrid(itemTarget) || !this.player.inventory.addItemStackToInventory(itemContainer)) {
+                    if (!itemTarget.getItem().doesContainerItemLeaveCraftingGrid(itemTarget)
+                            || !this.player.inventory.addItemStackToInventory(itemContainer)) {
                         if (inputInventory.getStackInSlot(slot) == null)
                             inputInventory.setInventorySlotContents(slot, itemContainer);
-                        else
-                            this.player.dropPlayerItemWithRandomChoice(itemContainer, false);
+                        else this.player.dropPlayerItemWithRandomChoice(itemContainer, false);
                     }
                 }
             }

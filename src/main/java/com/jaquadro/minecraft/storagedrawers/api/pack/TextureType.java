@@ -1,7 +1,6 @@
 package com.jaquadro.minecraft.storagedrawers.api.pack;
 
-public enum TextureType
-{
+public enum TextureType {
     Front1,
     Front2,
     Front4,

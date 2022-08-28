@@ -7,6 +7,7 @@ import com.jaquadro.minecraft.storagedrawers.integration.RefinedRelocation;
 import com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation.BlockSortingDrawers;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -14,98 +15,85 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-import java.util.List;
-
-public class BlockSortingDrawersPack extends BlockSortingDrawers implements IPackBlock
-{
+public class BlockSortingDrawersPack extends BlockSortingDrawers implements IPackBlock {
     private IPackDataResolver resolver;
 
-    public BlockSortingDrawersPack (IPackDataResolver resolver, int drawerCount, boolean halfDepth) {
-        super(resolver.getBlockName(BlockConfiguration.by(BlockType.DrawersSorting, drawerCount, halfDepth)), drawerCount, halfDepth);
+    public BlockSortingDrawersPack(IPackDataResolver resolver, int drawerCount, boolean halfDepth) {
+        super(
+                resolver.getBlockName(BlockConfiguration.by(BlockType.DrawersSorting, drawerCount, halfDepth)),
+                drawerCount,
+                halfDepth);
 
         this.resolver = resolver;
 
         CreativeTabs tabs = resolver.getCreativeTabs(BlockType.DrawersSorting);
-        if (StorageDrawers.config.cache.addonSeparateVanilla && tabs != null)
-            setCreativeTab(tabs);
-        else
-            setCreativeTab(ModCreativeTabs.tabStorageDrawers);
+        if (StorageDrawers.config.cache.addonSeparateVanilla && tabs != null) setCreativeTab(tabs);
+        else setCreativeTab(ModCreativeTabs.tabStorageDrawers);
     }
 
-    public String[] getUnlocalizedNames () {
+    public String[] getUnlocalizedNames() {
         String[] names = new String[16];
         for (int i = 0; i < 16; i++) {
-            if (resolver.isValidMetaValue(i))
-                names[i] = resolver.getUnlocalizedName(i);
+            if (resolver.isValidMetaValue(i)) names[i] = resolver.getUnlocalizedName(i);
         }
 
         return names;
     }
 
     @Override
-    public IPackDataResolver getDataResolver () {
+    public IPackDataResolver getDataResolver() {
         return resolver;
     }
 
     @Override
-    public void getSubBlocks (Item item, CreativeTabs creativeTabs, List list) {
-        if (!StorageDrawers.config.cache.addonShowVanilla)
-            return;
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+        if (!StorageDrawers.config.cache.addonShowVanilla) return;
 
         for (int i = 0; i < 16; i++) {
-            if (resolver.isValidMetaValue(i))
-                list.add(new ItemStack(item, 1, i));
+            if (resolver.isValidMetaValue(i)) list.add(new ItemStack(item, 1, i));
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon (int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         meta = (meta < 0 || meta >= iconSide.length) ? 0 : meta;
-        if (!resolver.isValidMetaValue(meta))
-            getSimilarBlock().getIcon(side, meta);
+        if (!resolver.isValidMetaValue(meta)) getSimilarBlock().getIcon(side, meta);
 
         return super.getIcon(side, meta);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    protected IIcon getIcon (IBlockAccess blockAccess, int x, int y, int z, int side, int level) {
+    protected IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int level) {
         int meta = blockAccess.getBlockMetadata(x, y, z);
         meta = (meta < 0 || meta >= iconSide.length) ? 0 : meta;
-        if (!resolver.isValidMetaValue(meta))
-            getSimilarBlock().getIcon(side, meta);
+        if (!resolver.isValidMetaValue(meta)) getSimilarBlock().getIcon(side, meta);
 
         return super.getIcon(blockAccess, x, y, z, side, level);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIconTrim (int meta) {
+    public IIcon getIconTrim(int meta) {
         meta = (meta < 0 || meta >= iconSide.length) ? 0 : meta;
-        if (!resolver.isValidMetaValue(meta))
-            getSimilarBlock().getIconTrim(meta);
+        if (!resolver.isValidMetaValue(meta)) getSimilarBlock().getIconTrim(meta);
 
         return super.getIconTrim(meta);
     }
 
-    private BlockSortingDrawers getSimilarBlock () {
-        if (drawerCount == 1 && !halfDepth)
-            return RefinedRelocation.fullDrawers1;
-        if (drawerCount == 2 && !halfDepth)
-            return RefinedRelocation.fullDrawers2;
-        if (drawerCount == 4 && !halfDepth)
-            return RefinedRelocation.fullDrawers4;
-        if (drawerCount == 2 && halfDepth)
-            return RefinedRelocation.halfDrawers2;
-        if (drawerCount == 4 && halfDepth)
-            return RefinedRelocation.halfDrawers4;
+    private BlockSortingDrawers getSimilarBlock() {
+        if (drawerCount == 1 && !halfDepth) return RefinedRelocation.fullDrawers1;
+        if (drawerCount == 2 && !halfDepth) return RefinedRelocation.fullDrawers2;
+        if (drawerCount == 4 && !halfDepth) return RefinedRelocation.fullDrawers4;
+        if (drawerCount == 2 && halfDepth) return RefinedRelocation.halfDrawers2;
+        if (drawerCount == 4 && halfDepth) return RefinedRelocation.halfDrawers4;
         return RefinedRelocation.fullDrawers1;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons (IIconRegister register) {
+    public void registerBlockIcons(IIconRegister register) {
         super.registerBlockIcons(register);
 
         iconSide = new IIcon[16];
@@ -118,8 +106,7 @@ public class BlockSortingDrawersPack extends BlockSortingDrawers implements IPac
         iconSort = new IIcon[16];
 
         for (int i = 0; i < 16; i++) {
-            if (!resolver.isValidMetaValue(i))
-                continue;
+            if (!resolver.isValidMetaValue(i)) continue;
 
             iconFront1[i] = register.registerIcon(resolver.getTexturePath(TextureType.Front1, i));
             iconFront2[i] = register.registerIcon(resolver.getTexturePath(TextureType.Front2, i));

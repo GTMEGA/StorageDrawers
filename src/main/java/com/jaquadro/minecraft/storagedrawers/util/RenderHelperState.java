@@ -1,28 +1,27 @@
 package com.jaquadro.minecraft.storagedrawers.util;
 
-public class RenderHelperState
-{
+public class RenderHelperState {
     public static final int ROTATE0 = 0;
     public static final int ROTATE90 = 1;
     public static final int ROTATE180 = 2;
     public static final int ROTATE270 = 3;
 
     public static final int[][] ROTATION_BY_FACE_FACE = {
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 2, 3, 1 },
-        { 0, 0, 2, 0, 1, 3 },
-        { 0, 0, 1, 3, 0, 2 },
-        { 0, 0, 3, 1, 2, 0 },
+        {0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 2, 3, 1},
+        {0, 0, 2, 0, 1, 3},
+        {0, 0, 1, 3, 0, 2},
+        {0, 0, 3, 1, 2, 0},
     };
 
     public static final int[][] FACE_BY_FACE_ROTATION = {
-        { 0, 0, 0, 0 },
-        { 1, 1, 1, 1 },
-        { 2, 5, 3, 4 },
-        { 3, 4, 2, 5 },
-        { 4, 2, 5, 3 },
-        { 5, 3, 4, 2 },
+        {0, 0, 0, 0},
+        {1, 1, 1, 1},
+        {2, 5, 3, 4},
+        {3, 4, 2, 5},
+        {4, 2, 5, 3},
+        {5, 3, 4, 2},
     };
 
     public double renderMinX;
@@ -67,11 +66,11 @@ public class RenderHelperState
     private final double[] scratchIn = new double[3];
     private final double[] scratchOut = new double[3];
 
-    public RenderHelperState () {
+    public RenderHelperState() {
         resetColorMult();
     }
 
-    public void setRenderBounds (double xMin, double yMin, double zMin, double xMax, double yMax, double zMax) {
+    public void setRenderBounds(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax) {
         renderMinX = xMin;
         renderMinY = yMin;
         renderMinZ = zMin;
@@ -79,26 +78,24 @@ public class RenderHelperState
         renderMaxY = yMax;
         renderMaxZ = zMax;
 
-        if (rotateTransform != 0)
-            transformRenderBound(rotateTransform);
+        if (rotateTransform != 0) transformRenderBound(rotateTransform);
     }
 
-    public void setRenderOffset (double xOffset, double yOffset, double zOffset) {
+    public void setRenderOffset(double xOffset, double yOffset, double zOffset) {
         renderOffsetX = xOffset;
         renderOffsetY = yOffset;
         renderOffsetZ = zOffset;
 
-        if (rotateTransform != 0)
-            transformRenderOffset(rotateTransform);
+        if (rotateTransform != 0) transformRenderOffset(rotateTransform);
     }
 
-    public void clearRenderOffset () {
+    public void clearRenderOffset() {
         renderOffsetX = 0;
         renderOffsetY = 0;
         renderOffsetZ = 0;
     }
 
-    public void setColorMult (float yPos, float z, float x, float yNeg) {
+    public void setColorMult(float yPos, float z, float x, float yNeg) {
         colorMultYNeg = yNeg;
         colorMultYPos = yPos;
         colorMultZNeg = z;
@@ -107,7 +104,7 @@ public class RenderHelperState
         colorMultXPos = x;
     }
 
-    public void resetColorMult () {
+    public void resetColorMult() {
         colorMultYNeg = 0.5f;
         colorMultYPos = 1.0f;
         colorMultZNeg = 0.8f;
@@ -116,37 +113,44 @@ public class RenderHelperState
         colorMultXPos = 0.6f;
     }
 
-    public float getColorMult (int side) {
+    public float getColorMult(int side) {
         switch (side) {
-            case 0: return colorMultYNeg;
-            case 1: return colorMultYPos;
-            case 2: return colorMultZNeg;
-            case 3: return colorMultZPos;
-            case 4: return colorMultXNeg;
-            case 5: return colorMultXPos;
-            default: return 0;
+            case 0:
+                return colorMultYNeg;
+            case 1:
+                return colorMultYPos;
+            case 2:
+                return colorMultZNeg;
+            case 3:
+                return colorMultZPos;
+            case 4:
+                return colorMultXNeg;
+            case 5:
+                return colorMultXPos;
+            default:
+                return 0;
         }
     }
 
-    public void setTextureOffset (float u, float v) {
+    public void setTextureOffset(float u, float v) {
         shiftU = u;
         shiftV = v;
     }
 
-    public void resetTextureOffset () {
+    public void resetTextureOffset() {
         shiftU = 0;
         shiftV = 0;
     }
 
-    public void setUVRotation (int face, int rotation) {
+    public void setUVRotation(int face, int rotation) {
         uvRotate[face] = rotation;
     }
 
-    public void clearUVRotation (int face) {
+    public void clearUVRotation(int face) {
         uvRotate[face] = 0;
     }
 
-    public void setColor (float r, float g, float b) {
+    public void setColor(float r, float g, float b) {
         colorTopLeft[0] = r;
         colorTopLeft[1] = g;
         colorTopLeft[2] = b;
@@ -164,12 +168,11 @@ public class RenderHelperState
         colorTopRight[2] = b;
     }
 
-    public void scaleColor (float[] color, float scale) {
-        for (int i = 0; i < color.length; i++)
-            color[i] *= scale;
+    public void scaleColor(float[] color, float scale) {
+        for (int i = 0; i < color.length; i++) color[i] *= scale;
     }
 
-    public void setRotateTransform (int faceFrom, int faceTo) {
+    public void setRotateTransform(int faceFrom, int faceTo) {
         rotateTransform = ROTATION_BY_FACE_FACE[faceFrom][faceTo];
         if (rotateTransform != 0) {
             transformRenderBound(rotateTransform);
@@ -177,7 +180,7 @@ public class RenderHelperState
         }
     }
 
-    public void undoRotateTransform () {
+    public void undoRotateTransform() {
         if (rotateTransform != 0) {
             transformRenderBound(4 - rotateTransform);
             transformRenderOffset(4 - rotateTransform);
@@ -185,11 +188,11 @@ public class RenderHelperState
         clearRotateTransform();
     }
 
-    public void clearRotateTransform () {
+    public void clearRotateTransform() {
         rotateTransform = 0;
     }
 
-    private void transformRenderOffset (int rotation) {
+    private void transformRenderOffset(int rotation) {
         double scratch;
         switch (rotation) {
             case ROTATE90:
@@ -209,7 +212,7 @@ public class RenderHelperState
         }
     }
 
-    private void transformRenderBound (int rotation) {
+    private void transformRenderBound(int rotation) {
         scratchIn[0] = renderMinX;
         scratchIn[1] = renderMinY;
         scratchIn[2] = renderMinZ;
@@ -239,14 +242,14 @@ public class RenderHelperState
         }
     }
 
-    public void transformCoord (double x, double y, double z, double[] coordCout, int rotation) {
+    public void transformCoord(double x, double y, double z, double[] coordCout, int rotation) {
         scratchIn[0] = x;
         scratchIn[1] = y;
         scratchIn[2] = z;
         transformCoord(scratchIn, coordCout, rotation);
     }
 
-    public void transformCoord (double[] coordIn, double[] coordOut, int rotation) {
+    public void transformCoord(double[] coordIn, double[] coordOut, int rotation) {
         coordOut[1] = coordIn[1];
 
         switch (rotation) {

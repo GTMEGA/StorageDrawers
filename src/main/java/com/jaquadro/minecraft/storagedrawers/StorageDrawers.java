@@ -20,13 +20,16 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
+import java.io.File;
 import net.minecraftforge.common.MinecraftForge;
 
-import java.io.File;
-
-@Mod(modid = StorageDrawers.MOD_ID, name = StorageDrawers.MOD_NAME, version = StorageDrawers.MOD_VERSION, dependencies = "after:waila;", guiFactory = StorageDrawers.SOURCE_PATH + "core.ModGuiFactory")
-public class StorageDrawers
-{
+@Mod(
+        modid = StorageDrawers.MOD_ID,
+        name = StorageDrawers.MOD_NAME,
+        version = StorageDrawers.MOD_VERSION,
+        dependencies = "after:waila;",
+        guiFactory = StorageDrawers.SOURCE_PATH + "core.ModGuiFactory")
+public class StorageDrawers {
     public static final String MOD_ID = "StorageDrawers";
     public static final String MOD_NAME = "Storage Drawers";
     public static final String MOD_VERSION = "GRADLETOKEN_VERSION";
@@ -56,7 +59,7 @@ public class StorageDrawers
     public static CommonProxy proxy;
 
     @Mod.EventHandler
-    public void preInit (FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event) {
         config = new ConfigManager(new File(event.getModConfigurationDirectory(), MOD_ID + ".cfg"));
 
         network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
@@ -64,8 +67,7 @@ public class StorageDrawers
 
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             network.registerMessage(CountUpdateMessage.Handler.class, CountUpdateMessage.class, 1, Side.CLIENT);
-        }
-        else {
+        } else {
             network.registerMessage(CountUpdateMessage.HandlerStub.class, CountUpdateMessage.class, 1, Side.CLIENT);
         }
 
@@ -82,7 +84,7 @@ public class StorageDrawers
     }
 
     @Mod.EventHandler
-    public void init (FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event) {
         proxy.registerRenderers();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
@@ -93,7 +95,7 @@ public class StorageDrawers
     }
 
     @Mod.EventHandler
-    public void postInit (FMLPostInitializationEvent event) {
+    public void postInit(FMLPostInitializationEvent event) {
         recipes.init();
 
         IntegrationRegistry.instance().postInit();
@@ -102,8 +104,7 @@ public class StorageDrawers
     }
 
     @SubscribeEvent
-    public void onConfigChanged (ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.modID.equals(MOD_ID))
-            config.syncConfig();
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.modID.equals(MOD_ID)) config.syncConfig();
     }
 }

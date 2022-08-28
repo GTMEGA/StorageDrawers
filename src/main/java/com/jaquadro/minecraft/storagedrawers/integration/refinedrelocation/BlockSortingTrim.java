@@ -13,12 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockSortingTrim extends BlockTrim implements ITileEntityProvider
-{
+public class BlockSortingTrim extends BlockTrim implements ITileEntityProvider {
     @SideOnly(Side.CLIENT)
     protected IIcon[] iconSort;
 
-    public BlockSortingTrim (String name) {
+    public BlockSortingTrim(String name) {
         super(name);
         setCreativeTab(RefinedRelocation.tabStorageDrawers);
     }
@@ -29,16 +28,15 @@ public class BlockSortingTrim extends BlockTrim implements ITileEntityProvider
     }
 
     @Override
-    public IIcon getIcon (int side, int meta) {
-        if (side == 1)
-            return iconSort[meta];
+    public IIcon getIcon(int side, int meta) {
+        if (side == 1) return iconSort[meta];
 
         return super.getIcon(side, meta);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons (IIconRegister register) {
+    public void registerBlockIcons(IIconRegister register) {
         super.registerBlockIcons(register);
 
         String[] subtex = BlockWood.field_150096_a;

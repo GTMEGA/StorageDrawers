@@ -1,13 +1,11 @@
 package com.jaquadro.minecraft.storagedrawers.storage;
 
-public interface IUpgradeProvider
-{
-    boolean isVoid ();
+public interface IUpgradeProvider {
+    boolean isVoid();
 
-    boolean isSorting ();
+    boolean isSorting();
 
-    boolean isShrouded ();
+    boolean isShrouded();
 
-    boolean isDowngraded ();
-
+    boolean isDowngraded();
 }

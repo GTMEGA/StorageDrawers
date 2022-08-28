@@ -7,13 +7,12 @@ import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-public class CommonTrimRenderer
-{
+public class CommonTrimRenderer {
     private PanelBoxRenderer panelRenderer = new PanelBoxRenderer();
 
     private double trimWidth;
 
-    private RenderHelper start (IBlockAccess world, int x, int y, int z, BlockTrimCustom block) {
+    private RenderHelper start(IBlockAccess world, int x, int y, int z, BlockTrimCustom block) {
         trimWidth = .0625f;
 
         panelRenderer.setTrimWidth(trimWidth);
@@ -22,13 +21,12 @@ public class CommonTrimRenderer
         panelRenderer.setPanelColor(ModularBoxRenderer.COLOR_WHITE);
 
         RenderHelper renderHelper = RenderHelper.instance;
-        if (world != null)
-            renderHelper.setColorAndBrightness(world, block, x, y, z);
+        if (world != null) renderHelper.setColorAndBrightness(world, block, x, y, z);
 
         return renderHelper;
     }
 
-    public void render (IBlockAccess world, int x, int y, int z, BlockTrimCustom block, IIcon iconSide, IIcon iconTrim) {
+    public void render(IBlockAccess world, int x, int y, int z, BlockTrimCustom block, IIcon iconSide, IIcon iconTrim) {
         RenderHelper renderHelper = start(world, x, y, z, block);
 
         panelRenderer.setTrimIcon(iconTrim);

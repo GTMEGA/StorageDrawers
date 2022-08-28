@@ -10,46 +10,44 @@ import com.jaquadro.minecraft.storagedrawers.api.registry.IRenderRegistry;
 import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaRegistry;
 import com.jaquadro.minecraft.storagedrawers.core.api.PackFactory;
 import com.jaquadro.minecraft.storagedrawers.core.api.PackRecipes;
-import com.jaquadro.minecraft.storagedrawers.integration.ChiselIntegrationModule;
 import com.jaquadro.minecraft.storagedrawers.integration.ThermalExpansion;
 
-public class Api implements IStorageDrawersApi
-{
+public class Api implements IStorageDrawersApi {
     public static IStorageDrawersApi instance;
 
     private PackFactory packFactory = new PackFactory();
 
-    public Api () {
+    public Api() {
         instance = this;
     }
 
     @Override
-    public IRecipeHandlerRegistry recipeHandlerRegistry () {
+    public IRecipeHandlerRegistry recipeHandlerRegistry() {
         return StorageDrawers.recipeHandlerRegistry;
     }
 
     @Override
-    public IRenderRegistry renderRegistry () {
+    public IRenderRegistry renderRegistry() {
         return StorageDrawers.renderRegistry;
     }
 
     @Override
-    public IWailaRegistry wailaRegistry () {
+    public IWailaRegistry wailaRegistry() {
         return StorageDrawers.wailaRegistry;
     }
 
     @Override
-    public IPackBlockFactory packFactory () {
+    public IPackBlockFactory packFactory() {
         return packFactory;
     }
 
     @Override
-    public IUserConfig userConfig () {
+    public IUserConfig userConfig() {
         return StorageDrawers.config.userConfig;
     }
 
     @Override
-    public void registerStandardPackRecipes (IExtendedDataResolver resolver) {
+    public void registerStandardPackRecipes(IExtendedDataResolver resolver) {
         PackRecipes.registerStandardRecipes(resolver);
         PackRecipes.registerSortingRecipes(resolver);
         ThermalExpansion.registerPackBlock(resolver);

@@ -29,10 +29,13 @@ public class PackFactory implements IPackBlockFactory {
     public Block createBlock(BlockConfiguration blockConfig, IPackDataResolver dataResolver) {
         switch (blockConfig.getBlockType()) {
             case Drawers:
-                return new BlockDrawersPack(dataResolver, blockConfig.getDrawerCount(), blockConfig.isHalfDepth()).setConfigName(getConfigName(blockConfig));
+                return new BlockDrawersPack(dataResolver, blockConfig.getDrawerCount(), blockConfig.isHalfDepth())
+                        .setConfigName(getConfigName(blockConfig));
             case DrawersSorting:
                 if (IntegrationRegistry.instance().isModLoaded("RefinedRelocation"))
-                    return new BlockSortingDrawersPack(dataResolver, blockConfig.getDrawerCount(), blockConfig.isHalfDepth()).setConfigName(getConfigName(blockConfig));
+                    return new BlockSortingDrawersPack(
+                                    dataResolver, blockConfig.getDrawerCount(), blockConfig.isHalfDepth())
+                            .setConfigName(getConfigName(blockConfig));
                 return null;
             case Trim:
                 return new BlockTrimPack(dataResolver);
@@ -60,8 +63,7 @@ public class PackFactory implements IPackBlockFactory {
             StorageDrawers.proxy.registerDrawer(block);
         } else if (block instanceof BlockSortingTrimPack)
             GameRegistry.registerBlock(block, ItemSortingTrimPack.class, name);
-        else if (block instanceof BlockTrimPack)
-            GameRegistry.registerBlock(block, ItemTrimPack.class, name);
+        else if (block instanceof BlockTrimPack) GameRegistry.registerBlock(block, ItemTrimPack.class, name);
         ChiselIntegrationModule.registerPackBlock(block);
     }
 

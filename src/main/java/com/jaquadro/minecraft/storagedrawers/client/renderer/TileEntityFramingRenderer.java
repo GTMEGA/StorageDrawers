@@ -17,34 +17,31 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class TileEntityFramingRenderer extends TileEntitySpecialRenderer
-{
+public class TileEntityFramingRenderer extends TileEntitySpecialRenderer {
     private RenderItem itemRenderer = new RenderItem() {
         @Override
-        public byte getMiniBlockCount (ItemStack stack, byte original) {
+        public byte getMiniBlockCount(ItemStack stack, byte original) {
             return 1;
         }
 
         @Override
-        public boolean shouldBob () {
+        public boolean shouldBob() {
             return false;
         }
 
         @Override
-        public boolean shouldSpreadItems () {
+        public boolean shouldSpreadItems() {
             return false;
         }
     };
 
     @Override
-    public void renderTileEntityAt (TileEntity tile, double x, double y, double z, float partialTickTime) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime) {
         TileEntityFramingTable tileTable = (TileEntityFramingTable) tile;
-        if (tileTable == null)
-            return;
+        if (tileTable == null) return;
 
         int meta = tile.getBlockMetadata();
-        if ((meta & 8) != 0)
-            return;
+        if ((meta & 8) != 0) return;
 
         itemRenderer.setRenderManager(RenderManager.instance);
 
@@ -52,11 +49,16 @@ public class TileEntityFramingRenderer extends TileEntitySpecialRenderer
         if (target != null) {
             Block block = Block.getBlockFromItem(target.getItem());
             if (block instanceof BlockDrawersCustom) {
-                ItemStack result = ItemCustomDrawers.makeItemStack(block, 1, tileTable.getStackInSlot(1), tileTable.getStackInSlot(2), tileTable.getStackInSlot(3));
+                ItemStack result = ItemCustomDrawers.makeItemStack(
+                        block,
+                        1,
+                        tileTable.getStackInSlot(1),
+                        tileTable.getStackInSlot(2),
+                        tileTable.getStackInSlot(3));
                 renderSlot(tileTable, x, y, z, result, 2f, 0f, .25f, 0f);
-            }
-            else if (block instanceof BlockTrimCustom) {
-                ItemStack result = ItemCustomTrim.makeItemStack(block, 1, tileTable.getStackInSlot(1), tileTable.getStackInSlot(2));
+            } else if (block instanceof BlockTrimCustom) {
+                ItemStack result = ItemCustomTrim.makeItemStack(
+                        block, 1, tileTable.getStackInSlot(1), tileTable.getStackInSlot(2));
                 renderSlot(tileTable, x, y, z, result, 2f, 0f, .25f, 0f);
             }
         }
@@ -66,13 +68,20 @@ public class TileEntityFramingRenderer extends TileEntitySpecialRenderer
         renderSlot(tileTable, x, y, z, tileTable.getStackInSlot(3), 1.15f, .225f, .15f, .65f);
     }
 
-    private void renderSlot (TileEntityFramingTable tileTable, double x, double y, double z, ItemStack item, float scale, float tx, float ty, float tz) {
-        if (item == null)
-            return;
+    private void renderSlot(
+            TileEntityFramingTable tileTable,
+            double x,
+            double y,
+            double z,
+            ItemStack item,
+            float scale,
+            float tx,
+            float ty,
+            float tz) {
+        if (item == null) return;
 
         Block itemBlock = Block.getBlockFromItem(item.getItem());
-        if (itemBlock == null)
-            return;
+        if (itemBlock == null) return;
 
         int meta = tileTable.getBlockMetadata();
         int side = meta & 0x07;
@@ -84,12 +93,9 @@ public class TileEntityFramingRenderer extends TileEntitySpecialRenderer
 
         GL11.glTranslated(x + .5, y + 1, z + .5);
 
-        if (side == 2)
-            GL11.glRotatef(90, 0, 1, 0);
-        if (side == 3)
-            GL11.glRotatef(270, 0, 1, 0);
-        if (side == 4)
-            GL11.glRotatef(180, 0, 1, 0);
+        if (side == 2) GL11.glRotatef(90, 0, 1, 0);
+        if (side == 3) GL11.glRotatef(270, 0, 1, 0);
+        if (side == 4) GL11.glRotatef(180, 0, 1, 0);
 
         GL11.glTranslatef(0, 0f, .5f);
         GL11.glTranslatef(tx, ty, tz);
@@ -102,8 +108,8 @@ public class TileEntityFramingRenderer extends TileEntitySpecialRenderer
             EntityItem itemEnt = new EntityItem(null, 0, 0, 0, item);
             itemEnt.hoverStart = 0;
             itemRenderer.doRender(itemEnt, 0, 0, 0, 0, 0);
+        } catch (Exception e) {
         }
-        catch (Exception e) { }
 
         GL11.glPopMatrix();
     }

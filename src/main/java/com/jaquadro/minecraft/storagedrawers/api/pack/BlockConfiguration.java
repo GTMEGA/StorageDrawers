@@ -1,7 +1,6 @@
 package com.jaquadro.minecraft.storagedrawers.api.pack;
 
-public enum BlockConfiguration
-{
+public enum BlockConfiguration {
     BasicFull1(BlockType.Drawers, 1, false),
     BasicFull2(BlockType.Drawers, 2, false),
     BasicFull4(BlockType.Drawers, 4, false),
@@ -21,25 +20,25 @@ public enum BlockConfiguration
     private final int drawerCount;
     private final boolean halfDepth;
 
-    BlockConfiguration (BlockType type, int count, boolean half) {
+    BlockConfiguration(BlockType type, int count, boolean half) {
         this.type = type;
         this.drawerCount = count;
-            this.halfDepth = half;
+        this.halfDepth = half;
     }
 
-    public BlockType getBlockType () {
+    public BlockType getBlockType() {
         return type;
     }
 
-    public int getDrawerCount () {
+    public int getDrawerCount() {
         return drawerCount;
     }
 
-    public boolean isHalfDepth () {
+    public boolean isHalfDepth() {
         return halfDepth;
     }
 
-    public static BlockConfiguration by (BlockType type, int drawerCount, boolean halfDepth) {
+    public static BlockConfiguration by(BlockType type, int drawerCount, boolean halfDepth) {
         for (BlockConfiguration config : values()) {
             if (config.type == type && config.drawerCount == drawerCount && config.halfDepth == halfDepth)
                 return config;

@@ -19,7 +19,8 @@ public class ChiselIntegrationModule extends IntegrationModule {
     private static final String chiselModID = "chisel";
     private static final String addVariation = "variation:add";
 
-    private static final boolean chiselEnabled = (Loader.isModLoaded(chiselModID) && StorageDrawers.config.integrationConfig.isChiselEnabled());
+    private static final boolean chiselEnabled =
+            (Loader.isModLoaded(chiselModID) && StorageDrawers.config.integrationConfig.isChiselEnabled());
 
     public static boolean isEnabled() {
         return chiselEnabled;
@@ -67,10 +68,14 @@ public class ChiselIntegrationModule extends IntegrationModule {
     }
 
     public static void registerBlock(final Block block, final int meta, final String blockGroupName) {
-        FMLInterModComms.sendMessage(chiselModID, addVariation, String.join("|",
-                "StorageDrawers_" + blockGroupName,
-                GameRegistry.findUniqueIdentifierFor(block).toString(),
-                Integer.toString(meta)));
+        FMLInterModComms.sendMessage(
+                chiselModID,
+                addVariation,
+                String.join(
+                        "|",
+                        "StorageDrawers_" + blockGroupName,
+                        GameRegistry.findUniqueIdentifierFor(block).toString(),
+                        Integer.toString(meta)));
     }
 
     @Override
@@ -83,18 +88,12 @@ public class ChiselIntegrationModule extends IntegrationModule {
         final ConfigManager config = StorageDrawers.config;
 
         for (int meta = 0; meta < BlockWood.field_150096_a.length; meta++) {
-            if (config.isBlockEnabled("fulldrawers1"))
-                registerBlock(ModBlocks.fullDrawers1, meta, "basicFull1");
-            if (config.isBlockEnabled("fulldrawers2"))
-                registerBlock(ModBlocks.fullDrawers2, meta, "basicFull2");
-            if (config.isBlockEnabled("fulldrawers4"))
-                registerBlock(ModBlocks.fullDrawers4, meta, "basicFull4");
-            if (config.isBlockEnabled("halfdrawers2"))
-                registerBlock(ModBlocks.halfDrawers2, meta, "basicHalf2");
-            if (config.isBlockEnabled("halfdrawers4"))
-                registerBlock(ModBlocks.halfDrawers4, meta, "basicHalf4");
-            if (config.isBlockEnabled("trim"))
-                registerBlock(ModBlocks.trim, meta, "trim");
+            if (config.isBlockEnabled("fulldrawers1")) registerBlock(ModBlocks.fullDrawers1, meta, "basicFull1");
+            if (config.isBlockEnabled("fulldrawers2")) registerBlock(ModBlocks.fullDrawers2, meta, "basicFull2");
+            if (config.isBlockEnabled("fulldrawers4")) registerBlock(ModBlocks.fullDrawers4, meta, "basicFull4");
+            if (config.isBlockEnabled("halfdrawers2")) registerBlock(ModBlocks.halfDrawers2, meta, "basicHalf2");
+            if (config.isBlockEnabled("halfdrawers4")) registerBlock(ModBlocks.halfDrawers4, meta, "basicHalf4");
+            if (config.isBlockEnabled("trim")) registerBlock(ModBlocks.trim, meta, "trim");
         }
     }
 

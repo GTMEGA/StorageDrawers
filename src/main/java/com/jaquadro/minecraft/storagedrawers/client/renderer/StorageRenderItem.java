@@ -7,20 +7,18 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
-public class StorageRenderItem extends RenderItem
-{
+public class StorageRenderItem extends RenderItem {
     public ItemStack overrideStack;
 
     @Override
-    public void renderItemOverlayIntoGUI (FontRenderer font, TextureManager texManager, ItemStack item, int x, int y, String text)
-    {
+    public void renderItemOverlayIntoGUI(
+            FontRenderer font, TextureManager texManager, ItemStack item, int x, int y, String text) {
         if (item != overrideStack) {
             super.renderItemOverlayIntoGUI(font, texManager, item, x, y, text);
             return;
         }
 
-        if (item != null)
-        {
+        if (item != null) {
             float scale = .5f;
             float xoff = 0;
             if (font.getUnicodeFlag()) {
@@ -28,8 +26,7 @@ public class StorageRenderItem extends RenderItem
                 xoff = 1;
             }
 
-            if (item.stackSize > 1 || text != null)
-            {
+            if (item.stackSize > 1 || text != null) {
                 if (item.stackSize >= 100000000 || (item.stackSize >= 1000000 && font.getUnicodeFlag()))
                     text = (text == null) ? String.format("%.0fM", item.stackSize / 1000000f) : text;
                 else if (item.stackSize >= 1000000)
@@ -38,11 +35,10 @@ public class StorageRenderItem extends RenderItem
                     text = (text == null) ? String.format("%.0fK", item.stackSize / 1000f) : text;
                 else if (item.stackSize >= 10000)
                     text = (text == null) ? String.format("%.1fK", item.stackSize / 1000f) : text;
-                else
-                    text = (text == null) ? String.valueOf(item.stackSize) : text;
+                else text = (text == null) ? String.valueOf(item.stackSize) : text;
 
-                int textX = (int)((x + 16 + xoff - font.getStringWidth(text) * scale) / scale) - 1;
-                int textY = (int)((y + 16 - 7 * scale) / scale) - 1;
+                int textX = (int) ((x + 16 + xoff - font.getStringWidth(text) * scale) / scale) - 1;
+                int textY = (int) ((y + 16 - 7 * scale) / scale) - 1;
 
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -55,11 +51,10 @@ public class StorageRenderItem extends RenderItem
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
             }
 
-            if (item.getItem().showDurabilityBar(item))
-            {
+            if (item.getItem().showDurabilityBar(item)) {
                 double health = item.getItem().getDurabilityForDisplay(item);
-                int j1 = (int)Math.round(13.0D - health * 13.0D);
-                int k = (int)Math.round(255.0D - health * 255.0D);
+                int j1 = (int) Math.round(13.0D - health * 13.0D);
+                int k = (int) Math.round(255.0D - health * 255.0D);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -71,7 +66,8 @@ public class StorageRenderItem extends RenderItem
                 this.renderQuad(tessellator, x + 2, y + 13, 13, 2, 0);
                 this.renderQuad(tessellator, x + 2, y + 13, 12, 1, i1);
                 this.renderQuad(tessellator, x + 2, y + 13, j1, 1, l);
-                //GL11.glEnable(GL11.GL_BLEND); // Forge: Disable Bled because it screws with a lot of things down the line.
+                // GL11.glEnable(GL11.GL_BLEND); // Forge: Disable Bled because it screws with a lot of things down the
+                // line.
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
                 GL11.glEnable(GL11.GL_LIGHTING);
@@ -81,8 +77,7 @@ public class StorageRenderItem extends RenderItem
         }
     }
 
-    private void renderQuad (Tessellator tessellator, int x, int y, int w, int h, int color)
-    {
+    private void renderQuad(Tessellator tessellator, int x, int y, int w, int h, int color) {
         tessellator.startDrawingQuads();
         tessellator.setColorOpaque_I(color);
         tessellator.addVertex(x + 0, y + 0, 0);

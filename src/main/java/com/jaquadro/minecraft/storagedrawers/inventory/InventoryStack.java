@@ -2,19 +2,18 @@ package com.jaquadro.minecraft.storagedrawers.inventory;
 
 import net.minecraft.item.ItemStack;
 
-public abstract class InventoryStack
-{
+public abstract class InventoryStack {
     private ItemStack inStack;
     private ItemStack outStack;
 
     private int inCount;
     private int outCount;
 
-    public void init () {
+    public void init() {
         reset();
     }
 
-    public void reset () {
+    public void reset() {
         inStack = getNewItemStack();
         outStack = getNewItemStack();
 
@@ -24,23 +23,20 @@ public abstract class InventoryStack
         refresh();
     }
 
-    public ItemStack getInStack () {
-        if (inStack == null || inStack.stackSize == 0)
-            return null;
+    public ItemStack getInStack() {
+        if (inStack == null || inStack.stackSize == 0) return null;
 
         return inStack;
     }
 
-    public ItemStack getOutStack () {
+    public ItemStack getOutStack() {
         return outStack;
     }
 
-    public void setInStack (ItemStack stack) {
+    public void setInStack(ItemStack stack) {
         if (stack != null) {
-            if (inStack == null)
-                applyDiff(stack.stackSize);
-            else
-                applyDiff(stack.stackSize - inCount);
+            if (inStack == null) applyDiff(stack.stackSize);
+            else applyDiff(stack.stackSize - inCount);
         }
 
         inStack = null;
@@ -49,7 +45,7 @@ public abstract class InventoryStack
         setOutStack(outStack);
     }
 
-    private void syncInStack () {
+    private void syncInStack() {
         if (inStack == null) {
             inStack = getNewItemStack();
             inCount = 0;
@@ -65,19 +61,17 @@ public abstract class InventoryStack
         }
     }
 
-    public void setOutStack (ItemStack stack) {
+    public void setOutStack(ItemStack stack) {
         if (outStack != null) {
-            if (stack == null)
-                applyDiff(0 - outCount);
-            else
-                applyDiff(0 - outCount + stack.stackSize);
+            if (stack == null) applyDiff(0 - outCount);
+            else applyDiff(0 - outCount + stack.stackSize);
         }
 
         outStack = stack;
         syncOutStack();
     }
 
-    private void syncOutStack () {
+    private void syncOutStack() {
         if (outStack == null) {
             outStack = getNewItemStack();
             outCount = 0;
@@ -92,17 +86,20 @@ public abstract class InventoryStack
         }
     }
 
-    protected abstract ItemStack getNewItemStack ();
-    protected abstract int getItemStackSize ();
-    protected abstract int getItemCount ();
-    protected abstract int getItemCapacity ();
+    protected abstract ItemStack getNewItemStack();
 
-    public void markDirty () {
+    protected abstract int getItemStackSize();
+
+    protected abstract int getItemCount();
+
+    protected abstract int getItemCapacity();
+
+    public void markDirty() {
         applyDiff(getDiff());
         refresh();
     }
 
-    public boolean markDirtyIfNeeded () {
+    public boolean markDirtyIfNeeded() {
         int diff = getDiff();
         if (diff != 0) {
             applyDiff(diff);
@@ -113,16 +110,16 @@ public abstract class InventoryStack
         return false;
     }
 
-    public int getDiff () {
+    public int getDiff() {
         int diffIn = ((inStack == null) ? 0 : inStack.stackSize) - inCount;
         int diffOut = ((outStack == null) ? 0 : outStack.stackSize) - outCount;
 
         return diffIn + diffOut;
     }
 
-    protected abstract void applyDiff (int diff);
+    protected abstract void applyDiff(int diff);
 
-    protected void refresh () {
+    protected void refresh() {
         int itemStackLimit = getItemStackSize();
         int itemCount = getItemCount();
         int remainingLimit = getItemCapacity() - itemCount;

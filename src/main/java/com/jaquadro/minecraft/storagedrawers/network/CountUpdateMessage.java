@@ -14,17 +14,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
-public class CountUpdateMessage implements IMessage
-{
+public class CountUpdateMessage implements IMessage {
     private int x;
     private int y;
     private int z;
     private int slot;
     private int count;
 
-    public CountUpdateMessage () { }
+    public CountUpdateMessage() {}
 
-    public CountUpdateMessage (int x, int y, int z, int slot, int count) {
+    public CountUpdateMessage(int x, int y, int z, int slot, int count) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -33,7 +32,7 @@ public class CountUpdateMessage implements IMessage
     }
 
     @Override
-    public void fromBytes (ByteBuf buf) {
+    public void fromBytes(ByteBuf buf) {
         x = buf.readInt();
         y = buf.readShort();
         z = buf.readInt();
@@ -42,7 +41,7 @@ public class CountUpdateMessage implements IMessage
     }
 
     @Override
-    public void toBytes (ByteBuf buf) {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(x);
         buf.writeShort(y);
         buf.writeInt(z);
@@ -51,10 +50,9 @@ public class CountUpdateMessage implements IMessage
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Handler implements IMessageHandler<CountUpdateMessage, IMessage>
-    {
+    public static class Handler implements IMessageHandler<CountUpdateMessage, IMessage> {
         @Override
-        public IMessage onMessage (CountUpdateMessage message, MessageContext ctx) {
+        public IMessage onMessage(CountUpdateMessage message, MessageContext ctx) {
             if (ctx.side == Side.CLIENT) {
                 World world = Minecraft.getMinecraft().theWorld;
                 TileEntity tileEntity = world.getTileEntity(message.x, message.y, message.z);
@@ -67,10 +65,9 @@ public class CountUpdateMessage implements IMessage
         }
     }
 
-    public static class HandlerStub implements IMessageHandler<CountUpdateMessage, IMessage>
-    {
+    public static class HandlerStub implements IMessageHandler<CountUpdateMessage, IMessage> {
         @Override
-        public IMessage onMessage (CountUpdateMessage message, MessageContext ctx) {
+        public IMessage onMessage(CountUpdateMessage message, MessageContext ctx) {
             FMLLog.log(StorageDrawers.MOD_ID, Level.WARN, "CountUpdateMessage stub handler called.");
             return null;
         }

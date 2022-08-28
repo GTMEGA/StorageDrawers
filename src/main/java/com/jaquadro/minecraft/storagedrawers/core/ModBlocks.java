@@ -11,8 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ModBlocks
-{
+public class ModBlocks {
     public static DataResolver resolver;
 
     public static BlockDrawers fullDrawers1;
@@ -33,7 +32,7 @@ public class ModBlocks
     public static BlockDrawersCustom halfCustom2;
     public static BlockDrawersCustom halfCustom4;
 
-    public void init () {
+    public void init() {
         resolver = new DataResolver(StorageDrawers.MOD_ID);
 
         fullDrawers1 = new BlockDrawers("fullDrawers1", 1, false);
@@ -76,10 +75,8 @@ public class ModBlocks
             GameRegistry.registerBlock(compDrawers, ItemCompDrawers.class, "compDrawers");
         if (config.isBlockEnabled("controller"))
             GameRegistry.registerBlock(controller, ItemController.class, "controller");
-        if (config.isBlockEnabled("controllerSlave"))
-            GameRegistry.registerBlock(controllerSlave, "controllerSlave");
-        if (config.isBlockEnabled("trim"))
-            GameRegistry.registerBlock(trim, ItemTrim.class, "trim");
+        if (config.isBlockEnabled("controllerSlave")) GameRegistry.registerBlock(controllerSlave, "controllerSlave");
+        if (config.isBlockEnabled("trim")) GameRegistry.registerBlock(trim, ItemTrim.class, "trim");
 
         if (config.cache.enableFramedDrawers) {
             GameRegistry.registerBlock(framingTable, ItemFramingTable.class, "framingTable");
@@ -98,18 +95,23 @@ public class ModBlocks
                 GameRegistry.registerBlock(trimCustom, ItemCustomTrim.class, "trimCustom");
         }
 
-        GameRegistry.registerTileEntityWithAlternatives(TileEntityDrawersStandard.class, getQualifiedName("tileDrawersStandard"),
-            getQualifiedName(fullDrawers1), getQualifiedName(fullDrawers2), getQualifiedName(fullDrawers4),
-            getQualifiedName(halfDrawers2), getQualifiedName(halfDrawers4));
+        GameRegistry.registerTileEntityWithAlternatives(
+                TileEntityDrawersStandard.class,
+                getQualifiedName("tileDrawersStandard"),
+                getQualifiedName(fullDrawers1),
+                getQualifiedName(fullDrawers2),
+                getQualifiedName(fullDrawers4),
+                getQualifiedName(halfDrawers2),
+                getQualifiedName(halfDrawers4));
 
-        GameRegistry.registerTileEntityWithAlternatives(TileEntityDrawersComp.class, getQualifiedName("tileDrawersComp"),
-            getQualifiedName(compDrawers));
+        GameRegistry.registerTileEntityWithAlternatives(
+                TileEntityDrawersComp.class, getQualifiedName("tileDrawersComp"), getQualifiedName(compDrawers));
 
-        GameRegistry.registerTileEntityWithAlternatives(TileEntityController.class, getQualifiedName("tileController"),
-            getQualifiedName(controller));
+        GameRegistry.registerTileEntityWithAlternatives(
+                TileEntityController.class, getQualifiedName("tileController"), getQualifiedName(controller));
 
-        GameRegistry.registerTileEntityWithAlternatives(TileEntitySlave.class, getQualifiedName("tileControllerSlave"),
-            getQualifiedName(controllerSlave));
+        GameRegistry.registerTileEntityWithAlternatives(
+                TileEntitySlave.class, getQualifiedName("tileControllerSlave"), getQualifiedName(controllerSlave));
 
         GameRegistry.registerTileEntity(TileEntityFramingTable.class, getQualifiedName("framingTable"));
 
@@ -128,25 +130,25 @@ public class ModBlocks
         StorageDrawers.proxy.registerDrawer(halfCustom2);
         StorageDrawers.proxy.registerDrawer(halfCustom4);
 
-        for (String key : new String[] { "drawerBasic" })
+        for (String key : new String[] {"drawerBasic"})
             OreDictionary.registerOre(key, new ItemStack(fullDrawers1, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] { "drawerBasic" })
+        for (String key : new String[] {"drawerBasic"})
             OreDictionary.registerOre(key, new ItemStack(fullDrawers2, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] { "drawerBasic" })
+        for (String key : new String[] {"drawerBasic"})
             OreDictionary.registerOre(key, new ItemStack(fullDrawers4, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] { "drawerBasic" })
+        for (String key : new String[] {"drawerBasic"})
             OreDictionary.registerOre(key, new ItemStack(halfDrawers2, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] { "drawerBasic" })
+        for (String key : new String[] {"drawerBasic"})
             OreDictionary.registerOre(key, new ItemStack(halfDrawers4, 1, OreDictionary.WILDCARD_VALUE));
 
         resolver.init();
     }
 
-    public static String getQualifiedName (String name) {
+    public static String getQualifiedName(String name) {
         return StorageDrawers.MOD_ID + ":" + name;
     }
 
-    public static String getQualifiedName (Block block) {
+    public static String getQualifiedName(Block block) {
         return GameData.getBlockRegistry().getNameForObject(block);
     }
 }

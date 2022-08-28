@@ -1,6 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.api.pack;
 
-public interface IPackBlock
-{
-    IPackDataResolver getDataResolver ();
+public interface IPackBlock {
+    IPackDataResolver getDataResolver();
 }

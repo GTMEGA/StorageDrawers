@@ -8,6 +8,7 @@ import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersComp;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -19,10 +20,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.List;
-
-public class BlockCompDrawers extends BlockDrawers implements INetworked
-{
+public class BlockCompDrawers extends BlockDrawers implements INetworked {
     @SideOnly(Side.CLIENT)
     private IIcon[] iconFront;
 
@@ -31,52 +29,51 @@ public class BlockCompDrawers extends BlockDrawers implements INetworked
 
     @SideOnly(Side.CLIENT)
     private IIcon iconTrim;
+
     @SideOnly(Side.CLIENT)
     private IIcon iconSide;
+
     @SideOnly(Side.CLIENT)
     private IIcon iconSideEtched;
 
-    public BlockCompDrawers (String blockName) {
+    public BlockCompDrawers(String blockName) {
         super(Material.rock, blockName, 3, false);
 
         setStepSound(Block.soundTypeStone);
     }
 
     @Override
-    protected int getDrawerSlot (int side, float hitX, float hitY, float hitZ) {
-        if (hitTop(hitY))
-            return 0;
+    protected int getDrawerSlot(int side, float hitX, float hitY, float hitZ) {
+        if (hitTop(hitY)) return 0;
 
-        if (hitLeft(side, hitX, hitZ))
-            return 1;
-        else
-            return 2;
+        if (hitLeft(side, hitX, hitZ)) return 1;
+        else return 2;
     }
 
     @Override
-    public BlockType retrimType () {
+    public BlockType retrimType() {
         return null;
     }
 
     @Override
-    public TileEntityDrawers createNewTileEntity (World world, int meta) {
+    public TileEntityDrawers createNewTileEntity(World world, int meta) {
         return new TileEntityDrawersComp();
     }
 
     @Override
-    public void getSubBlocks (Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item, 1, 0));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIconTrim (int meta) {
+    public IIcon getIconTrim(int meta) {
         return iconTrim;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon (int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         switch (side) {
             case 0:
             case 1:
@@ -89,21 +86,16 @@ public class BlockCompDrawers extends BlockDrawers implements INetworked
     }
 
     @Override
-    public IIcon getIcon (IBlockAccess blockAccess, int x, int y, int z, int side) {
+    public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
         TileEntityDrawers tile = getTileEntity(blockAccess, x, y, z);
-        if (tile == null)
-            return iconFront[0];
+        if (tile == null) return iconFront[0];
 
         if (side == tile.getDirection()) {
             if (tile.getEffectiveStatusLevel() == 0) {
-                if (tile.isDrawerEnabled(2) && tile.getDrawer(2).getStoredItemStackSize() > 0)
-                    return iconFront[2];
-                else if (tile.isDrawerEnabled(1) && tile.getDrawer(1).getStoredItemStackSize() > 0)
-                    return iconFront[1];
-                else
-                    return iconFront[0];
-            }
-            else {
+                if (tile.isDrawerEnabled(2) && tile.getDrawer(2).getStoredItemStackSize() > 0) return iconFront[2];
+                else if (tile.isDrawerEnabled(1) && tile.getDrawer(1).getStoredItemStackSize() > 0) return iconFront[1];
+                else return iconFront[0];
+            } else {
                 IDrawer main = tile.getDrawer(0);
                 int plev = 0;
 
@@ -118,8 +110,7 @@ public class BlockCompDrawers extends BlockDrawers implements INetworked
                     return iconFrontInd[2][plev];
                 else if (tile.isDrawerEnabled(1) && tile.getDrawer(1).getStoredItemStackSize() > 0)
                     return iconFrontInd[1][plev];
-                else
-                    return iconFrontInd[0][plev];
+                else return iconFrontInd[0][plev];
             }
         }
 
@@ -133,7 +124,7 @@ public class BlockCompDrawers extends BlockDrawers implements INetworked
     }
 
     @Override
-    public void registerBlockIcons (IIconRegister register) {
+    public void registerBlockIcons(IIconRegister register) {
         super.registerBlockIcons(register);
 
         iconFront = new IIcon[3];
@@ -143,7 +134,8 @@ public class BlockCompDrawers extends BlockDrawers implements INetworked
             iconFront[i] = register.registerIcon(StorageDrawers.MOD_ID + ":drawers_comp_front_" + i);
             iconFrontInd[i][0] = register.registerIcon(StorageDrawers.MOD_ID + ":drawers_comp_front_" + i + "_ind");
             for (int j = 1; j <= 6; j++)
-                iconFrontInd[i][j] = register.registerIcon(StorageDrawers.MOD_ID + ":drawers_comp_front_" + i + "_ind" + j);
+                iconFrontInd[i][j] =
+                        register.registerIcon(StorageDrawers.MOD_ID + ":drawers_comp_front_" + i + "_ind" + j);
         }
 
         iconTrim = register.registerIcon(StorageDrawers.MOD_ID + ":drawers_comp_trim");

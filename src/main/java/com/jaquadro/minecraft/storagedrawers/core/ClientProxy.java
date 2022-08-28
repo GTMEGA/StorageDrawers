@@ -10,14 +10,13 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
     public static int renderPass = 0;
     private DrawersItemRenderer itemRenderer = new DrawersItemRenderer();
     private TrimItemRender trimItemRenderer = new TrimItemRender();
 
     @Override
-    public void registerRenderers () {
+    public void registerRenderers() {
         drawersRenderID = RenderingRegistry.getNextAvailableRenderId();
         controllerRenderID = RenderingRegistry.getNextAvailableRenderId();
         drawersCustomRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -38,7 +37,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void registerDrawer (Block block) {
+    public void registerDrawer(Block block) {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), itemRenderer);
     }
 }

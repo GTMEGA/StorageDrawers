@@ -6,7 +6,8 @@ import cpw.mods.fml.common.Loader;
 
 public class GTNHIntegrationModule extends IntegrationModule {
 
-    private static final boolean GTNHEnabled = (Loader.isModLoaded("gregtech") && StorageDrawers.config.integrationConfig.isGTNHEnabled());
+    private static final boolean GTNHEnabled =
+            (Loader.isModLoaded("gregtech") && StorageDrawers.config.integrationConfig.isGTNHEnabled());
 
     public static boolean isEnabled() {
         return GTNHEnabled;
@@ -23,7 +24,5 @@ public class GTNHIntegrationModule extends IntegrationModule {
     }
 
     @Override
-    public void postInit() {
-
-    }
+    public void postInit() {}
 }

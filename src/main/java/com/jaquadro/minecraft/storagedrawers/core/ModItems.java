@@ -5,8 +5,7 @@ import com.jaquadro.minecraft.storagedrawers.item.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 
-public class ModItems
-{
+public class ModItems {
     public static Item upgradeTemplate;
     public static ItemUpgrade upgrade;
     public static ItemUpgradeStatus upgradeStatus;
@@ -19,8 +18,11 @@ public class ModItems
     public static ItemTape tape;
     public static ItemUpgradeDowngrade upgradeDowngrade;
 
-    public void init () {
-        upgradeTemplate = new Item().setUnlocalizedName(makeName("upgradeTemplate")).setTextureName(StorageDrawers.MOD_ID + ":upgrade_template").setCreativeTab(ModCreativeTabs.tabStorageDrawers);
+    public void init() {
+        upgradeTemplate = new Item()
+                .setUnlocalizedName(makeName("upgradeTemplate"))
+                .setTextureName(StorageDrawers.MOD_ID + ":upgrade_template")
+                .setCreativeTab(ModCreativeTabs.tabStorageDrawers);
         upgrade = new ItemUpgrade(makeName("upgrade"));
         upgradeStatus = new ItemUpgradeStatus(makeName("upgradeStatus"));
         upgradeLock = new ItemUpgradeLock(makeName("upgradeLock"));
@@ -35,28 +37,22 @@ public class ModItems
 
         GameRegistry.registerItem(upgradeTemplate, "upgradeTemplate");
 
-        if (StorageDrawers.config.cache.enableStorageUpgrades)
-            GameRegistry.registerItem(upgrade, "upgrade");
+        if (StorageDrawers.config.cache.enableStorageUpgrades) GameRegistry.registerItem(upgrade, "upgrade");
         if (StorageDrawers.config.cache.enableIndicatorUpgrades)
             GameRegistry.registerItem(upgradeStatus, "upgradeStatus");
-        if (StorageDrawers.config.cache.enableVoidUpgrades)
-            GameRegistry.registerItem(upgradeVoid, "upgradeVoid");
+        if (StorageDrawers.config.cache.enableVoidUpgrades) GameRegistry.registerItem(upgradeVoid, "upgradeVoid");
         if (StorageDrawers.config.cache.enableCreativeUpgrades)
             GameRegistry.registerItem(upgradeCreative, "upgradeCreative");
         if (StorageDrawers.config.cache.enableRedstoneUpgrades)
             GameRegistry.registerItem(upgradeRedstone, "upgradeRedstone");
-        if (StorageDrawers.config.cache.enableLockUpgrades)
-            GameRegistry.registerItem(upgradeLock, "upgradeLock");
-        if (StorageDrawers.config.cache.enableShroudUpgrades)
-            GameRegistry.registerItem(shroudKey, "shroudKey");
-        if (StorageDrawers.config.cache.enablePersonalUpgrades)
-            GameRegistry.registerItem(personalKey, "personalKey");
-        if (StorageDrawers.config.cache.enableTape)
-            GameRegistry.registerItem(tape, "tape");
+        if (StorageDrawers.config.cache.enableLockUpgrades) GameRegistry.registerItem(upgradeLock, "upgradeLock");
+        if (StorageDrawers.config.cache.enableShroudUpgrades) GameRegistry.registerItem(shroudKey, "shroudKey");
+        if (StorageDrawers.config.cache.enablePersonalUpgrades) GameRegistry.registerItem(personalKey, "personalKey");
+        if (StorageDrawers.config.cache.enableTape) GameRegistry.registerItem(tape, "tape");
         GameRegistry.registerItem(upgradeDowngrade, "upgradeDowngrade");
     }
 
-    public static String makeName (String name) {
+    public static String makeName(String name) {
         return StorageDrawers.MOD_ID.toLowerCase() + "." + name;
     }
 }

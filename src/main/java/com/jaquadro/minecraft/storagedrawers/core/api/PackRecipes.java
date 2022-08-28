@@ -1,5 +1,7 @@
 package com.jaquadro.minecraft.storagedrawers.core.api;
 
+import static com.jaquadro.minecraft.storagedrawers.StorageDrawers.*;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.IStorageDrawersApi;
 import com.jaquadro.minecraft.storagedrawers.api.StorageDrawersApi;
@@ -13,13 +15,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import static com.jaquadro.minecraft.storagedrawers.StorageDrawers.*;
-
 public class PackRecipes {
     public static void registerStandardRecipes(IExtendedDataResolver resolver) {
         IStorageDrawersApi api = StorageDrawersApi.instance();
-        if (api == null)
-            return;
+        if (api == null) return;
 
         IBlockConfig blockConfig = api.userConfig().blockConfig();
 
@@ -38,8 +37,7 @@ public class PackRecipes {
         Block basicTrim = resolver.getBlock(BlockConfiguration.Trim);
 
         for (int i = 0; i < 16; i++) {
-            if (!resolver.isValidMetaValue(i))
-                continue;
+            if (!resolver.isValidMetaValue(i)) continue;
 
             if (!config.cache.enableChiselIntegration && Loader.isModLoaded("chisel")) {
 
@@ -50,52 +48,92 @@ public class PackRecipes {
 
                 if (blockConfig.isBlockEnabled(nameFull1) && basicFull1 != null) {
                     if (plank != null)
-                        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(basicFull1, blockConfig.getBlockRecipeOutput(nameFull1), i), "xxx", " y ", "xxx",
-                                'x', new ItemStack(plank, 1, plankMeta), 'y', "chestWood"));
+                        GameRegistry.addRecipe(new ShapedOreRecipe(
+                                new ItemStack(basicFull1, blockConfig.getBlockRecipeOutput(nameFull1), i),
+                                "xxx",
+                                " y ",
+                                "xxx",
+                                'x',
+                                new ItemStack(plank, 1, plankMeta),
+                                'y',
+                                "chestWood"));
                     if (slab != null) {
                         if (StorageDrawers.config.cache.enableGTNHIntegration) {
-                            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(basicFull1, blockConfig.getBlockRecipeOutput(nameFull1), i),
-                                    new String[]{
-                                            "xxx",
-                                            "xyx",
-                                            "xxx"},
-                                    'x', new ItemStack(slab, 1, slabMeta),
-                                    'y', "chestWood"));
+                            GameRegistry.addRecipe(new ShapedOreRecipe(
+                                    new ItemStack(basicFull1, blockConfig.getBlockRecipeOutput(nameFull1), i),
+                                    new String[] {"xxx", "xyx", "xxx"},
+                                    'x',
+                                    new ItemStack(slab, 1, slabMeta),
+                                    'y',
+                                    "chestWood"));
                         }
                     }
                 }
 
                 if (blockConfig.isBlockEnabled(nameFull2) && basicFull2 != null)
-                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(basicFull2, blockConfig.getBlockRecipeOutput(nameFull2), i), "xyx", "xxx", "xyx",
-                            'x', new ItemStack(plank, 1, plankMeta), 'y', "chestWood"));
+                    GameRegistry.addRecipe(new ShapedOreRecipe(
+                            new ItemStack(basicFull2, blockConfig.getBlockRecipeOutput(nameFull2), i),
+                            "xyx",
+                            "xxx",
+                            "xyx",
+                            'x',
+                            new ItemStack(plank, 1, plankMeta),
+                            'y',
+                            "chestWood"));
                 if (blockConfig.isBlockEnabled(nameFull4) && basicFull4 != null)
-                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(basicFull4, blockConfig.getBlockRecipeOutput(nameFull4), i), "yxy", "xxx", "yxy",
-                            'x', new ItemStack(plank, 1, plankMeta), 'y', "chestWood"));
+                    GameRegistry.addRecipe(new ShapedOreRecipe(
+                            new ItemStack(basicFull4, blockConfig.getBlockRecipeOutput(nameFull4), i),
+                            "yxy",
+                            "xxx",
+                            "yxy",
+                            'x',
+                            new ItemStack(plank, 1, plankMeta),
+                            'y',
+                            "chestWood"));
                 if (blockConfig.isBlockEnabled(nameTrim) && basicTrim != null) {
-                    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(basicTrim, blockConfig.getBlockRecipeOutput(nameTrim), i), "xyx", "yyy", "xyx",
-                            'x', "stickWood", 'y', new ItemStack(plank, 1, plankMeta)));
+                    GameRegistry.addRecipe(new ShapedOreRecipe(
+                            new ItemStack(basicTrim, blockConfig.getBlockRecipeOutput(nameTrim), i),
+                            "xyx",
+                            "yyy",
+                            "xyx",
+                            'x',
+                            "stickWood",
+                            'y',
+                            new ItemStack(plank, 1, plankMeta)));
                 }
 
                 if (slab != null) {
                     if (blockConfig.isBlockEnabled(nameHalf2) && basicHalf2 != null)
-                        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(basicHalf2, blockConfig.getBlockRecipeOutput(nameHalf2), i), "xyx", "xxx", "xyx",
-                                'x', new ItemStack(slab, 1, slabMeta), 'y', "chestWood"));
+                        GameRegistry.addRecipe(new ShapedOreRecipe(
+                                new ItemStack(basicHalf2, blockConfig.getBlockRecipeOutput(nameHalf2), i),
+                                "xyx",
+                                "xxx",
+                                "xyx",
+                                'x',
+                                new ItemStack(slab, 1, slabMeta),
+                                'y',
+                                "chestWood"));
                     if (blockConfig.isBlockEnabled(nameHalf4) && basicHalf4 != null)
-                        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(basicHalf4, blockConfig.getBlockRecipeOutput(nameHalf4), i), "yxy", "xxx", "yxy",
-                                'x', new ItemStack(slab, 1, slabMeta), 'y', "chestWood"));
+                        GameRegistry.addRecipe(new ShapedOreRecipe(
+                                new ItemStack(basicHalf4, blockConfig.getBlockRecipeOutput(nameHalf4), i),
+                                "yxy",
+                                "xxx",
+                                "yxy",
+                                'x',
+                                new ItemStack(slab, 1, slabMeta),
+                                'y',
+                                "chestWood"));
                 }
             }
         }
     }
 
-
     public static void registerSortingRecipes(IExtendedDataResolver resolver) {
         IStorageDrawersApi api = StorageDrawersApi.instance();
-        if (api == null)
-            return;
+        if (api == null) return;
 
-        if (!Loader.isModLoaded("RefinedRelocation") || !api.userConfig().integrationConfig().isRefinedRelocationEnabled())
-            return;
+        if (!Loader.isModLoaded("RefinedRelocation")
+                || !api.userConfig().integrationConfig().isRefinedRelocationEnabled()) return;
 
         IBlockConfig blockConfig = api.userConfig().blockConfig();
 
@@ -121,27 +159,68 @@ public class PackRecipes {
         Block sortingTrim = resolver.getBlock(BlockConfiguration.TrimSorting);
 
         for (int i = 0; i < 16; i++) {
-            if (!resolver.isValidMetaValue(i))
-                continue;
+            if (!resolver.isValidMetaValue(i)) continue;
 
             if (blockConfig.isBlockEnabled(nameFull1) && sortingFull1 != null && basicFull1 != null)
-                GameRegistry.addRecipe(new ItemStack(sortingFull1, 1, i), "x x", " y ", "x x",
-                        'x', Items.gold_nugget, 'y', new ItemStack(basicFull1, 1, i));
+                GameRegistry.addRecipe(
+                        new ItemStack(sortingFull1, 1, i),
+                        "x x",
+                        " y ",
+                        "x x",
+                        'x',
+                        Items.gold_nugget,
+                        'y',
+                        new ItemStack(basicFull1, 1, i));
             if (blockConfig.isBlockEnabled(nameFull2) && sortingFull2 != null && basicFull2 != null)
-                GameRegistry.addRecipe(new ItemStack(sortingFull2, 1, i), "x x", " y ", "x x",
-                        'x', Items.gold_nugget, 'y', new ItemStack(basicFull2, 1, i));
+                GameRegistry.addRecipe(
+                        new ItemStack(sortingFull2, 1, i),
+                        "x x",
+                        " y ",
+                        "x x",
+                        'x',
+                        Items.gold_nugget,
+                        'y',
+                        new ItemStack(basicFull2, 1, i));
             if (blockConfig.isBlockEnabled(nameFull4) && sortingFull4 != null && basicFull4 != null)
-                GameRegistry.addRecipe(new ItemStack(sortingFull4, 1, i), "x x", " y ", "x x",
-                        'x', Items.gold_nugget, 'y', new ItemStack(basicFull4, 1, i));
+                GameRegistry.addRecipe(
+                        new ItemStack(sortingFull4, 1, i),
+                        "x x",
+                        " y ",
+                        "x x",
+                        'x',
+                        Items.gold_nugget,
+                        'y',
+                        new ItemStack(basicFull4, 1, i));
             if (blockConfig.isBlockEnabled(nameHalf2) && sortingHalf2 != null && basicHalf2 != null)
-                GameRegistry.addRecipe(new ItemStack(sortingHalf2, 1, i), "x x", " y ", "x x",
-                        'x', Items.gold_nugget, 'y', new ItemStack(basicHalf2, 1, i));
+                GameRegistry.addRecipe(
+                        new ItemStack(sortingHalf2, 1, i),
+                        "x x",
+                        " y ",
+                        "x x",
+                        'x',
+                        Items.gold_nugget,
+                        'y',
+                        new ItemStack(basicHalf2, 1, i));
             if (blockConfig.isBlockEnabled(nameHalf4) && sortingHalf4 != null && basicHalf4 != null)
-                GameRegistry.addRecipe(new ItemStack(sortingHalf4, 1, i), "x x", " y ", "x x",
-                        'x', Items.gold_nugget, 'y', new ItemStack(basicHalf4, 1, i));
+                GameRegistry.addRecipe(
+                        new ItemStack(sortingHalf4, 1, i),
+                        "x x",
+                        " y ",
+                        "x x",
+                        'x',
+                        Items.gold_nugget,
+                        'y',
+                        new ItemStack(basicHalf4, 1, i));
             if (blockConfig.isBlockEnabled(nameTrim) && sortingTrim != null && basicTrim != null)
-                GameRegistry.addRecipe(new ItemStack(sortingTrim, 1, i), "x x", " y ", "x x",
-                        'x', Items.gold_nugget, 'y', new ItemStack(basicTrim, 1, i));
+                GameRegistry.addRecipe(
+                        new ItemStack(sortingTrim, 1, i),
+                        "x x",
+                        " y ",
+                        "x x",
+                        'x',
+                        Items.gold_nugget,
+                        'y',
+                        new ItemStack(basicTrim, 1, i));
         }
     }
 }

@@ -5,6 +5,8 @@ import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
 import com.jaquadro.minecraft.storagedrawers.item.ItemCustomDrawers;
 import com.jaquadro.minecraft.storagedrawers.item.ItemCustomTrim;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,11 +16,7 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ContainerFramingTable extends Container
-{
+public class ContainerFramingTable extends Container {
     private static final int InventoryX = 8;
     private static final int InventoryY = 84;
     private static final int HotbarY = 142;
@@ -45,19 +43,21 @@ public class ContainerFramingTable extends Container
     private List<Slot> playerSlots;
     private List<Slot> hotbarSlots;
 
-    public ContainerFramingTable (InventoryPlayer inventory, TileEntityFramingTable tileEntity) {
+    public ContainerFramingTable(InventoryPlayer inventory, TileEntityFramingTable tileEntity) {
         tableInventory = new InventoryContainerProxy(tileEntity, this);
 
         inputSlot = addSlotToContainer(new SlotRestricted(tableInventory, 0, InputX, InputY));
         materialSideSlot = addSlotToContainer(new SlotRestricted(tableInventory, 1, MaterialSideX, MaterialSideY));
         materialTrimSlot = addSlotToContainer(new SlotRestricted(tableInventory, 2, MaterialTrimX, MaterialTrimY));
         materialFrontSlot = addSlotToContainer(new SlotRestricted(tableInventory, 3, MaterialFrontX, MaterialFrontY));
-        outputSlot = addSlotToContainer(new SlotCraftResult(inventory.player, tableInventory, craftResult, new int[] { 0, 1, 2, 3 }, 4, OutputX, OutputY));
+        outputSlot = addSlotToContainer(new SlotCraftResult(
+                inventory.player, tableInventory, craftResult, new int[] {0, 1, 2, 3}, 4, OutputX, OutputY));
 
         playerSlots = new ArrayList<Slot>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++)
-                playerSlots.add(addSlotToContainer(new Slot(inventory, j + i * 9 + 9, InventoryX + j * 18, InventoryY + i * 18)));
+                playerSlots.add(addSlotToContainer(
+                        new Slot(inventory, j + i * 9 + 9, InventoryX + j * 18, InventoryY + i * 18)));
         }
 
         hotbarSlots = new ArrayList<Slot>();
@@ -68,12 +68,12 @@ public class ContainerFramingTable extends Container
     }
 
     @Override
-    public boolean canInteractWith (EntityPlayer player) {
+    public boolean canInteractWith(EntityPlayer player) {
         return tableInventory.isUseableByPlayer(player);
     }
 
     @Override
-    public void onCraftMatrixChanged (IInventory inventory) {
+    public void onCraftMatrixChanged(IInventory inventory) {
         ItemStack target = tableInventory.getStackInSlot(inputSlot.getSlotIndex());
         ItemStack matSide = tableInventory.getStackInSlot(materialSideSlot.getSlotIndex());
         ItemStack matTrim = tableInventory.getStackInSlot(materialTrimSlot.getSlotIndex());
@@ -83,11 +83,11 @@ public class ContainerFramingTable extends Container
             Block block = Block.getBlockFromItem(target.getItem());
             if (block instanceof BlockDrawersCustom) {
                 if (matSide != null) {
-                    craftResult.setInventorySlotContents(0, ItemCustomDrawers.makeItemStack(block, 1, matSide, matTrim, matFront));
+                    craftResult.setInventorySlotContents(
+                            0, ItemCustomDrawers.makeItemStack(block, 1, matSide, matTrim, matFront));
                     return;
                 }
-            }
-            else if (block instanceof BlockTrimCustom) {
+            } else if (block instanceof BlockTrimCustom) {
                 if (matSide != null) {
                     craftResult.setInventorySlotContents(0, ItemCustomTrim.makeItemStack(block, 1, matSide, matTrim));
                     return;
@@ -99,7 +99,7 @@ public class ContainerFramingTable extends Container
     }
 
     @Override
-    public ItemStack transferStackInSlot (EntityPlayer player, int slotIndex) {
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
         ItemStack itemStack = null;
         Slot slot = (Slot) inventorySlots.get(slotIndex);
 
@@ -114,8 +114,7 @@ public class ContainerFramingTable extends Container
 
             // Try merge output into inventory and signal change
             if (slotIndex == outputSlot.slotNumber) {
-                if (!mergeItemStack(slotStack, inventoryStart, hotbarEnd, true))
-                    return null;
+                if (!mergeItemStack(slotStack, inventoryStart, hotbarEnd, true)) return null;
                 slot.onSlotChange(slotStack, itemStack);
             }
 
@@ -125,28 +124,25 @@ public class ContainerFramingTable extends Container
                 if (TileEntityFramingTable.isItemValidDrawer(slotStack))
                     merged = mergeItemStack(slotStack, inputSlot.slotNumber, inputSlot.slotNumber + 1, false);
                 if (TileEntityFramingTable.isItemValidMaterial(slotStack))
-                    merged = mergeItemStack(slotStack, materialSideSlot.slotNumber, materialFrontSlot.slotNumber + 1, false);
+                    merged = mergeItemStack(
+                            slotStack, materialSideSlot.slotNumber, materialFrontSlot.slotNumber + 1, false);
 
                 if (!merged) {
                     if (slotIndex >= inventoryStart && slotIndex < hotbarStart) {
-                        if (!mergeItemStack(slotStack, hotbarStart, hotbarEnd, false))
-                            return null;
-                    } else if (slotIndex >= hotbarStart && slotIndex < hotbarEnd && !this.mergeItemStack(slotStack, inventoryStart, hotbarStart, false))
-                        return null;
+                        if (!mergeItemStack(slotStack, hotbarStart, hotbarEnd, false)) return null;
+                    } else if (slotIndex >= hotbarStart
+                            && slotIndex < hotbarEnd
+                            && !this.mergeItemStack(slotStack, inventoryStart, hotbarStart, false)) return null;
                 }
             }
 
             // Try merge stack into inventory
-            else if (!mergeItemStack(slotStack, inventoryStart, hotbarEnd, false))
-                return null;
+            else if (!mergeItemStack(slotStack, inventoryStart, hotbarEnd, false)) return null;
 
-            if (slotStack.stackSize == 0)
-                slot.putStack(null);
-            else
-                slot.onSlotChanged();
+            if (slotStack.stackSize == 0) slot.putStack(null);
+            else slot.onSlotChanged();
 
-            if (slotStack.stackSize == itemStack.stackSize)
-                return null;
+            if (slotStack.stackSize == itemStack.stackSize) return null;
 
             slot.onPickupFromSlot(player, slotStack);
         }

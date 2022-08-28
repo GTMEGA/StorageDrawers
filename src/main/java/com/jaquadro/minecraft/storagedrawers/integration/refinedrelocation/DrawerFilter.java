@@ -5,23 +5,20 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
 import net.minecraft.item.ItemStack;
 
-public class DrawerFilter implements IFilter
-{
+public class DrawerFilter implements IFilter {
     private IDrawerGroup group;
 
-    public DrawerFilter (IDrawerGroup group) {
+    public DrawerFilter(IDrawerGroup group) {
         this.group = group;
     }
 
     @Override
-    public boolean passesFilter (ItemStack itemStack) {
+    public boolean passesFilter(ItemStack itemStack) {
         for (int i = 0; i < group.getDrawerCount(); i++) {
-            if (!group.isDrawerEnabled(i))
-                continue;
+            if (!group.isDrawerEnabled(i)) continue;
 
             IDrawer drawer = group.getDrawer(i);
-            if (!drawer.isEmpty() && drawer.canItemBeStored(itemStack))
-                return true;
+            if (!drawer.isEmpty() && drawer.canItemBeStored(itemStack)) return true;
         }
 
         return false;

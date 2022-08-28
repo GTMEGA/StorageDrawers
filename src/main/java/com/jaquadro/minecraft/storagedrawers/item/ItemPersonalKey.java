@@ -6,6 +6,7 @@ import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
 import com.jaquadro.minecraft.storagedrawers.integration.IntegrationRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -17,16 +18,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 
-import java.util.List;
-
-public class ItemPersonalKey extends Item
-{
-    public static final String[] iconNames = new String[] { "default", "cofh" };
+public class ItemPersonalKey extends Item {
+    public static final String[] iconNames = new String[] {"default", "cofh"};
 
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
 
-    public ItemPersonalKey (String name) {
+    public ItemPersonalKey(String name) {
         setUnlocalizedName(name);
         setCreativeTab(ModCreativeTabs.tabStorageDrawers);
         setHasSubtypes(true);
@@ -35,50 +33,50 @@ public class ItemPersonalKey extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage (int meta) {
+    public IIcon getIconFromDamage(int meta) {
         return icons[MathHelper.clamp_int(meta, 0, iconNames.length - 1)];
     }
 
     @Override
-    public String getUnlocalizedName (ItemStack itemStack) {
+    public String getUnlocalizedName(ItemStack itemStack) {
         int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, iconNames.length - 1);
-        if (iconNames[meta] == null)
-            return super.getUnlocalizedName();
+        if (iconNames[meta] == null) return super.getUnlocalizedName();
 
         return super.getUnlocalizedName() + "." + iconNames[meta];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation (ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
         String name = getUnlocalizedName(itemStack);
         list.add(StatCollector.translateToLocalFormatted(name + ".description"));
     }
 
     @SideOnly(Side.CLIENT)
-    public boolean isFull3D()
-    {
+    public boolean isFull3D() {
         return true;
     }
 
     @Override
-    public Multimap getAttributeModifiers (ItemStack item) {
+    public Multimap getAttributeModifiers(ItemStack item) {
         Multimap multimap = super.getAttributeModifiers(item);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)2, 0));
+        multimap.put(
+                SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+                new AttributeModifier(field_111210_e, "Weapon modifier", (double) 2, 0));
         return multimap;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems (Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item, 1, 0));
-        if (StorageDrawers.config.cache.enableThermalFoundationIntegration && IntegrationRegistry.instance().isModLoaded("ThermalFoundation"))
-            list.add(new ItemStack(item, 1, 1));
+        if (StorageDrawers.config.cache.enableThermalFoundationIntegration
+                && IntegrationRegistry.instance().isModLoaded("ThermalFoundation")) list.add(new ItemStack(item, 1, 1));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons (IIconRegister register) {
+    public void registerIcons(IIconRegister register) {
         icons = new IIcon[iconNames.length];
 
         for (int i = 0, n = iconNames.length; i < n; i++) {
@@ -87,11 +85,14 @@ public class ItemPersonalKey extends Item
         }
     }
 
-    public String getSecurityProviderKey (int meta) {
+    public String getSecurityProviderKey(int meta) {
         switch (meta) {
-            case 0: return null;
-            case 1: return "cofh";
-            default: return null;
+            case 0:
+                return null;
+            case 1:
+                return "cofh";
+            default:
+                return null;
         }
     }
 }

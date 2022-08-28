@@ -5,11 +5,11 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-public class ForgeEventHandler
-{
+public class ForgeEventHandler {
     @SubscribeEvent
-    public void playerInteracts (PlayerInteractEvent event) {
-        if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && event.entityPlayer.capabilities.isCreativeMode) {
+    public void playerInteracts(PlayerInteractEvent event) {
+        if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK
+                && event.entityPlayer.capabilities.isCreativeMode) {
             TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
             if (tile instanceof TileEntityDrawers) {
                 int dir = ((TileEntityDrawers) tile).getDirection();

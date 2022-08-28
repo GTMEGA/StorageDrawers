@@ -9,5 +9,4 @@ public interface IDowngradable {
     boolean checkDowngraded();
 
     void setDowngraded(boolean state);
-
 }

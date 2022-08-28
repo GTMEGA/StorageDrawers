@@ -14,26 +14,24 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSortingCompDrawers extends BlockCompDrawers
-{
+public class BlockSortingCompDrawers extends BlockCompDrawers {
     @SideOnly(Side.CLIENT)
     IIcon iconSort;
 
-    public BlockSortingCompDrawers (String blockName) {
+    public BlockSortingCompDrawers(String blockName) {
         super(blockName);
 
         setCreativeTab(RefinedRelocation.tabStorageDrawers);
     }
 
-    public static boolean upgradeToSorting (World world, int x, int y, int z) {
+    public static boolean upgradeToSorting(World world, int x, int y, int z) {
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (!(tile instanceof TileEntityDrawersComp) || tile instanceof TileSortingDrawersComp)
-            return false;
+        if (!(tile instanceof TileEntityDrawersComp) || tile instanceof TileSortingDrawersComp) return false;
 
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        TileEntityDrawersComp oldDrawer = (TileEntityDrawersComp)tile;
+        TileEntityDrawersComp oldDrawer = (TileEntityDrawersComp) tile;
         TileSortingDrawersComp newDrawer = new TileSortingDrawersComp();
 
         NBTTagCompound tag = new NBTTagCompound();
@@ -54,29 +52,27 @@ public class BlockSortingCompDrawers extends BlockCompDrawers
     }
 
     @Override
-    public TileSortingDrawersComp createNewTileEntity (World world, int meta) {
+    public TileSortingDrawersComp createNewTileEntity(World world, int meta) {
         return new TileSortingDrawersComp();
     }
 
     @Override
-    public IIcon getIcon (int side, int meta) {
-        if (side == 1)
-            return iconSort;
+    public IIcon getIcon(int side, int meta) {
+        if (side == 1) return iconSort;
 
         return super.getIcon(side, meta);
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon (IBlockAccess blockAccess, int x, int y, int z, int side) {
-        if (side == 1)
-            return iconSort;
+    public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+        if (side == 1) return iconSort;
 
         return super.getIcon(blockAccess, x, y, z, side);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons (IIconRegister register) {
+    public void registerBlockIcons(IIconRegister register) {
         super.registerBlockIcons(register);
 
         iconSort = register.registerIcon(StorageDrawers.MOD_ID + ":drawers_comp_sort");
