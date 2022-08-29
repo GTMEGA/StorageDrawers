@@ -526,6 +526,19 @@ public class ModRecipes {
                 upgradeTemplate,
                 't',
                 ORE_plateTitanium));
+        
+        
+        GameRegistry.addRecipe(new ShapedOreRecipe(
+                new ItemStack(ModItems.upgradeDowngrade, 1, 0),
+                new String[] {"pup", "utu", "psp"},
+                    'p', 
+                    ORE_plateRubber, 
+                    's', 
+                    ORE_stickRubber,
+                    'u',
+                    upgradeTemplate,
+                    't',
+                    new ItemStack(Blocks.soul_sand)));
     }
 
     private static void statusUpgradeRecipes() {
