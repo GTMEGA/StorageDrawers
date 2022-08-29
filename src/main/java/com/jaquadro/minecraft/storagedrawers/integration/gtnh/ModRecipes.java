@@ -42,6 +42,7 @@ public class ModRecipes {
     private static final String ORE_plateStainlessSteel = "plateStainlessSteel";
     private static final String ORE_plateSteel = "plateSteel";
     private static final String ORE_plateTitanium = "plateTitanium";
+    private static final String ORE_plateRubber = "plateRubber";
     private static final String ORE_screwSteel = "screwSteel";
     private static final String ORE_slabWood = "slabWood";
     private static final String ORE_stickDiamond = "stickDiamond";
@@ -49,6 +50,7 @@ public class ModRecipes {
     private static final String ORE_stickGold = "stickGold";
     private static final String ORE_stickIron = "stickIron";
     private static final String ORE_stickObsidian = "stickObsidian";
+    private static final String ORE_stickRubber = "stickRubber";
     private static final String ORE_stickWood = "stickWood";
     private static final String ORE_stoneConcrete = "stoneConcrete";
     private static final String NAME_blockCarpentersBlock = "blockCarpentersBlock";
@@ -526,19 +528,18 @@ public class ModRecipes {
                 upgradeTemplate,
                 't',
                 ORE_plateTitanium));
-        
-        
+
         GameRegistry.addRecipe(new ShapedOreRecipe(
                 new ItemStack(ModItems.upgradeDowngrade, 1, 0),
                 new String[] {"pup", "utu", "psp"},
-                    'p', 
-                    ORE_plateRubber, 
-                    's', 
-                    ORE_stickRubber,
-                    'u',
-                    upgradeTemplate,
-                    't',
-                    new ItemStack(Blocks.soul_sand)));
+                'p',
+                ORE_plateRubber,
+                's',
+                ORE_stickRubber,
+                'u',
+                upgradeTemplate,
+                't',
+                new ItemStack(Blocks.soul_sand)));
     }
 
     private static void statusUpgradeRecipes() {
