@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface IDrawerGroupInteractive extends IDrawerGroup {
+
     ItemStack takeItemsFromSlot(int slot, int count);
 
     int putItemsIntoSlot(int slot, ItemStack stack, int count);

@@ -1,10 +1,12 @@
 package com.jaquadro.minecraft.storagedrawers.inventory;
 
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import net.minecraft.entity.player.InventoryPlayer;
 
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+
 public class ContainerDrawers2 extends ContainerDrawers {
-    private static final int[][] slotCoordinates = new int[][] {{80, 23}, {80, 49}};
+
+    private static final int[][] slotCoordinates = new int[][] { { 80, 23 }, { 80, 49 } };
 
     public ContainerDrawers2(InventoryPlayer playerInventory, TileEntityDrawers tileEntity) {
         super(playerInventory, tileEntity);

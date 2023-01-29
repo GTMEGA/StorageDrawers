@@ -1,5 +1,11 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
@@ -8,13 +14,9 @@ import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class DrawersRenderer implements ISimpleBlockRenderingHandler {
+
     private static final double unit = .0625f;
     private ModularBoxRenderer boxRenderer = new ModularBoxRenderer();
 
@@ -24,36 +26,36 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorldBlock(
-            IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
+            RenderBlocks renderer) {
         if (!(block instanceof BlockDrawers)) return false;
 
         return renderWorldBlock(world, x, y, z, (BlockDrawers) block, modelId, renderer);
     }
 
-    private boolean renderWorldBlock(
-            IBlockAccess world, int x, int y, int z, BlockDrawers block, int modelId, RenderBlocks renderer) {
+    private boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, BlockDrawers block, int modelId,
+            RenderBlocks renderer) {
         TileEntityDrawers tile = block.getTileEntity(world, x, y, z);
         if (tile == null) return false;
 
         renderBaseBlock(world, tile, x, y, z, block, renderer);
 
         if (renderer.overrideBlockTexture != null
-                && renderer.overrideBlockTexture.getIconName().startsWith("destroy_stage")) return true;
+                && renderer.overrideBlockTexture.getIconName().startsWith("destroy_stage"))
+            return true;
 
         int side = tile.getDirection();
         if (StorageDrawers.config.cache.enableIndicatorUpgrades)
             renderIndicator(block, x, y, z, side, renderer, tile.getEffectiveStatusLevel());
-        if (StorageDrawers.config.cache.enableLockUpgrades)
-            renderLock(
-                    block,
-                    x,
-                    y,
-                    z,
-                    side,
-                    renderer,
-                    tile.isLocked(LockAttribute.LOCK_POPULATED),
-                    tile.getOwner() != null);
+        if (StorageDrawers.config.cache.enableLockUpgrades) renderLock(
+                block,
+                x,
+                y,
+                z,
+                side,
+                renderer,
+                tile.isLocked(LockAttribute.LOCK_POPULATED),
+                tile.getOwner() != null);
         if (StorageDrawers.config.cache.enableVoidUpgrades) renderVoid(block, x, y, z, side, renderer, tile.isVoid());
         if (StorageDrawers.config.cache.enableTape) renderTape(block, x, y, z, side, renderer, tile.isSealed());
 
@@ -62,19 +64,13 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
         return true;
     }
 
-    protected void renderBaseBlock(
-            IBlockAccess world,
-            TileEntityDrawers tile,
-            int x,
-            int y,
-            int z,
-            BlockDrawers block,
+    protected void renderBaseBlock(IBlockAccess world, TileEntityDrawers tile, int x, int y, int z, BlockDrawers block,
             RenderBlocks renderer) {
         int side = tile.getDirection();
         int meta = world.getBlockMetadata(x, y, z);
 
-        RenderHelper.instance.state.setUVRotation(
-                RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][side]);
+        RenderHelper.instance.state
+                .setUVRotation(RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][side]);
 
         boxRenderer.setUnit(block.getTrimWidth());
         boxRenderer.setColor(ModularBoxRenderer.COLOR_WHITE);
@@ -104,8 +100,8 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
         renderInterior(block, x, y, z, side, renderer);
     }
 
-    private void renderLock(
-            BlockDrawers block, int x, int y, int z, int side, RenderBlocks renderer, boolean locked, boolean owned) {
+    private void renderLock(BlockDrawers block, int x, int y, int z, int side, RenderBlocks renderer, boolean locked,
+            boolean owned) {
         if (!locked && !owned) return;
 
         double depth = block.halfDepth ? .5 : 1;
@@ -113,8 +109,8 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
 
         RenderHelper.instance.setRenderBounds(0.46875, 0.9375, 0, 0.53125, 1, depth + .005);
         RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-        RenderHelper.instance.renderPartialFace(
-                RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconLock, 0, 0, 1, 1);
+        RenderHelper.instance
+                .renderPartialFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconLock, 0, 0, 1, 1);
         RenderHelper.instance.state.clearRotateTransform();
     }
 
@@ -126,8 +122,8 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
 
         RenderHelper.instance.setRenderBounds(1 - .0625, 0.9375, 0, 1, 1, depth + .005);
         RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-        RenderHelper.instance.renderPartialFace(
-                RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconVoid, 0, 0, 1, 1);
+        RenderHelper.instance
+                .renderPartialFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconVoid, 0, 0, 1, 1);
         RenderHelper.instance.state.clearRotateTransform();
     }
 
@@ -144,46 +140,34 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
     }
 
     private static final int[] cut = new int[] {
-        ModularBoxRenderer.CUT_YPOS
-                | ModularBoxRenderer.CUT_YNEG
-                | ModularBoxRenderer.CUT_XPOS
-                | ModularBoxRenderer.CUT_XNEG
-                | ModularBoxRenderer.CUT_ZPOS,
-        ModularBoxRenderer.CUT_YPOS
-                | ModularBoxRenderer.CUT_YNEG
-                | ModularBoxRenderer.CUT_XPOS
-                | ModularBoxRenderer.CUT_XNEG
-                | ModularBoxRenderer.CUT_ZNEG,
-        ModularBoxRenderer.CUT_YPOS
-                | ModularBoxRenderer.CUT_YNEG
-                | ModularBoxRenderer.CUT_XPOS
-                | ModularBoxRenderer.CUT_ZNEG
-                | ModularBoxRenderer.CUT_ZPOS,
-        ModularBoxRenderer.CUT_YPOS
-                | ModularBoxRenderer.CUT_YNEG
-                | ModularBoxRenderer.CUT_XNEG
-                | ModularBoxRenderer.CUT_ZNEG
-                | ModularBoxRenderer.CUT_ZPOS,
-    };
+            ModularBoxRenderer.CUT_YPOS | ModularBoxRenderer.CUT_YNEG
+                    | ModularBoxRenderer.CUT_XPOS
+                    | ModularBoxRenderer.CUT_XNEG
+                    | ModularBoxRenderer.CUT_ZPOS,
+            ModularBoxRenderer.CUT_YPOS | ModularBoxRenderer.CUT_YNEG
+                    | ModularBoxRenderer.CUT_XPOS
+                    | ModularBoxRenderer.CUT_XNEG
+                    | ModularBoxRenderer.CUT_ZNEG,
+            ModularBoxRenderer.CUT_YPOS | ModularBoxRenderer.CUT_YNEG
+                    | ModularBoxRenderer.CUT_XPOS
+                    | ModularBoxRenderer.CUT_ZNEG
+                    | ModularBoxRenderer.CUT_ZPOS,
+            ModularBoxRenderer.CUT_YPOS | ModularBoxRenderer.CUT_YNEG
+                    | ModularBoxRenderer.CUT_XNEG
+                    | ModularBoxRenderer.CUT_ZNEG
+                    | ModularBoxRenderer.CUT_ZPOS, };
 
-    private static final float[][] drawerXYWH1 = new float[][] {
-        {0, 0, 16, 16},
-    };
+    private static final float[][] drawerXYWH1 = new float[][] { { 0, 0, 16, 16 }, };
 
-    private static final float[][] drawerXYWH2 = new float[][] {
-        {0, 8, 16, 8}, {0, 0, 16, 8},
-    };
+    private static final float[][] drawerXYWH2 = new float[][] { { 0, 8, 16, 8 }, { 0, 0, 16, 8 }, };
 
-    private static final float[][] drawerXYWH4 = new float[][] {
-        {0, 8, 8, 8}, {0, 0, 8, 8}, {8, 8, 8, 8}, {8, 0, 8, 8},
-    };
+    private static final float[][] drawerXYWH4 = new float[][] { { 0, 8, 8, 8 }, { 0, 0, 8, 8 }, { 8, 8, 8, 8 },
+            { 8, 0, 8, 8 }, };
 
-    private static final float[][] drawerXYWH3 = new float[][] {
-        {0, 8, 16, 8}, {0, 0, 8, 8}, {8, 0, 8, 8},
-    };
+    private static final float[][] drawerXYWH3 = new float[][] { { 0, 8, 16, 8 }, { 0, 0, 8, 8 }, { 8, 0, 8, 8 }, };
 
-    private void renderShroud(
-            BlockDrawers block, int x, int y, int z, int side, RenderBlocks renderer, boolean shrouded) {
+    private void renderShroud(BlockDrawers block, int x, int y, int z, int side, RenderBlocks renderer,
+            boolean shrouded) {
         if (!shrouded || side < 2 || side > 5) return;
 
         TileEntityDrawers tile = block.getTileEntity(renderer.blockAccess, x, y, z);
@@ -223,7 +207,12 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
             float subY = xywh[1] + (xywh[3] - h) / 2;
 
             RenderHelper.instance.setRenderBounds(
-                    subX * unit, subY * unit, 0, (subX + w) * unit, (subY + h) * unit, (depth - depthAdj + .05) * unit);
+                    subX * unit,
+                    subY * unit,
+                    0,
+                    (subX + w) * unit,
+                    (subY + h) * unit,
+                    (depth - depthAdj + .05) * unit);
             RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
             RenderHelper.instance.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, icon);
             RenderHelper.instance.state.clearRotateTransform();
@@ -289,8 +278,7 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
             } else if (level >= 2) {
                 double indXStart = xywh[0] + block.getIndStart() / unit;
                 double indXEnd = xywh[0] + block.getIndEnd() / unit;
-                double indXCur = (block.getIndSteps() == 0)
-                        ? indXEnd
+                double indXCur = (block.getIndSteps() == 0) ? indXEnd
                         : getIndEnd(block, tile, i, indXStart, (block.getIndEnd() - block.getIndStart()) / unit);
 
                 double indYStart = xywh[1];

@@ -1,10 +1,12 @@
 package com.jaquadro.minecraft.storagedrawers.item.pack;
 
-import com.jaquadro.minecraft.storagedrawers.block.pack.BlockDrawersPack;
-import com.jaquadro.minecraft.storagedrawers.item.ItemBasicDrawers;
 import net.minecraft.block.Block;
 
+import com.jaquadro.minecraft.storagedrawers.block.pack.BlockDrawersPack;
+import com.jaquadro.minecraft.storagedrawers.item.ItemBasicDrawers;
+
 public class ItemDrawersPack extends ItemBasicDrawers {
+
     public ItemDrawersPack(Block block) {
         super(block, getUnlocalizedNames(block));
     }

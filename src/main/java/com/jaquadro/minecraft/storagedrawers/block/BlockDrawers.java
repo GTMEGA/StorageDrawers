@@ -1,28 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.block;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
-import com.jaquadro.minecraft.storagedrawers.api.pack.BlockType;
-import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
-import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
-import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
-import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
-import com.jaquadro.minecraft.storagedrawers.core.ModItems;
-import com.jaquadro.minecraft.storagedrawers.core.handlers.GuiHandler;
-import com.jaquadro.minecraft.storagedrawers.item.ItemPersonalKey;
-import com.jaquadro.minecraft.storagedrawers.item.ItemTrim;
-import com.jaquadro.minecraft.storagedrawers.item.ItemUpgrade;
-import com.jaquadro.minecraft.storagedrawers.item.ItemUpgradeCreative;
-import com.jaquadro.minecraft.storagedrawers.network.BlockClickMessage;
-import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -52,12 +30,39 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.logging.log4j.Level;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
+import com.jaquadro.minecraft.storagedrawers.api.pack.BlockType;
+import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
+import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
+import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
+import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
+import com.jaquadro.minecraft.storagedrawers.core.ModItems;
+import com.jaquadro.minecraft.storagedrawers.core.handlers.GuiHandler;
+import com.jaquadro.minecraft.storagedrawers.item.ItemPersonalKey;
+import com.jaquadro.minecraft.storagedrawers.item.ItemTrim;
+import com.jaquadro.minecraft.storagedrawers.item.ItemUpgrade;
+import com.jaquadro.minecraft.storagedrawers.item.ItemUpgradeCreative;
+import com.jaquadro.minecraft.storagedrawers.network.BlockClickMessage;
+import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
+
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockDrawers extends BlockContainer implements IExtendedBlockClickHandler, INetworked {
-    private static final ResourceLocation blockConfig =
-            new ResourceLocation(StorageDrawers.MOD_ID + ":textures/blocks/block_config.mcmeta");
+
+    private static final ResourceLocation blockConfig = new ResourceLocation(
+            StorageDrawers.MOD_ID + ":textures/blocks/block_config.mcmeta");
 
     public final boolean halfDepth;
     public final int drawerCount;
@@ -269,8 +274,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     }
 
     @Override
-    public void addCollisionBoxesToList(
-            World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list,
+            Entity entity) {
         setBlockBoundsBasedOnState(world, x, y, z);
         super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
     }
@@ -305,8 +310,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     }
 
     @Override
-    public boolean onBlockActivated(
-            World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
+            float hitY, float hitZ) {
         if (world.isRemote && Minecraft.getMinecraft().getSystemTime() == ignoreEventTime) {
             ignoreEventTime = 0;
             return false;
@@ -334,51 +339,51 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
                 return true;
             }
             /**
-             * Gee, it'd be nice if we could make all of these Items descend from one thing, almost like children
-             * and it would great if we could just find if it was an instance of said thing.
-             * Crazy concept!
-             * */
-            else if (item.getItem() == ModItems.upgrade
-                    || item.getItem() == ModItems.upgradeStatus
+             * Gee, it'd be nice if we could make all of these Items descend from one thing, almost like children and it
+             * would great if we could just find if it was an instance of said thing. Crazy concept!
+             */
+            else if (item.getItem() == ModItems.upgrade || item.getItem() == ModItems.upgradeStatus
                     || item.getItem() == ModItems.upgradeVoid
                     || item.getItem() == ModItems.upgradeCreative
                     || item.getItem() == ModItems.upgradeRedstone
                     || item.getItem() == ModItems.upgradeDowngrade) {
-                if (!tileDrawers.addUpgrade(item)) {
-                    player.addChatMessage(new ChatComponentTranslation("storagedrawers.msg.maxUpgrades"));
-                    return false;
-                }
+                        if (!tileDrawers.addUpgrade(item)) {
+                            player.addChatMessage(new ChatComponentTranslation("storagedrawers.msg.maxUpgrades"));
+                            return false;
+                        }
 
-                world.markBlockForUpdate(x, y, z);
+                        world.markBlockForUpdate(x, y, z);
 
-                if (player != null && !player.capabilities.isCreativeMode) {
-                    if (--item.stackSize <= 0)
-                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-                }
+                        if (player != null && !player.capabilities.isCreativeMode) {
+                            if (--item.stackSize <= 0)
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                        }
 
-                return true;
-            } else if (item.getItem() == ModItems.upgradeLock) {
-                boolean locked = tileDrawers.isLocked(LockAttribute.LOCK_POPULATED);
-                tileDrawers.setLocked(LockAttribute.LOCK_POPULATED, !locked);
-                tileDrawers.setLocked(LockAttribute.LOCK_EMPTY, !locked);
+                        return true;
+                    } else
+                if (item.getItem() == ModItems.upgradeLock) {
+                    boolean locked = tileDrawers.isLocked(LockAttribute.LOCK_POPULATED);
+                    tileDrawers.setLocked(LockAttribute.LOCK_POPULATED, !locked);
+                    tileDrawers.setLocked(LockAttribute.LOCK_EMPTY, !locked);
 
-                return true;
-            } else if (item.getItem() == ModItems.shroudKey) {
-                tileDrawers.setIsShrouded(!tileDrawers.isShrouded());
-                return true;
-            } else if (item.getItem() instanceof ItemPersonalKey) {
-                String securityKey = ((ItemPersonalKey) item.getItem()).getSecurityProviderKey(item.getItemDamage());
-                ISecurityProvider provider = StorageDrawers.securityRegistry.getProvider(securityKey);
+                    return true;
+                } else if (item.getItem() == ModItems.shroudKey) {
+                    tileDrawers.setIsShrouded(!tileDrawers.isShrouded());
+                    return true;
+                } else if (item.getItem() instanceof ItemPersonalKey) {
+                    String securityKey = ((ItemPersonalKey) item.getItem())
+                            .getSecurityProviderKey(item.getItemDamage());
+                    ISecurityProvider provider = StorageDrawers.securityRegistry.getProvider(securityKey);
 
-                if (tileDrawers.getOwner() == null) {
-                    tileDrawers.setOwner(player.getPersistentID());
-                    tileDrawers.setSecurityProvider(provider);
-                } else if (SecurityManager.hasOwnership(player.getGameProfile(), tileDrawers)) {
-                    tileDrawers.setOwner(null);
-                    tileDrawers.setSecurityProvider(null);
-                } else return false;
-                return true;
-            } else if (item.getItem() == ModItems.tape) return false;
+                    if (tileDrawers.getOwner() == null) {
+                        tileDrawers.setOwner(player.getPersistentID());
+                        tileDrawers.setSecurityProvider(provider);
+                    } else if (SecurityManager.hasOwnership(player.getGameProfile(), tileDrawers)) {
+                        tileDrawers.setOwner(null);
+                        tileDrawers.setSecurityProvider(null);
+                    } else return false;
+                    return true;
+                } else if (item.getItem() == ModItems.tape) return false;
         } else if (item == null && player.isSneaking()) {
             if (tileDrawers.isSealed()) {
                 tileDrawers.setIsSealed(false);
@@ -438,8 +443,16 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
             float hitY = (float) (posn.hitVec.yCoord - posn.blockY);
             float hitZ = (float) (posn.hitVec.zCoord - posn.blockZ);
 
-            StorageDrawers.network.sendToServer(new BlockClickMessage(
-                    x, y, z, posn.sideHit, hitX, hitY, hitZ, StorageDrawers.config.cache.invertShift));
+            StorageDrawers.network.sendToServer(
+                    new BlockClickMessage(
+                            x,
+                            y,
+                            z,
+                            posn.sideHit,
+                            hitX,
+                            hitY,
+                            hitZ,
+                            StorageDrawers.config.cache.invertShift));
 
             if (StorageDrawers.config.cache.debugTrace)
                 FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "BlockDrawers.onBlockClicked with " + posn.toString());
@@ -447,23 +460,14 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     }
 
     @Override
-    public void onBlockClicked(
-            World world,
-            int x,
-            int y,
-            int z,
-            EntityPlayer player,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            boolean invertShift) {
+    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY,
+            float hitZ, boolean invertShift) {
         if (StorageDrawers.config.cache.debugTrace)
             FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "IExtendedBlockClickHandler.onBlockClicked");
 
         if (!player.capabilities.isCreativeMode) {
-            PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(
-                    player, PlayerInteractEvent.Action.LEFT_CLICK_BLOCK, x, y, z, side, world);
+            PlayerInteractEvent event = ForgeEventFactory
+                    .onPlayerInteract(player, PlayerInteractEvent.Action.LEFT_CLICK_BLOCK, x, y, z, side, world);
             if (event.isCanceled()) return;
         }
 
@@ -491,14 +495,13 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
                 ForgeDirection dir = ForgeDirection.getOrientation(side);
                 dropItemStack(world, x + dir.offsetX, y, z + dir.offsetZ, player, item);
                 world.markBlockForUpdate(x, y, z);
-            } else
-                world.playSoundEffect(
-                        x + .5f,
-                        y + .5f,
-                        z + .5f,
-                        "random.pop",
-                        .2f,
-                        ((world.rand.nextFloat() - world.rand.nextFloat()) * .7f + 1) * 2);
+            } else world.playSoundEffect(
+                    x + .5f,
+                    y + .5f,
+                    z + .5f,
+                    "random.pop",
+                    .2f,
+                    ((world.rand.nextFloat() - world.rand.nextFloat()) * .7f + 1) * 2);
         }
     }
 
@@ -571,8 +574,7 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
         if (stack.stackSize > 0) {
             EntityItem entity = new EntityItem(world, x + ex, y + ey, z + ez, stack);
             if (stack.hasTagCompound())
-                entity.getEntityItem()
-                        .setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
+                entity.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
             world.spawnEntityInWorld(entity);
         }
     }
@@ -618,8 +620,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
                         /* System.out.println("hello"); */
                         if (cpw.mods.fml.common.Loader.isModLoaded("Avaritia")) {
                             try {
-                                Class<?> itemMatterClusterClass =
-                                        Class.forName("fox.spiteful.avaritia.items.ItemMatterCluster");
+                                Class<?> itemMatterClusterClass = Class
+                                        .forName("fox.spiteful.avaritia.items.ItemMatterCluster");
                                 Method method = itemMatterClusterClass.getMethod("makeClusters", List.class);
                                 /* May not be used */
                                 for (int i = 0; i < tile.getDrawerCount(); i++) {
@@ -632,16 +634,14 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
                                         stacks.add(stack);
                                     }
 
-                                    List<ItemStack> clusters =
-                                            (List<ItemStack>) method.invoke(itemMatterClusterClass, stacks);
+                                    List<ItemStack> clusters = (List<ItemStack>) method
+                                            .invoke(itemMatterClusterClass, stacks);
                                     for (ItemStack stack : clusters) {
                                         dropStackInBatches(world, x, y, z, stack);
                                     }
                                 }
                                 break; /* switch */
-                            } catch (NoSuchMethodException
-                                    | InvocationTargetException
-                                    | IllegalAccessException
+                            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException
                                     | ClassNotFoundException e) {
                                 StorageDrawers.config.cache.breakDrawerDropMode = "default";
                                 FMLLog.log(
@@ -701,8 +701,7 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
             entity.motionZ = rand.nextGaussian() * motionUnit;
 
             if (stack.hasTagCompound())
-                entity.getEntityItem()
-                        .setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
+                entity.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
         }
     }
 
@@ -750,15 +749,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     }
 
     @Override
-    public float getExplosionResistance(
-            Entity par1Entity,
-            World world,
-            int x,
-            int y,
-            int z,
-            double explosionX,
-            double explosionY,
-            double explosionZ) {
+    public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX,
+            double explosionY, double explosionZ) {
         TileEntityDrawers tile = getTileEntity(world, x, y, z);
         if (tile != null) {
             for (int slot = 0; slot < 5; slot++) {
@@ -803,13 +795,12 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
         return super.addHitEffects(worldObj, target, effectRenderer);
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public boolean addDestroyEffects (World world, int x, int y, int z, int meta, EffectRenderer effectRenderer) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof TileEntityDrawers)
-        return super.addDestroyEffects(world, x, y, z, meta, effectRenderer);
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public boolean addDestroyEffects (World world, int x, int y, int z, int meta,
+     * EffectRenderer effectRenderer) { TileEntity tile = world.getTileEntity(x, y, z); if (tile instanceof
+     * TileEntityDrawers) return super.addDestroyEffects(world, x, y, z, meta, effectRenderer); }
+     */
 
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
@@ -1012,7 +1003,7 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
 
         iconTaped = register.registerIcon(StorageDrawers.MOD_ID + ":tape");
 
-        String[] overlays = new String[] {null, null, "iron", "gold", "obsidian", "diamond", "emerald"};
+        String[] overlays = new String[] { null, null, "iron", "gold", "obsidian", "diamond", "emerald" };
 
         iconOverlay = new IIcon[overlays.length];
         iconOverlayH = new IIcon[overlays.length];
@@ -1048,8 +1039,7 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     @SideOnly(Side.CLIENT)
     protected void loadBlockConfig() {
         try {
-            IResource configResource =
-                    Minecraft.getMinecraft().getResourceManager().getResource(blockConfig);
+            IResource configResource = Minecraft.getMinecraft().getResourceManager().getResource(blockConfig);
             BufferedReader reader = null;
             try {
                 reader = new BufferedReader(new InputStreamReader(configResource.getInputStream()));
@@ -1057,10 +1047,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
 
                 JsonObject entry = root.getAsJsonObject(getConfigName());
                 if (entry != null) {
-                    if (entry.has("trimWidth"))
-                        trimWidth = entry.get("trimWidth").getAsFloat();
-                    if (entry.has("trimDepth"))
-                        trimDepth = entry.get("trimDepth").getAsFloat();
+                    if (entry.has("trimWidth")) trimWidth = entry.get("trimWidth").getAsFloat();
+                    if (entry.has("trimDepth")) trimDepth = entry.get("trimDepth").getAsFloat();
                     if (entry.has("indStart")) indStart = entry.get("indStart").getAsFloat();
                     if (entry.has("indEnd")) indEnd = entry.get("indEnd").getAsFloat();
                     if (entry.has("indSteps")) indSteps = entry.get("indSteps").getAsInt();

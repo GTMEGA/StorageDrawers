@@ -1,6 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.inventory;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -8,20 +7,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+
 public class SlotCraftResult extends Slot {
+
     private final IInventory inputInventory;
     private final int[] inputSlots;
     private EntityPlayer player;
     private int amountCrafted;
 
-    public SlotCraftResult(
-            EntityPlayer player,
-            IInventory inputInventory,
-            IInventory inventory,
-            int[] inputSlots,
-            int slot,
-            int x,
-            int y) {
+    public SlotCraftResult(EntityPlayer player, IInventory inputInventory, IInventory inventory, int[] inputSlots,
+            int slot, int x, int y) {
         super(inventory, slot, x, y);
 
         this.player = player;
@@ -65,8 +61,7 @@ public class SlotCraftResult extends Slot {
 
                 if (itemTarget.getItem().hasContainerItem(itemTarget)) {
                     ItemStack itemContainer = itemTarget.getItem().getContainerItem(itemTarget);
-                    if (itemContainer != null
-                            && itemContainer.isItemStackDamageable()
+                    if (itemContainer != null && itemContainer.isItemStackDamageable()
                             && itemContainer.getItemDamage() > itemContainer.getMaxDamage()) {
                         MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(this.player, itemContainer));
                         continue;

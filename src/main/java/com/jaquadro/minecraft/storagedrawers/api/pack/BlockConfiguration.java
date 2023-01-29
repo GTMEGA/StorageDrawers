@@ -1,6 +1,7 @@
 package com.jaquadro.minecraft.storagedrawers.api.pack;
 
 public enum BlockConfiguration {
+
     BasicFull1(BlockType.Drawers, 1, false),
     BasicFull2(BlockType.Drawers, 2, false),
     BasicFull4(BlockType.Drawers, 4, false),

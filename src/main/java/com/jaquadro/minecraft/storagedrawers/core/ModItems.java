@@ -1,11 +1,13 @@
 package com.jaquadro.minecraft.storagedrawers.core;
 
+import net.minecraft.item.Item;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.item.*;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.Item;
 
 public class ModItems {
+
     public static Item upgradeTemplate;
     public static ItemUpgrade upgrade;
     public static ItemUpgradeStatus upgradeStatus;
@@ -19,8 +21,7 @@ public class ModItems {
     public static ItemUpgradeDowngrade upgradeDowngrade;
 
     public void init() {
-        upgradeTemplate = new Item()
-                .setUnlocalizedName(makeName("upgradeTemplate"))
+        upgradeTemplate = new Item().setUnlocalizedName(makeName("upgradeTemplate"))
                 .setTextureName(StorageDrawers.MOD_ID + ":upgrade_template")
                 .setCreativeTab(ModCreativeTabs.tabStorageDrawers);
         upgrade = new ItemUpgrade(makeName("upgrade"));

@@ -3,9 +3,11 @@ package com.jaquadro.minecraft.storagedrawers.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import net.minecraft.item.Item;
 
 public class ItemMetaRegistry<E> {
+
     private Map<Item, Map<Integer, E>> registry;
     private boolean compactTopLevel;
 

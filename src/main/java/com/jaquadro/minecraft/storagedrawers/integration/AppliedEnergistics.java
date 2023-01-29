@@ -1,17 +1,21 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
+import java.lang.reflect.Constructor;
+
 import appeng.api.AEApi;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.recipes.IIngredient;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.data.IAEItemStack;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.integration.ae2.*;
-import java.lang.reflect.Constructor;
 
 public class AppliedEnergistics extends IntegrationModule {
+
     private static class ReflectionFactory implements IStorageBusMonitorFactory {
+
         private Class classInventoryAdaptor;
         private Class classMEAdaptor;
         private Class classMonitor;
@@ -35,8 +39,8 @@ public class AppliedEnergistics extends IntegrationModule {
         }
 
         @Override
-        public IMEMonitor<IAEItemStack> createStorageBusMonitor(
-                IMEInventory<IAEItemStack> inventory, BaseActionSource src) {
+        public IMEMonitor<IAEItemStack> createStorageBusMonitor(IMEInventory<IAEItemStack> inventory,
+                BaseActionSource src) {
             try {
                 Object adaptor = constMEAdaptor.newInstance(inventory, src);
                 Object monitor = constMonitor.newInstance(adaptor);
@@ -51,8 +55,8 @@ public class AppliedEnergistics extends IntegrationModule {
     private static class APIFactory implements IStorageBusMonitorFactory {
 
         @Override
-        public IMEMonitor<IAEItemStack> createStorageBusMonitor(
-                IMEInventory<IAEItemStack> inventory, BaseActionSource src) {
+        public IMEMonitor<IAEItemStack> createStorageBusMonitor(IMEInventory<IAEItemStack> inventory,
+                BaseActionSource src) {
             return null;
         }
     }
@@ -71,9 +75,8 @@ public class AppliedEnergistics extends IntegrationModule {
             StorageDrawers.recipeHandlerRegistry.registerRecipeHandler(shapedHandler.getRecipeClass(), shapedHandler);
 
         ShapelessRecipeHandler shapelessHandler = new ShapelessRecipeHandler();
-        if (shapelessHandler.isValid())
-            StorageDrawers.recipeHandlerRegistry.registerRecipeHandler(
-                    shapelessHandler.getRecipeClass(), shapelessHandler);
+        if (shapelessHandler.isValid()) StorageDrawers.recipeHandlerRegistry
+                .registerRecipeHandler(shapelessHandler.getRecipeClass(), shapelessHandler);
 
         StorageDrawers.recipeHandlerRegistry.registerIngredientHandler(IIngredient.class, new IngredientHandler());
 
@@ -85,9 +88,7 @@ public class AppliedEnergistics extends IntegrationModule {
 
     @Override
     public void postInit() {
-        AEApi.instance()
-                .registries()
-                .externalStorage()
+        AEApi.instance().registries().externalStorage()
                 .addExternalStorageInterface(new DrawerExternalStorageHandler(factory));
     }
 }

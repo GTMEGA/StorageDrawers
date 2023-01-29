@@ -1,18 +1,19 @@
 package com.jaquadro.minecraft.storagedrawers.core.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.block.Block;
+
 import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
 import com.jaquadro.minecraft.storagedrawers.api.pack.IExtendedDataResolver;
 import com.jaquadro.minecraft.storagedrawers.util.UniqueMetaIdentifier;
 import com.jaquadro.minecraft.storagedrawers.util.UniqueMetaRegistry;
-import java.util.HashMap;
-import java.util.Map;
-import net.minecraft.block.Block;
 
 public class BlockRegistry {
-    private Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> registry =
-            new HashMap<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>>();
-    private Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> invertRegistry =
-            new HashMap<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>>();
+
+    private Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> registry = new HashMap<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>>();
+    private Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> invertRegistry = new HashMap<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>>();
 
     public void register(BlockConfiguration config, IExtendedDataResolver resolver) {
         for (int i = 0; i < 16; i++) {
@@ -29,7 +30,8 @@ public class BlockRegistry {
         }
 
         uniq.register(
-                UniqueMetaIdentifier.createFor(plankBlock, plankMeta), UniqueMetaIdentifier.createFor(block, meta));
+                UniqueMetaIdentifier.createFor(plankBlock, plankMeta),
+                UniqueMetaIdentifier.createFor(block, meta));
 
         UniqueMetaRegistry<UniqueMetaIdentifier> blockReg = invertRegistry.get(config);
         if (blockReg == null) {
@@ -38,7 +40,8 @@ public class BlockRegistry {
         }
 
         blockReg.register(
-                UniqueMetaIdentifier.createFor(block, meta), UniqueMetaIdentifier.createFor(plankBlock, plankMeta));
+                UniqueMetaIdentifier.createFor(block, meta),
+                UniqueMetaIdentifier.createFor(plankBlock, plankMeta));
     }
 
     public Block getBlock(BlockConfiguration config, Block plankBlock, int plankMeta) {
@@ -57,11 +60,8 @@ public class BlockRegistry {
         return metaLookup(invertRegistry, config, block, meta);
     }
 
-    private Block blockLookup(
-            Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> reg,
-            BlockConfiguration config,
-            Block block,
-            int meta) {
+    private Block blockLookup(Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> reg,
+            BlockConfiguration config, Block block, int meta) {
         UniqueMetaRegistry<UniqueMetaIdentifier> uniq = reg.get(config);
         if (uniq == null) return null;
 
@@ -71,11 +71,8 @@ public class BlockRegistry {
         return id.getBlock();
     }
 
-    private int metaLookup(
-            Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> reg,
-            BlockConfiguration config,
-            Block block,
-            int meta) {
+    private int metaLookup(Map<BlockConfiguration, UniqueMetaRegistry<UniqueMetaIdentifier>> reg,
+            BlockConfiguration config, Block block, int meta) {
         UniqueMetaRegistry<UniqueMetaIdentifier> uniq = reg.get(config);
         if (uniq == null) return 0;
 

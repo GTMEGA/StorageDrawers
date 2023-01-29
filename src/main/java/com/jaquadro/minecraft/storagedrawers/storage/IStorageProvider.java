@@ -3,6 +3,7 @@ package com.jaquadro.minecraft.storagedrawers.storage;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 
 public interface IStorageProvider {
+
     public boolean isCentrallyManaged();
 
     public int getSlotCount(int slot);

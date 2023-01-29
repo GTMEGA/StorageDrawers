@@ -4,6 +4,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 
 public interface IDrawerInventory extends ISidedInventory {
+
     /**
      * Gets a drawer's group slot index from an IInventory slot index.
      *
@@ -15,7 +16,7 @@ public interface IDrawerInventory extends ISidedInventory {
      * Gets an IInventory slot index suitable for operations for the given type.
      *
      * @param drawerSlot The index of the drawer within its group.
-     * @param type The type of IInventory slot to return an index for.
+     * @param type       The type of IInventory slot to return an index for.
      */
     int getInventorySlot(int drawerSlot, SlotType type);
 

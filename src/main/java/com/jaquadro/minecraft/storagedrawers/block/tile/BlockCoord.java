@@ -4,6 +4,7 @@ package com.jaquadro.minecraft.storagedrawers.block.tile;
  * Created by Justin on 4/25/2015.
  */
 class BlockCoord {
+
     private int x;
     private int y;
     private int z;

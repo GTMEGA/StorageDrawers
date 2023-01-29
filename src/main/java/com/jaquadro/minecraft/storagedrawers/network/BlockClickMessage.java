@@ -1,15 +1,18 @@
 package com.jaquadro.minecraft.storagedrawers.network;
 
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
+
 import com.jaquadro.minecraft.storagedrawers.block.IExtendedBlockClickHandler;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
 
 public class BlockClickMessage implements IMessage {
+
     private int x;
     private int y;
     private int z;
@@ -57,24 +60,23 @@ public class BlockClickMessage implements IMessage {
     }
 
     public static class Handler implements IMessageHandler<BlockClickMessage, IMessage> {
+
         @Override
         public IMessage onMessage(BlockClickMessage message, MessageContext ctx) {
             if (ctx.side == Side.SERVER) {
                 World world = ctx.getServerHandler().playerEntity.getEntityWorld();
                 Block block = world.getBlock(message.x, message.y, message.z);
-                if (block instanceof IExtendedBlockClickHandler)
-                    ((IExtendedBlockClickHandler) block)
-                            .onBlockClicked(
-                                    world,
-                                    message.x,
-                                    message.y,
-                                    message.z,
-                                    ctx.getServerHandler().playerEntity,
-                                    message.side,
-                                    message.hitX,
-                                    message.hitY,
-                                    message.hitZ,
-                                    message.invertShift);
+                if (block instanceof IExtendedBlockClickHandler) ((IExtendedBlockClickHandler) block).onBlockClicked(
+                        world,
+                        message.x,
+                        message.y,
+                        message.z,
+                        ctx.getServerHandler().playerEntity,
+                        message.side,
+                        message.hitX,
+                        message.hitY,
+                        message.hitZ,
+                        message.invertShift);
             }
 
             return null;

@@ -1,12 +1,7 @@
 package com.jaquadro.minecraft.storagedrawers.block;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
-import com.jaquadro.minecraft.storagedrawers.core.ClientProxy;
-import com.jaquadro.minecraft.storagedrawers.item.ItemCustomTrim;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,7 +13,16 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
+import com.jaquadro.minecraft.storagedrawers.core.ClientProxy;
+import com.jaquadro.minecraft.storagedrawers.item.ItemCustomTrim;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockTrimCustom extends BlockTrim implements ITileEntityProvider {
+
     @SideOnly(Side.CLIENT)
     private IIcon defaultFace;
 

@@ -1,17 +1,8 @@
 package com.jaquadro.minecraft.storagedrawers.block;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
-import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityController;
-import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
-import com.jaquadro.minecraft.storagedrawers.core.ModItems;
-import com.jaquadro.minecraft.storagedrawers.item.ItemPersonalKey;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.EnumSet;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -26,7 +17,20 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
+import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityController;
+import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
+import com.jaquadro.minecraft.storagedrawers.core.ModItems;
+import com.jaquadro.minecraft.storagedrawers.item.ItemPersonalKey;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockController extends BlockContainer implements INetworked {
+
     @SideOnly(Side.CLIENT)
     private IIcon iconFront;
 
@@ -113,8 +117,8 @@ public class BlockController extends BlockContainer implements INetworked {
     }
 
     @Override
-    public boolean onBlockActivated(
-            World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
+            float hitY, float hitZ) {
         TileEntityController te = getTileEntitySafe(world, x, y, z);
         ItemStack item = player.inventory.getCurrentItem();
 
@@ -123,14 +127,15 @@ public class BlockController extends BlockContainer implements INetworked {
                 if (!world.isRemote) te.toggleShroud(player.getGameProfile());
                 return true;
             } else if (item.getItem() == ModItems.upgradeLock) {
-                if (!world.isRemote)
-                    te.toggleLock(
-                            EnumSet.allOf(LockAttribute.class), LockAttribute.LOCK_POPULATED, player.getGameProfile());
+                if (!world.isRemote) te.toggleLock(
+                        EnumSet.allOf(LockAttribute.class),
+                        LockAttribute.LOCK_POPULATED,
+                        player.getGameProfile());
                 return true;
             } else if (item.getItem() == ModItems.personalKey) {
                 if (!world.isRemote) {
-                    String securityKey =
-                            ((ItemPersonalKey) item.getItem()).getSecurityProviderKey(item.getItemDamage());
+                    String securityKey = ((ItemPersonalKey) item.getItem())
+                            .getSecurityProviderKey(item.getItemDamage());
                     ISecurityProvider provider = StorageDrawers.securityRegistry.getProvider(securityKey);
 
                     te.toggleProtection(player.getGameProfile(), provider);

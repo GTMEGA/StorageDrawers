@@ -5,6 +5,7 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IProtectable;
 import com.mojang.authlib.GameProfile;
 
 public class DefaultSecurityProvider implements ISecurityProvider {
+
     @Override
     public String getProviderID() {
         return null;

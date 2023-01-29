@@ -1,14 +1,16 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
+import java.util.List;
+
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
 import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
 import cpw.mods.fml.common.versioning.InvalidVersionSpecificationException;
 import cpw.mods.fml.common.versioning.VersionRange;
-import java.util.List;
 
 public abstract class IntegrationModule {
+
     public abstract String getModID();
 
     public boolean versionCheck() {

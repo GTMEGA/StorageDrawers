@@ -1,14 +1,18 @@
 package com.jaquadro.minecraft.storagedrawers.config;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.IConfigElement;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+
+import cpw.mods.fml.client.config.GuiConfig;
+import cpw.mods.fml.client.config.IConfigElement;
+
 public class ModConfigGui extends GuiConfig {
+
     public ModConfigGui(GuiScreen parent) {
         super(parent, getConfigElements(), StorageDrawers.MOD_ID, false, false, "Storage Drawers Configuration");
     }

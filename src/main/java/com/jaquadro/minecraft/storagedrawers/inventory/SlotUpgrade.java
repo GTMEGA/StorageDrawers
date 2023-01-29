@@ -1,12 +1,14 @@
 package com.jaquadro.minecraft.storagedrawers.inventory;
 
-import com.jaquadro.minecraft.storagedrawers.core.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import com.jaquadro.minecraft.storagedrawers.core.ModItems;
+
 public class SlotUpgrade extends Slot {
+
     public SlotUpgrade(IInventory inventory, int index, int x, int y) {
         super(inventory, index, x, y);
     }

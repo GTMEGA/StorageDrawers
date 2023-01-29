@@ -1,10 +1,12 @@
 package com.jaquadro.minecraft.storagedrawers.security;
 
-import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
+
 public class SecurityRegistry {
+
     private Map<String, ISecurityProvider> registry = new HashMap<String, ISecurityProvider>();
 
     public void registerProvider(ISecurityProvider provider) {

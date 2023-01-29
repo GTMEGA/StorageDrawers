@@ -1,13 +1,17 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.logging.log4j.Level;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
+
 public class IntegrationRegistry {
+
     private static IntegrationRegistry instance;
 
     private List<IntegrationModule> registry;
@@ -61,8 +65,7 @@ public class IntegrationRegistry {
                 FMLLog.log(
                         StorageDrawers.MOD_ID,
                         Level.INFO,
-                        "Could not load integration module: "
-                                + module.getClass().getName());
+                        "Could not load integration module: " + module.getClass().getName());
             }
         }
     }

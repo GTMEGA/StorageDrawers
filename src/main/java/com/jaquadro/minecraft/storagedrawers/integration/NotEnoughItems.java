@@ -1,9 +1,11 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
 import java.lang.reflect.Field;
+
 import net.minecraft.client.renderer.entity.RenderItem;
 
 public class NotEnoughItems extends IntegrationModule {
+
     private static final String MOD_ID = "NotEnoughItems";
 
     boolean loaded;

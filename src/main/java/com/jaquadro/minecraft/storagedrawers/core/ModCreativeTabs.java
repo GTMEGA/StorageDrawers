@@ -1,17 +1,21 @@
 package com.jaquadro.minecraft.storagedrawers.core;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public final class ModCreativeTabs {
+
     private ModCreativeTabs() {}
 
     public static final CreativeTabs tabStorageDrawers = new CreativeTabs("storageDrawers") {
+
         @Override
         @SideOnly(Side.CLIENT)
         public Item getTabIconItem() {

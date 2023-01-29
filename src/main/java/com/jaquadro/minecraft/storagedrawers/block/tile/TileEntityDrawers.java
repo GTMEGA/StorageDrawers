@@ -1,5 +1,21 @@
 package com.jaquadro.minecraft.storagedrawers.block.tile;
 
+import java.util.EnumSet;
+import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.Constants;
+
+import org.apache.logging.log4j.Level;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.inventory.IDrawerInventory;
 import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
@@ -13,35 +29,18 @@ import com.jaquadro.minecraft.storagedrawers.inventory.ISideManager;
 import com.jaquadro.minecraft.storagedrawers.inventory.StorageInventory;
 import com.jaquadro.minecraft.storagedrawers.network.CountUpdateMessage;
 import com.jaquadro.minecraft.storagedrawers.storage.IUpgradeProvider;
+
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import java.util.EnumSet;
-import java.util.UUID;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.util.Constants;
-import org.apache.logging.log4j.Level;
 
-public abstract class TileEntityDrawers extends BaseTileEntity
-        implements IDrawerGroupInteractive,
-                ISidedInventory,
-                IUpgradeProvider,
-                ILockable,
-                ISealable,
-                IProtectable,
-                IDowngradable {
+public abstract class TileEntityDrawers extends BaseTileEntity implements IDrawerGroupInteractive, ISidedInventory,
+        IUpgradeProvider, ILockable, ISealable, IProtectable, IDowngradable {
+
     private IDrawer[] drawers;
     private IDrawerInventory inventory;
 
-    private int[] autoSides = new int[] {0, 1, 2, 3, 4, 5};
+    private int[] autoSides = new int[] { 0, 1, 2, 3, 4, 5 };
 
     private int direction;
     private int drawerCapacity = 1;
@@ -576,8 +575,7 @@ public abstract class TileEntityDrawers extends BaseTileEntity
 
     public int interactPutItemsIntoSlot(int slot, EntityPlayer player) {
         int count = 0;
-        if (worldObj.getTotalWorldTime() - lastClickTime < 10
-                && player.getPersistentID().equals(lastClickUUID))
+        if (worldObj.getTotalWorldTime() - lastClickTime < 10 && player.getPersistentID().equals(lastClickUUID))
             count = interactPutCurrentInventoryIntoSlot(slot, player);
         else count = interactPutCurrentItemIntoSlot(slot, player);
 
@@ -767,8 +765,15 @@ public abstract class TileEntityDrawers extends BaseTileEntity
             FMLLog.log(
                     StorageDrawers.MOD_ID,
                     Level.ERROR,
-                    "Drawer at (" + this.xCoord + "," + this.yCoord + "," + this.zCoord + ") has no slot " + slot
-                            + ". Drawers.length is " + drawers.length);
+                    "Drawer at (" + this.xCoord
+                            + ","
+                            + this.yCoord
+                            + ","
+                            + this.zCoord
+                            + ") has no slot "
+                            + slot
+                            + ". Drawers.length is "
+                            + drawers.length);
             return;
         }
         if (drawer.getStoredItemCount() != count) {
@@ -788,8 +793,12 @@ public abstract class TileEntityDrawers extends BaseTileEntity
 
     private void syncClientCount(int slot) {
         IMessage message = new CountUpdateMessage(xCoord, yCoord, zCoord, slot, drawers[slot].getStoredItemCount());
-        NetworkRegistry.TargetPoint targetPoint =
-                new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 500);
+        NetworkRegistry.TargetPoint targetPoint = new NetworkRegistry.TargetPoint(
+                worldObj.provider.dimensionId,
+                xCoord,
+                yCoord,
+                zCoord,
+                500);
 
         StorageDrawers.network.sendToAllAround(message, targetPoint);
     }
@@ -926,6 +935,7 @@ public abstract class TileEntityDrawers extends BaseTileEntity
     }
 
     private class DefaultSideManager implements ISideManager {
+
         @Override
         public int[] getSlotsForSide(int side) {
             return autoSides;

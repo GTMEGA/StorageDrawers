@@ -1,5 +1,9 @@
 package com.jaquadro.minecraft.storagedrawers.core.api;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
 import com.jaquadro.minecraft.storagedrawers.api.pack.IExtendedDataResolver;
@@ -18,13 +22,12 @@ import com.jaquadro.minecraft.storagedrawers.item.pack.ItemDrawersPack;
 import com.jaquadro.minecraft.storagedrawers.item.pack.ItemSortingDrawersPack;
 import com.jaquadro.minecraft.storagedrawers.item.pack.ItemSortingTrimPack;
 import com.jaquadro.minecraft.storagedrawers.item.pack.ItemTrimPack;
+
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class PackFactory implements IPackBlockFactory {
+
     @Override
     public Block createBlock(BlockConfiguration blockConfig, IPackDataResolver dataResolver) {
         switch (blockConfig.getBlockType()) {
@@ -32,10 +35,10 @@ public class PackFactory implements IPackBlockFactory {
                 return new BlockDrawersPack(dataResolver, blockConfig.getDrawerCount(), blockConfig.isHalfDepth())
                         .setConfigName(getConfigName(blockConfig));
             case DrawersSorting:
-                if (IntegrationRegistry.instance().isModLoaded("RefinedRelocation"))
-                    return new BlockSortingDrawersPack(
-                                    dataResolver, blockConfig.getDrawerCount(), blockConfig.isHalfDepth())
-                            .setConfigName(getConfigName(blockConfig));
+                if (IntegrationRegistry.instance().isModLoaded("RefinedRelocation")) return new BlockSortingDrawersPack(
+                        dataResolver,
+                        blockConfig.getDrawerCount(),
+                        blockConfig.isHalfDepth()).setConfigName(getConfigName(blockConfig));
                 return null;
             case Trim:
                 return new BlockTrimPack(dataResolver);

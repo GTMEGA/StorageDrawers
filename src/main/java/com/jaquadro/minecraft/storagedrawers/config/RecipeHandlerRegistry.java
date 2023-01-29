@@ -1,18 +1,21 @@
 package com.jaquadro.minecraft.storagedrawers.config;
 
-import com.jaquadro.minecraft.storagedrawers.api.registry.IIngredientHandler;
-import com.jaquadro.minecraft.storagedrawers.api.registry.IRecipeHandler;
-import com.jaquadro.minecraft.storagedrawers.api.registry.IRecipeHandlerRegistry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import com.jaquadro.minecraft.storagedrawers.api.registry.IIngredientHandler;
+import com.jaquadro.minecraft.storagedrawers.api.registry.IRecipeHandler;
+import com.jaquadro.minecraft.storagedrawers.api.registry.IRecipeHandlerRegistry;
+
 public class RecipeHandlerRegistry implements IRecipeHandlerRegistry {
+
     private Map<Class, IRecipeHandler> recipeRegistry = new HashMap<Class, IRecipeHandler>();
     private Map<Class, IIngredientHandler> ingredientRegistry = new HashMap<Class, IIngredientHandler>();
 
@@ -60,6 +63,7 @@ public class RecipeHandlerRegistry implements IRecipeHandlerRegistry {
     }
 
     private static class ShapedOreRecipeHandler implements IRecipeHandler {
+
         @Override
         public Object[] getInputAsArray(IRecipe recipe) {
             return ((ShapedOreRecipe) recipe).getInput();
@@ -72,6 +76,7 @@ public class RecipeHandlerRegistry implements IRecipeHandlerRegistry {
     }
 
     private static class ShapedRecipeHandler implements IRecipeHandler {
+
         @Override
         public Object[] getInputAsArray(IRecipe recipe) {
             return ((ShapedRecipes) recipe).recipeItems;
@@ -84,6 +89,7 @@ public class RecipeHandlerRegistry implements IRecipeHandlerRegistry {
     }
 
     private static class ShapelessOreRecipeHandler implements IRecipeHandler {
+
         @Override
         public Object[] getInputAsArray(IRecipe recipe) {
             return null;
@@ -96,6 +102,7 @@ public class RecipeHandlerRegistry implements IRecipeHandlerRegistry {
     }
 
     private static class ShapelessRecipeHandler implements IRecipeHandler {
+
         @Override
         public Object[] getInputAsArray(IRecipe recipe) {
             return null;

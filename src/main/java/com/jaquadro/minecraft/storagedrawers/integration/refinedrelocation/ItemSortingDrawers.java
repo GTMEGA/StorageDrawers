@@ -1,19 +1,23 @@
 package com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
-import com.jaquadro.minecraft.storagedrawers.integration.RefinedRelocation;
-import com.jaquadro.minecraft.storagedrawers.item.ItemBasicDrawers;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
+import com.jaquadro.minecraft.storagedrawers.integration.RefinedRelocation;
+import com.jaquadro.minecraft.storagedrawers.item.ItemBasicDrawers;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemSortingDrawers extends ItemBasicDrawers {
+
     public ItemSortingDrawers(Block block) {
         super(block);
     }

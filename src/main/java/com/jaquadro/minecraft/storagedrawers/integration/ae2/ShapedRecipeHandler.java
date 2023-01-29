@@ -1,11 +1,14 @@
 package com.jaquadro.minecraft.storagedrawers.integration.ae2;
 
-import com.jaquadro.minecraft.storagedrawers.api.registry.IRecipeHandler;
 import java.lang.reflect.Method;
 import java.util.List;
+
 import net.minecraft.item.crafting.IRecipe;
 
+import com.jaquadro.minecraft.storagedrawers.api.registry.IRecipeHandler;
+
 public class ShapedRecipeHandler implements IRecipeHandler {
+
     private Class classShapedRecipe;
     private Method methodGetInput;
 

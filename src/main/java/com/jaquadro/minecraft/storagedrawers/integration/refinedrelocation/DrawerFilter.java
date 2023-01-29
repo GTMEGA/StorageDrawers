@@ -1,11 +1,13 @@
 package com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation;
 
+import net.minecraft.item.ItemStack;
+
 import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
-import net.minecraft.item.ItemStack;
 
 public class DrawerFilter implements IFilter {
+
     private IDrawerGroup group;
 
     public DrawerFilter(IDrawerGroup group) {

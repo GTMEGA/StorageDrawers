@@ -1,13 +1,17 @@
 package com.jaquadro.minecraft.storagedrawers.block.tile;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import cpw.mods.fml.common.FMLLog;
 import java.util.Iterator;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+
 import org.apache.logging.log4j.Level;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import cpw.mods.fml.common.FMLLog;
+
 public class BaseTileEntity extends TileEntity {
+
     private NBTTagCompound failureSnapshot;
 
     @Override

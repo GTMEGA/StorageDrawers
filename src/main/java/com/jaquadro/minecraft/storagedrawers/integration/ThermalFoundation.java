@@ -1,15 +1,18 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
+import java.lang.reflect.Method;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.core.ModItems;
 import com.jaquadro.minecraft.storagedrawers.integration.thermalfoundation.CoFHSecurityProvider;
 import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.common.registry.GameRegistry;
-import java.lang.reflect.Method;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ThermalFoundation extends IntegrationModule {
+
     private Class classRegistrySocial;
 
     private Method methodPlayerHasAccess;
@@ -27,8 +30,8 @@ public class ThermalFoundation extends IntegrationModule {
             classRegistrySocial = Class.forName("cofh.core.util.SocialRegistry");
         }
 
-        methodPlayerHasAccess =
-                classRegistrySocial.getDeclaredMethod("playerHasAccess", String.class, GameProfile.class);
+        methodPlayerHasAccess = classRegistrySocial
+                .getDeclaredMethod("playerHasAccess", String.class, GameProfile.class);
     }
 
     @Override
@@ -36,15 +39,16 @@ public class ThermalFoundation extends IntegrationModule {
         StorageDrawers.securityRegistry.registerProvider(new CoFHSecurityProvider(this));
 
         if (StorageDrawers.config.cache.enablePersonalUpgrades) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(
-                    new ItemStack(ModItems.personalKey, 1, 1),
-                    "xxx",
-                    "xyx",
-                    "xxx",
-                    'x',
-                    "nuggetSignalum",
-                    'y',
-                    ModItems.personalKey));
+            GameRegistry.addRecipe(
+                    new ShapedOreRecipe(
+                            new ItemStack(ModItems.personalKey, 1, 1),
+                            "xxx",
+                            "xyx",
+                            "xxx",
+                            'x',
+                            "nuggetSignalum",
+                            'y',
+                            ModItems.personalKey));
         }
     }
 

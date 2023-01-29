@@ -1,10 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
-import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonDrawerRenderer;
-import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
-import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
@@ -12,9 +7,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
+
 import org.lwjgl.opengl.GL11;
 
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
+import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonDrawerRenderer;
+import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
+import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
+
 public class DrawersItemRenderer implements IItemRenderer {
+
     // private RenderHelper renderHelper = new RenderHelper();
     private CommonDrawerRenderer commonRender = new CommonDrawerRenderer();
     private ModularBoxRenderer boxRenderer = new ModularBoxRenderer();
@@ -67,8 +70,8 @@ public class DrawersItemRenderer implements IItemRenderer {
     private void renderBaseBlock(BlockDrawers block, ItemStack item, RenderBlocks renderer) {
         int side = 4;
 
-        RenderHelper.instance.state.setUVRotation(
-                RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZPOS][side]);
+        RenderHelper.instance.state
+                .setUVRotation(RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZPOS][side]);
 
         boxRenderer.setUnit(block.getTrimWidth());
         boxRenderer.setColor(ModularBoxRenderer.COLOR_WHITE);

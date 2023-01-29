@@ -3,6 +3,7 @@ package com.jaquadro.minecraft.storagedrawers.api.pack;
 import net.minecraft.creativetab.CreativeTabs;
 
 public class StandardDataResolver implements IPackDataResolver {
+
     private String modID;
     private String[] unlocalizedNames;
     private CreativeTabs creativeTab;

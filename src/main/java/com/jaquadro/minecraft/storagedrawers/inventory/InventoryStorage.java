@@ -1,16 +1,19 @@
 package com.jaquadro.minecraft.storagedrawers.inventory;
 
-import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-import com.jaquadro.minecraft.storagedrawers.client.renderer.StorageRenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
+import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.client.renderer.StorageRenderItem;
+
 public class InventoryStorage implements IInventory {
+
     public StorageRenderItem activeRenderItem;
 
     private static class InventorySnapshot {
+
         private ItemStack[] snapshotItems;
         private int[] snapshotCounts;
 
@@ -115,7 +118,7 @@ public class InventoryStorage implements IInventory {
                 ItemStack stack = tile.getStackInSlot(i);
                 if (stack != null) stack.stackSize += diff;
                 // else if (diff > 0)
-                //    tile.setInventorySlotContents(i, snapshot.);
+                // tile.setInventorySlotContents(i, snapshot.);
             }
         }
 

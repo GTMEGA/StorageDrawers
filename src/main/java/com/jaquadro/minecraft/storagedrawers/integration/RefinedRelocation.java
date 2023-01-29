@@ -1,14 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
-import com.jaquadro.minecraft.storagedrawers.core.ModBlocks;
-import com.jaquadro.minecraft.storagedrawers.core.ModItems;
-import com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation.*;
-import com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation.ItemUpgradeSorting;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockWood;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -16,7 +7,19 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
+import com.jaquadro.minecraft.storagedrawers.core.ModBlocks;
+import com.jaquadro.minecraft.storagedrawers.core.ModItems;
+import com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation.*;
+import com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation.ItemUpgradeSorting;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class RefinedRelocation extends IntegrationModule {
+
     public static BlockSortingDrawers fullDrawers1;
     public static BlockSortingDrawers fullDrawers2;
     public static BlockSortingDrawers fullDrawers4;
@@ -28,6 +31,7 @@ public class RefinedRelocation extends IntegrationModule {
     public static ItemUpgradeSorting upgradeSorting;
 
     public static final CreativeTabs tabStorageDrawers = new CreativeTabs("storageDrawersSorting") {
+
         @Override
         @SideOnly(Side.CLIENT)
         public Item getTabIconItem() {
@@ -105,7 +109,9 @@ public class RefinedRelocation extends IntegrationModule {
                 ModBlocks.getQualifiedName(compDrawers));
 
         GameRegistry.registerTileEntityWithAlternatives(
-                TileSortingTrim.class, ModBlocks.getQualifiedName("tileSortingTrim"), ModBlocks.getQualifiedName(trim));
+                TileSortingTrim.class,
+                ModBlocks.getQualifiedName("tileSortingTrim"),
+                ModBlocks.getQualifiedName(trim));
     }
 
     @Override
@@ -113,89 +119,81 @@ public class RefinedRelocation extends IntegrationModule {
         ConfigManager config = StorageDrawers.config;
 
         for (int i = 0; i < BlockWood.field_150096_a.length; i++) {
-            if (config.isBlockEnabled("fulldrawers1"))
-                GameRegistry.addRecipe(
-                        new ItemStack(fullDrawers1, 1, i),
-                        "x x",
-                        " y ",
-                        "x x",
-                        'x',
-                        Items.gold_nugget,
-                        'y',
-                        new ItemStack(ModBlocks.fullDrawers1, 1, i));
-            if (config.isBlockEnabled("fulldrawers2"))
-                GameRegistry.addRecipe(
-                        new ItemStack(fullDrawers2, 1, i),
-                        "x x",
-                        " y ",
-                        "x x",
-                        'x',
-                        Items.gold_nugget,
-                        'y',
-                        new ItemStack(ModBlocks.fullDrawers2, 1, i));
-            if (config.isBlockEnabled("halfdrawers2"))
-                GameRegistry.addRecipe(
-                        new ItemStack(halfDrawers2, 1, i),
-                        "x x",
-                        " y ",
-                        "x x",
-                        'x',
-                        Items.gold_nugget,
-                        'y',
-                        new ItemStack(ModBlocks.halfDrawers2, 1, i));
-            if (config.isBlockEnabled("fulldrawers4"))
-                GameRegistry.addRecipe(
-                        new ItemStack(fullDrawers4, 1, i),
-                        "x x",
-                        " y ",
-                        "x x",
-                        'x',
-                        Items.gold_nugget,
-                        'y',
-                        new ItemStack(ModBlocks.fullDrawers4, 1, i));
-            if (config.isBlockEnabled("halfdrawers4"))
-                GameRegistry.addRecipe(
-                        new ItemStack(halfDrawers4, 1, i),
-                        "x x",
-                        " y ",
-                        "x x",
-                        'x',
-                        Items.gold_nugget,
-                        'y',
-                        new ItemStack(ModBlocks.halfDrawers4, 1, i));
-            if (config.isBlockEnabled("trim"))
-                GameRegistry.addRecipe(
-                        new ItemStack(trim, 1, i),
-                        "x x",
-                        " y ",
-                        "x x",
-                        'x',
-                        Items.gold_nugget,
-                        'y',
-                        new ItemStack(ModBlocks.trim, 1, i));
-        }
-
-        if (config.isBlockEnabled("compdrawers"))
-            GameRegistry.addRecipe(
-                    new ItemStack(compDrawers, 1),
+            if (config.isBlockEnabled("fulldrawers1")) GameRegistry.addRecipe(
+                    new ItemStack(fullDrawers1, 1, i),
                     "x x",
                     " y ",
                     "x x",
                     'x',
                     Items.gold_nugget,
                     'y',
-                    new ItemStack(ModBlocks.compDrawers, 1));
-
-        if (config.cache.enableSortingUpgrades)
-            GameRegistry.addRecipe(
-                    new ItemStack(upgradeSorting),
-                    "y y",
-                    " z ",
-                    "y y",
-                    'y',
+                    new ItemStack(ModBlocks.fullDrawers1, 1, i));
+            if (config.isBlockEnabled("fulldrawers2")) GameRegistry.addRecipe(
+                    new ItemStack(fullDrawers2, 1, i),
+                    "x x",
+                    " y ",
+                    "x x",
+                    'x',
                     Items.gold_nugget,
-                    'z',
-                    ModItems.upgradeTemplate);
+                    'y',
+                    new ItemStack(ModBlocks.fullDrawers2, 1, i));
+            if (config.isBlockEnabled("halfdrawers2")) GameRegistry.addRecipe(
+                    new ItemStack(halfDrawers2, 1, i),
+                    "x x",
+                    " y ",
+                    "x x",
+                    'x',
+                    Items.gold_nugget,
+                    'y',
+                    new ItemStack(ModBlocks.halfDrawers2, 1, i));
+            if (config.isBlockEnabled("fulldrawers4")) GameRegistry.addRecipe(
+                    new ItemStack(fullDrawers4, 1, i),
+                    "x x",
+                    " y ",
+                    "x x",
+                    'x',
+                    Items.gold_nugget,
+                    'y',
+                    new ItemStack(ModBlocks.fullDrawers4, 1, i));
+            if (config.isBlockEnabled("halfdrawers4")) GameRegistry.addRecipe(
+                    new ItemStack(halfDrawers4, 1, i),
+                    "x x",
+                    " y ",
+                    "x x",
+                    'x',
+                    Items.gold_nugget,
+                    'y',
+                    new ItemStack(ModBlocks.halfDrawers4, 1, i));
+            if (config.isBlockEnabled("trim")) GameRegistry.addRecipe(
+                    new ItemStack(trim, 1, i),
+                    "x x",
+                    " y ",
+                    "x x",
+                    'x',
+                    Items.gold_nugget,
+                    'y',
+                    new ItemStack(ModBlocks.trim, 1, i));
+        }
+
+        if (config.isBlockEnabled("compdrawers")) GameRegistry.addRecipe(
+                new ItemStack(compDrawers, 1),
+                "x x",
+                " y ",
+                "x x",
+                'x',
+                Items.gold_nugget,
+                'y',
+                new ItemStack(ModBlocks.compDrawers, 1));
+
+        if (config.cache.enableSortingUpgrades) GameRegistry.addRecipe(
+                new ItemStack(upgradeSorting),
+                "y y",
+                " z ",
+                "y y",
+                'y',
+                Items.gold_nugget,
+                'z',
+                ModItems.upgradeTemplate);
     }
 
     private static Item getTabItem() {

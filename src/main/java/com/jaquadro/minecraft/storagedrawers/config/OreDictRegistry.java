@@ -1,16 +1,19 @@
 package com.jaquadro.minecraft.storagedrawers.config;
 
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class OreDictRegistry {
+
     private Set<String> blacklist = new HashSet<String>();
     private Set<String> whitelist = new HashSet<String>();
     private List<String> blacklistPrefix = new ArrayList<String>();
@@ -53,26 +56,9 @@ public class OreDictRegistry {
         addBlacklistPrefix("list");
         addBlacklistPrefix("dye");
 
-        String[] oreTypes = {"ore", "block", "ingot", "nugget"};
-        String[] oreMaterials = {
-            "Iron",
-            "Gold",
-            "Diamond",
-            "Emerald",
-            "Aluminum",
-            "Aluminium",
-            "Tin",
-            "Copper",
-            "Lead",
-            "Silver",
-            "Platinum",
-            "Nickel",
-            "Osmium",
-            "Invar",
-            "Bronze",
-            "Electrum",
-            "Enderium"
-        };
+        String[] oreTypes = { "ore", "block", "ingot", "nugget" };
+        String[] oreMaterials = { "Iron", "Gold", "Diamond", "Emerald", "Aluminum", "Aluminium", "Tin", "Copper",
+                "Lead", "Silver", "Platinum", "Nickel", "Osmium", "Invar", "Bronze", "Electrum", "Enderium" };
 
         for (String ore : oreMaterials) {
             for (String type : oreTypes) addWhitelist(type + ore);

@@ -1,11 +1,13 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
-import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
+import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
+
 public class ModularBoxRenderer {
+
     public static final int CONNECT_YNEG = 1 << 0;
     public static final int CONNECT_YPOS = 1 << 1;
     public static final int CONNECT_ZNEG = 1 << 2;
@@ -63,14 +65,18 @@ public class ModularBoxRenderer {
     private static final int TEST_YPOS_ZPOS_XNEG = CUT_YPOS | CUT_ZPOS | CUT_XNEG;
     private static final int TEST_YPOS_ZPOS_XPOS = CUT_YPOS | CUT_ZPOS | CUT_XPOS;
 
-    private static final int PLANE_YNEG =
-            CONNECT_YNEG | CONNECT_YNEG_ZNEG | CONNECT_YNEG_ZPOS | CONNECT_YNEG_XNEG | CONNECT_YNEG_XPOS;
-    private static final int PLANE_YPOS =
-            CONNECT_YPOS | CONNECT_YPOS_ZNEG | CONNECT_YPOS_ZPOS | CONNECT_YPOS_XNEG | CONNECT_YPOS_XPOS;
+    private static final int PLANE_YNEG = CONNECT_YNEG | CONNECT_YNEG_ZNEG
+            | CONNECT_YNEG_ZPOS
+            | CONNECT_YNEG_XNEG
+            | CONNECT_YNEG_XPOS;
+    private static final int PLANE_YPOS = CONNECT_YPOS | CONNECT_YPOS_ZNEG
+            | CONNECT_YPOS_ZPOS
+            | CONNECT_YPOS_XNEG
+            | CONNECT_YPOS_XPOS;
 
-    public static final float[] COLOR_WHITE = new float[] {1, 1, 1};
+    public static final float[] COLOR_WHITE = new float[] { 1, 1, 1 };
 
-    public static final int[] sideCut = new int[] {CUT_YNEG, CUT_YPOS, CUT_ZNEG, CUT_ZPOS, CUT_XNEG, CUT_XPOS};
+    public static final int[] sideCut = new int[] { CUT_YNEG, CUT_YPOS, CUT_ZNEG, CUT_ZPOS, CUT_XNEG, CUT_XPOS };
 
     private double unit = 0.0625;
 
@@ -190,8 +196,8 @@ public class ModularBoxRenderer {
         this.unit = unit;
     }
 
-    public void renderOctant(
-            IBlockAccess blockAccess, Block block, double x, double y, double z, int connectedFlags, int cutFlags) {
+    public void renderOctant(IBlockAccess blockAccess, Block block, double x, double y, double z, int connectedFlags,
+            int cutFlags) {
         double xBase = Math.floor(x);
         double yBase = Math.floor(y);
         double zBase = Math.floor(z);
@@ -203,58 +209,48 @@ public class ModularBoxRenderer {
         double zPos = zNeg + .5;
 
         renderExterior(
-                blockAccess, block, xBase, yBase, zBase, xNeg, yNeg, zNeg, xPos, yPos, zPos, connectedFlags, cutFlags);
+                blockAccess,
+                block,
+                xBase,
+                yBase,
+                zBase,
+                xNeg,
+                yNeg,
+                zNeg,
+                xPos,
+                yPos,
+                zPos,
+                connectedFlags,
+                cutFlags);
         renderInterior(
-                blockAccess, block, xBase, yBase, zBase, xNeg, yNeg, zNeg, xPos, yPos, zPos, connectedFlags, cutFlags);
+                blockAccess,
+                block,
+                xBase,
+                yBase,
+                zBase,
+                xNeg,
+                yNeg,
+                zNeg,
+                xPos,
+                yPos,
+                zPos,
+                connectedFlags,
+                cutFlags);
     }
 
-    public void renderBox(
-            IBlockAccess blockAccess,
-            Block block,
-            double x,
-            double y,
-            double z,
-            double xNeg,
-            double yNeg,
-            double zNeg,
-            double xPos,
-            double yPos,
-            double zPos,
-            int connectedFlags,
-            int cutFlags) {
+    public void renderBox(IBlockAccess blockAccess, Block block, double x, double y, double z, double xNeg, double yNeg,
+            double zNeg, double xPos, double yPos, double zPos, int connectedFlags, int cutFlags) {
         renderExterior(blockAccess, block, x, y, z, xNeg, yNeg, zNeg, xPos, yPos, zPos, connectedFlags, cutFlags);
         renderInterior(blockAccess, block, x, y, z, xNeg, yNeg, zNeg, xPos, yPos, zPos, connectedFlags, cutFlags);
     }
 
-    public void renderSolidBox(
-            IBlockAccess blockAccess,
-            Block block,
-            double x,
-            double y,
-            double z,
-            double xNeg,
-            double yNeg,
-            double zNeg,
-            double xPos,
-            double yPos,
-            double zPos) {
+    public void renderSolidBox(IBlockAccess blockAccess, Block block, double x, double y, double z, double xNeg,
+            double yNeg, double zNeg, double xPos, double yPos, double zPos) {
         renderExterior(blockAccess, block, x, y, z, xNeg, yNeg, zNeg, xPos, yPos, zPos, 0, 0);
     }
 
-    public void renderExterior(
-            IBlockAccess blockAccess,
-            Block block,
-            double x,
-            double y,
-            double z,
-            double xNeg,
-            double yNeg,
-            double zNeg,
-            double xPos,
-            double yPos,
-            double zPos,
-            int connectedFlags,
-            int cutFlags) {
+    public void renderExterior(IBlockAccess blockAccess, Block block, double x, double y, double z, double xNeg,
+            double yNeg, double zNeg, double xPos, double yPos, double zPos, int connectedFlags, int cutFlags) {
         RenderHelper renderHelper = RenderHelper.instance;
 
         if ((cutFlags & CUT_YNEG) != 0) connectedFlags |= CONNECT_YNEG;
@@ -461,20 +457,8 @@ public class ModularBoxRenderer {
         }
     }
 
-    public void renderInterior(
-            IBlockAccess blockAccess,
-            Block block,
-            double x,
-            double y,
-            double z,
-            double xNeg,
-            double yNeg,
-            double zNeg,
-            double xPos,
-            double yPos,
-            double zPos,
-            int connectedFlags,
-            int cutFlags) {
+    public void renderInterior(IBlockAccess blockAccess, Block block, double x, double y, double z, double xNeg,
+            double yNeg, double zNeg, double xPos, double yPos, double zPos, int connectedFlags, int cutFlags) {
         RenderHelper renderHelper = RenderHelper.instance;
 
         if ((cutFlags & CUT_YNEG) != 0) connectedFlags |= PLANE_YNEG;
@@ -590,15 +574,12 @@ public class ModularBoxRenderer {
 
         // Render corner faces
 
-        if ((connectedFlags & TEST_YNEG_ZNEG_XNEG) != 0
-                && (connectedFlags
-                                | CONNECT_YNEG
-                                | CONNECT_ZNEG
-                                | CONNECT_XNEG
-                                | CONNECT_YNEG_ZNEG
-                                | CONNECT_YNEG_XNEG
-                                | CONNECT_ZNEG_XNEG)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YNEG_ZNEG_XNEG) != 0 && (connectedFlags | CONNECT_YNEG
+                | CONNECT_ZNEG
+                | CONNECT_XNEG
+                | CONNECT_YNEG_ZNEG
+                | CONNECT_YNEG_XNEG
+                | CONNECT_ZNEG_XNEG) != connectedFlags) {
             renderHelper.setRenderBounds(xNeg, yNeg, zNeg, xNeg + unit, yNeg + unit, zNeg + unit);
             if ((connectedFlags | CONNECT_YNEG | CONNECT_ZNEG) == connectedFlags)
                 renderInteriorFace(FACE_XPOS, blockAccess, block, x, y, z);
@@ -607,15 +588,12 @@ public class ModularBoxRenderer {
             if ((connectedFlags | CONNECT_ZNEG | CONNECT_XNEG) == connectedFlags)
                 renderInteriorFace(FACE_YPOS, blockAccess, block, x, y, z);
         }
-        if ((connectedFlags & TEST_YNEG_ZNEG_XPOS) != 0
-                && (connectedFlags
-                                | CONNECT_YNEG
-                                | CONNECT_ZNEG
-                                | CONNECT_XPOS
-                                | CONNECT_YNEG_ZNEG
-                                | CONNECT_YNEG_XPOS
-                                | CONNECT_ZNEG_XPOS)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YNEG_ZNEG_XPOS) != 0 && (connectedFlags | CONNECT_YNEG
+                | CONNECT_ZNEG
+                | CONNECT_XPOS
+                | CONNECT_YNEG_ZNEG
+                | CONNECT_YNEG_XPOS
+                | CONNECT_ZNEG_XPOS) != connectedFlags) {
             renderHelper.setRenderBounds(xPos - unit, yNeg, zNeg, xPos, yNeg + unit, zNeg + unit);
             if ((connectedFlags | CONNECT_YNEG | CONNECT_ZNEG) == connectedFlags)
                 renderInteriorFace(FACE_XNEG, blockAccess, block, x, y, z);
@@ -624,15 +602,12 @@ public class ModularBoxRenderer {
             if ((connectedFlags | CONNECT_ZNEG | CONNECT_XPOS) == connectedFlags)
                 renderInteriorFace(FACE_YPOS, blockAccess, block, x, y, z);
         }
-        if ((connectedFlags & TEST_YNEG_ZPOS_XNEG) != 0
-                && (connectedFlags
-                                | CONNECT_YNEG
-                                | CONNECT_ZPOS
-                                | CONNECT_XNEG
-                                | CONNECT_YNEG_ZPOS
-                                | CONNECT_YNEG_XNEG
-                                | CONNECT_ZPOS_XNEG)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YNEG_ZPOS_XNEG) != 0 && (connectedFlags | CONNECT_YNEG
+                | CONNECT_ZPOS
+                | CONNECT_XNEG
+                | CONNECT_YNEG_ZPOS
+                | CONNECT_YNEG_XNEG
+                | CONNECT_ZPOS_XNEG) != connectedFlags) {
             renderHelper.setRenderBounds(xNeg, yNeg, zPos - unit, xNeg + unit, yNeg + unit, zPos);
             if ((connectedFlags | CONNECT_YNEG | CONNECT_ZPOS) == connectedFlags)
                 renderInteriorFace(FACE_XPOS, blockAccess, block, x, y, z);
@@ -641,15 +616,12 @@ public class ModularBoxRenderer {
             if ((connectedFlags | CONNECT_ZPOS | CONNECT_XNEG) == connectedFlags)
                 renderInteriorFace(FACE_YPOS, blockAccess, block, x, y, z);
         }
-        if ((connectedFlags & TEST_YNEG_ZPOS_XPOS) != 0
-                && (connectedFlags
-                                | CONNECT_YNEG
-                                | CONNECT_ZPOS
-                                | CONNECT_XPOS
-                                | CONNECT_YNEG_ZPOS
-                                | CONNECT_YNEG_XPOS
-                                | CONNECT_ZPOS_XPOS)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YNEG_ZPOS_XPOS) != 0 && (connectedFlags | CONNECT_YNEG
+                | CONNECT_ZPOS
+                | CONNECT_XPOS
+                | CONNECT_YNEG_ZPOS
+                | CONNECT_YNEG_XPOS
+                | CONNECT_ZPOS_XPOS) != connectedFlags) {
             renderHelper.setRenderBounds(xPos - unit, yNeg, zPos - unit, xPos, yNeg + unit, zPos);
             if ((connectedFlags | CONNECT_YNEG | CONNECT_ZPOS) == connectedFlags)
                 renderInteriorFace(FACE_XNEG, blockAccess, block, x, y, z);
@@ -658,15 +630,12 @@ public class ModularBoxRenderer {
             if ((connectedFlags | CONNECT_ZPOS | CONNECT_XPOS) == connectedFlags)
                 renderInteriorFace(FACE_YPOS, blockAccess, block, x, y, z);
         }
-        if ((connectedFlags & TEST_YPOS_ZNEG_XNEG) != 0
-                && (connectedFlags
-                                | CONNECT_YPOS
-                                | CONNECT_ZNEG
-                                | CONNECT_XNEG
-                                | CONNECT_YPOS_ZNEG
-                                | CONNECT_YPOS_XNEG
-                                | CONNECT_ZNEG_XNEG)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YPOS_ZNEG_XNEG) != 0 && (connectedFlags | CONNECT_YPOS
+                | CONNECT_ZNEG
+                | CONNECT_XNEG
+                | CONNECT_YPOS_ZNEG
+                | CONNECT_YPOS_XNEG
+                | CONNECT_ZNEG_XNEG) != connectedFlags) {
             renderHelper.setRenderBounds(xNeg, yPos - unit, zNeg, xNeg + unit, yPos, zNeg + unit);
             if ((connectedFlags | CONNECT_YPOS | CONNECT_ZNEG) == connectedFlags)
                 renderInteriorFace(FACE_XPOS, blockAccess, block, x, y, z);
@@ -675,15 +644,12 @@ public class ModularBoxRenderer {
             if ((connectedFlags | CONNECT_ZNEG | CONNECT_XNEG) == connectedFlags)
                 renderInteriorFace(FACE_YNEG, blockAccess, block, x, y, z);
         }
-        if ((connectedFlags & TEST_YPOS_ZNEG_XPOS) != 0
-                && (connectedFlags
-                                | CONNECT_YPOS
-                                | CONNECT_ZNEG
-                                | CONNECT_XPOS
-                                | CONNECT_YPOS_ZNEG
-                                | CONNECT_YPOS_XPOS
-                                | CONNECT_ZNEG_XPOS)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YPOS_ZNEG_XPOS) != 0 && (connectedFlags | CONNECT_YPOS
+                | CONNECT_ZNEG
+                | CONNECT_XPOS
+                | CONNECT_YPOS_ZNEG
+                | CONNECT_YPOS_XPOS
+                | CONNECT_ZNEG_XPOS) != connectedFlags) {
             renderHelper.setRenderBounds(xPos - unit, yPos - unit, zNeg, xPos, yPos, zNeg + unit);
             if ((connectedFlags | CONNECT_YPOS | CONNECT_ZNEG) == connectedFlags)
                 renderInteriorFace(FACE_XNEG, blockAccess, block, x, y, z);
@@ -692,15 +658,12 @@ public class ModularBoxRenderer {
             if ((connectedFlags | CONNECT_ZNEG | CONNECT_XPOS) == connectedFlags)
                 renderInteriorFace(FACE_YNEG, blockAccess, block, x, y, z);
         }
-        if ((connectedFlags & TEST_YPOS_ZPOS_XNEG) != 0
-                && (connectedFlags
-                                | CONNECT_YPOS
-                                | CONNECT_ZPOS
-                                | CONNECT_XNEG
-                                | CONNECT_YPOS_ZPOS
-                                | CONNECT_YPOS_XNEG
-                                | CONNECT_ZPOS_XNEG)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YPOS_ZPOS_XNEG) != 0 && (connectedFlags | CONNECT_YPOS
+                | CONNECT_ZPOS
+                | CONNECT_XNEG
+                | CONNECT_YPOS_ZPOS
+                | CONNECT_YPOS_XNEG
+                | CONNECT_ZPOS_XNEG) != connectedFlags) {
             renderHelper.setRenderBounds(xNeg, yPos - unit, zPos - unit, xNeg + unit, yPos, zPos);
             if ((connectedFlags | CONNECT_YPOS | CONNECT_ZPOS) == connectedFlags)
                 renderInteriorFace(FACE_XPOS, blockAccess, block, x, y, z);
@@ -709,15 +672,12 @@ public class ModularBoxRenderer {
             if ((connectedFlags | CONNECT_ZPOS | CONNECT_XNEG) == connectedFlags)
                 renderInteriorFace(FACE_YNEG, blockAccess, block, x, y, z);
         }
-        if ((connectedFlags & TEST_YPOS_ZPOS_XPOS) != 0
-                && (connectedFlags
-                                | CONNECT_YPOS
-                                | CONNECT_ZPOS
-                                | CONNECT_XPOS
-                                | CONNECT_YPOS_ZPOS
-                                | CONNECT_YPOS_XPOS
-                                | CONNECT_ZPOS_XPOS)
-                        != connectedFlags) {
+        if ((connectedFlags & TEST_YPOS_ZPOS_XPOS) != 0 && (connectedFlags | CONNECT_YPOS
+                | CONNECT_ZPOS
+                | CONNECT_XPOS
+                | CONNECT_YPOS_ZPOS
+                | CONNECT_YPOS_XPOS
+                | CONNECT_ZPOS_XPOS) != connectedFlags) {
             renderHelper.setRenderBounds(xPos - unit, yPos - unit, zPos - unit, xPos, yPos, zPos);
             if ((connectedFlags | CONNECT_YPOS | CONNECT_ZPOS) == connectedFlags)
                 renderInteriorFace(FACE_XNEG, blockAccess, block, x, y, z);
@@ -728,17 +688,8 @@ public class ModularBoxRenderer {
         }
     }
 
-    private void renderFace(
-            int face,
-            IBlockAccess blockAccess,
-            Block block,
-            double x,
-            double y,
-            double z,
-            IIcon icon,
-            float r,
-            float g,
-            float b) {
+    private void renderFace(int face, IBlockAccess blockAccess, Block block, double x, double y, double z, IIcon icon,
+            float r, float g, float b) {
         RenderHelper renderHelper = RenderHelper.instance;
         switch (face) {
             case FACE_YNEG:

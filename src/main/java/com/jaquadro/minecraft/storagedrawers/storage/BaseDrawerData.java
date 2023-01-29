@@ -1,18 +1,21 @@
 package com.jaquadro.minecraft.storagedrawers.storage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.inventory.IInventoryAdapter;
 import com.jaquadro.minecraft.storagedrawers.api.inventory.SlotType;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.inventory.InventoryStack;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class BaseDrawerData implements IDrawer, IInventoryAdapter {
+
     protected InventoryStack inventoryStack;
     private List<ItemStack> oreDictMatches;
     private Map<String, Object> auxData;
@@ -145,7 +148,8 @@ public abstract class BaseDrawerData implements IDrawer, IInventoryAdapter {
         if (!stack1.isItemEqual(stack2)) {
             if (!StorageDrawers.config.cache.enableItemConversion) return false;
             if (stack1.getItemDamage() == OreDictionary.WILDCARD_VALUE
-                    || stack2.getItemDamage() == OreDictionary.WILDCARD_VALUE) return false;
+                    || stack2.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+                return false;
             if (stack1.getItem() == stack2.getItem()) return false;
 
             int[] ids1 = OreDictionary.getOreIDs(stack1);
@@ -174,6 +178,7 @@ public abstract class BaseDrawerData implements IDrawer, IInventoryAdapter {
     }
 
     class DrawerInventoryStack extends InventoryStack {
+
         @Override
         protected ItemStack getNewItemStack() {
             return getStoredItemCopy();

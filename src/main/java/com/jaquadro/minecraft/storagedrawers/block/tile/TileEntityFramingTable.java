@@ -1,7 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.block.tile;
 
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
-import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -15,7 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
+import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
+
 public class TileEntityFramingTable extends TileEntity implements IInventory {
+
     private ItemStack[] tableItemStacks = new ItemStack[5];
 
     private String customName;

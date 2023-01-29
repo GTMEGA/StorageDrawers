@@ -3,6 +3,7 @@ package com.jaquadro.minecraft.storagedrawers.api.storage.attribute;
 import java.util.EnumSet;
 
 public enum LockAttribute {
+
     LOCK_POPULATED,
     LOCK_EMPTY;
 

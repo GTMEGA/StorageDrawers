@@ -1,19 +1,24 @@
 package com.jaquadro.minecraft.storagedrawers.integration.notenoughitems;
 
-import codechicken.nei.api.API;
-import codechicken.nei.api.IConfigureNEI;
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.registry.GameData;
 import java.util.HashSet;
 import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import codechicken.nei.api.API;
+import codechicken.nei.api.IConfigureNEI;
+
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.registry.GameData;
+
 @Optional.Interface(iface = "codechicken.nei.api.IConfigureNEI", modid = "NotEnoughItems")
 public class NEIStorageDrawersConfig implements IConfigureNEI {
+
     private static Set<ItemStack> pendingHide = new HashSet<ItemStack>();
     private static boolean loaded;
 

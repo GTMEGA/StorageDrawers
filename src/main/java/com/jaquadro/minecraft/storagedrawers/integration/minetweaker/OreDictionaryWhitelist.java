@@ -1,13 +1,15 @@
 package com.jaquadro.minecraft.storagedrawers.integration.minetweaker;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+
 @ZenClass("mods.storagedrawers.OreDictionaryWhitelist")
 public class OreDictionaryWhitelist {
+
     @ZenMethod
     public static void add(String name) {
         if (name != null && name.length() > 0) MineTweakerAPI.apply(new AddNameAction(name));
@@ -15,6 +17,7 @@ public class OreDictionaryWhitelist {
     }
 
     private static class AddNameAction implements IUndoableAction {
+
         String name;
         boolean added;
 

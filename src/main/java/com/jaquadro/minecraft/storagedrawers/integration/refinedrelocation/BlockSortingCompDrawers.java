@@ -1,11 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.BlockCompDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersComp;
-import com.jaquadro.minecraft.storagedrawers.integration.RefinedRelocation;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +8,16 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.BlockCompDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersComp;
+import com.jaquadro.minecraft.storagedrawers.integration.RefinedRelocation;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockSortingCompDrawers extends BlockCompDrawers {
+
     @SideOnly(Side.CLIENT)
     IIcon iconSort;
 

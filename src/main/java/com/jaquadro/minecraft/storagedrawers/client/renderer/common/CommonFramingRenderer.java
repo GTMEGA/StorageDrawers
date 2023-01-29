@@ -1,62 +1,55 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer.common;
 
-import com.jaquadro.minecraft.storagedrawers.block.BlockFramingTable;
-import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
-import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
+import com.jaquadro.minecraft.storagedrawers.block.BlockFramingTable;
+import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
+import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
+
 public class CommonFramingRenderer {
+
     private static double unit = .0625;
     private static double unit2 = unit * 2;
     private static double unit4 = unit * 4;
     private static double unit14 = unit * 14;
 
-    private static double[][] baseBoundsLeftY = new double[][] {{unit, 1 - unit2, unit, 1, 1, 1 - unit}};
+    private static double[][] baseBoundsLeftY = new double[][] { { unit, 1 - unit2, unit, 1, 1, 1 - unit } };
 
-    private static double[][] trimBoundsLeftY = new double[][] {
-        {0, 1 - unit2, unit, unit, 1, 1 - unit},
-        {0, 1 - unit2, 0, unit, 1, unit},
-        {0, 1 - unit2, 1 - unit, unit, 1, 1},
-        {unit, 1 - unit2, 0, 1, 1, unit},
-        {unit, 1 - unit2, 1 - unit, 1, 1, 1},
-    };
+    private static double[][] trimBoundsLeftY = new double[][] { { 0, 1 - unit2, unit, unit, 1, 1 - unit },
+            { 0, 1 - unit2, 0, unit, 1, unit }, { 0, 1 - unit2, 1 - unit, unit, 1, 1 },
+            { unit, 1 - unit2, 0, 1, 1, unit }, { unit, 1 - unit2, 1 - unit, 1, 1, 1 }, };
 
-    private static double[][] trimBoundsLeftZ = new double[][] {
-        {0, 1 - unit2, 0, unit, 1, 1},
-        {unit, 1 - unit2, 0, 1, 1, 1},
-    };
+    private static double[][] trimBoundsLeftZ = new double[][] { { 0, 1 - unit2, 0, unit, 1, 1 },
+            { unit, 1 - unit2, 0, 1, 1, 1 }, };
 
-    private static double[][] trimBoundsLeftX = new double[][] {
-        {0, 1 - unit2, 0, 1, 1, unit},
-        {0, 1 - unit2, unit, 1, 1, 1 - unit},
-        {0, 1 - unit2, 1 - unit, 1, 1, 1},
-    };
+    private static double[][] trimBoundsLeftX = new double[][] { { 0, 1 - unit2, 0, 1, 1, unit },
+            { 0, 1 - unit2, unit, 1, 1, 1 - unit }, { 0, 1 - unit2, 1 - unit, 1, 1, 1 }, };
 
-    private static double[][] baseBoundsRightY = new double[][] {{0, 1 - unit2, unit, 1 - unit, 1, 1 - unit}};
+    private static double[][] baseBoundsRightY = new double[][] { { 0, 1 - unit2, unit, 1 - unit, 1, 1 - unit } };
 
-    private static double[][] trimBoundsRightY = new double[][] {
-        {1 - unit, 1 - unit2, unit, 1, 1, 1 - unit},
-        {1 - unit, 1 - unit2, 0, 1, 1, unit},
-        {1 - unit, 1 - unit2, 1 - unit, 1, 1, 1},
-        {0, 1 - unit2, 0, 1 - unit, 1, unit},
-        {0, 1 - unit2, 1 - unit, 1 - unit, 1, 1},
-    };
+    private static double[][] trimBoundsRightY = new double[][] { { 1 - unit, 1 - unit2, unit, 1, 1, 1 - unit },
+            { 1 - unit, 1 - unit2, 0, 1, 1, unit }, { 1 - unit, 1 - unit2, 1 - unit, 1, 1, 1 },
+            { 0, 1 - unit2, 0, 1 - unit, 1, unit }, { 0, 1 - unit2, 1 - unit, 1 - unit, 1, 1 }, };
 
-    private static double[][] trimBoundsRightZ = new double[][] {
-        {1 - unit, 1 - unit2, 0, 1, 1, 1},
-        {0, 1 - unit2, 0, 1 - unit, 1, 1},
-    };
+    private static double[][] trimBoundsRightZ = new double[][] { { 1 - unit, 1 - unit2, 0, 1, 1, 1 },
+            { 0, 1 - unit2, 0, 1 - unit, 1, 1 }, };
 
-    private static double[][] trimBoundsRightX = new double[][] {
-        {0, 1 - unit2, 0, 1, 1, unit},
-        {0, 1 - unit2, unit, 1, 1, 1 - unit},
-        {0, 1 - unit2, 1 - unit, 1, 1, 1},
-    };
+    private static double[][] trimBoundsRightX = new double[][] { { 0, 1 - unit2, 0, 1, 1, unit },
+            { 0, 1 - unit2, unit, 1, 1, 1 - unit }, { 0, 1 - unit2, 1 - unit, 1, 1, 1 }, };
 
     public void renderLeft(IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block) {
         renderTableBox(
-                blockAccess, x, y, z, block, baseBoundsLeftY, trimBoundsLeftY, trimBoundsLeftZ, trimBoundsLeftX, true);
+                blockAccess,
+                x,
+                y,
+                z,
+                block,
+                baseBoundsLeftY,
+                trimBoundsLeftY,
+                trimBoundsLeftZ,
+                trimBoundsLeftX,
+                true);
         renderStructure(blockAccess, x, y, z, block, true);
     }
 
@@ -83,14 +76,8 @@ public class CommonFramingRenderer {
         renderOverlay(blockAccess, x, y, z, block, baseBoundsRightY, false);
     }
 
-    public void renderOverlay(
-            IBlockAccess blockAccess,
-            int x,
-            int y,
-            int z,
-            BlockFramingTable block,
-            double[][] baseBoundsY,
-            boolean left) {
+    public void renderOverlay(IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block,
+            double[][] baseBoundsY, boolean left) {
         IIcon iconOverlay = block.getIconOverlay(left);
 
         RenderHelper renderer = RenderHelper.instance;
@@ -109,16 +96,8 @@ public class CommonFramingRenderer {
         renderBraces(blockAccess, x, y, z, block, iconSurface, left);
     }
 
-    private void renderTableBox(
-            IBlockAccess blockAccess,
-            int x,
-            int y,
-            int z,
-            BlockFramingTable block,
-            double[][] baseBoundsY,
-            double[][] trimBoundsY,
-            double[][] trimBoundsZ,
-            double[][] trimBoundsX,
+    private void renderTableBox(IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block,
+            double[][] baseBoundsY, double[][] trimBoundsY, double[][] trimBoundsZ, double[][] trimBoundsX,
             boolean left) {
         RenderHelper renderer = RenderHelper.instance;
 
@@ -151,8 +130,8 @@ public class CommonFramingRenderer {
         }
     }
 
-    private void renderFoot(
-            IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block, IIcon icon, boolean left) {
+    private void renderFoot(IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block, IIcon icon,
+            boolean left) {
         RenderHelper renderer = RenderHelper.instance;
 
         float oldColor = renderer.state.colorMultYPos;
@@ -171,8 +150,8 @@ public class CommonFramingRenderer {
         renderer.state.colorMultYPos = oldColor;
     }
 
-    private void renderLegs(
-            IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block, IIcon icon, boolean left) {
+    private void renderLegs(IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block, IIcon icon,
+            boolean left) {
         RenderHelper renderer = RenderHelper.instance;
 
         for (int i = 2; i < 6; i++) renderer.state.setUVRotation(i, RenderHelperState.ROTATE90);
@@ -188,8 +167,8 @@ public class CommonFramingRenderer {
         for (int i = 2; i < 6; i++) renderer.state.clearUVRotation(i);
     }
 
-    private void renderBraces(
-            IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block, IIcon icon, boolean left) {
+    private void renderBraces(IBlockAccess blockAccess, int x, int y, int z, BlockFramingTable block, IIcon icon,
+            boolean left) {
         RenderHelper renderer = RenderHelper.instance;
 
         float oldColor = renderer.state.colorMultYPos;

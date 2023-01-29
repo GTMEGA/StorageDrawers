@@ -1,17 +1,20 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.world.IBlockAccess;
+
+import org.lwjgl.opengl.GL11;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockFramingTable;
 import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonFramingRenderer;
 import com.jaquadro.minecraft.storagedrawers.core.ClientProxy;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.world.IBlockAccess;
-import org.lwjgl.opengl.GL11;
 
 public class FramingTableRenderer implements ISimpleBlockRenderingHandler {
+
     private CommonFramingRenderer framingRenderer = new CommonFramingRenderer();
 
     @Override
@@ -45,8 +48,8 @@ public class FramingTableRenderer implements ISimpleBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorldBlock(
-            IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
+            RenderBlocks renderer) {
         if (!(block instanceof BlockFramingTable)) return false;
 
         BlockFramingTable framingTable = (BlockFramingTable) block;

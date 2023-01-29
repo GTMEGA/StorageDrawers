@@ -3,6 +3,7 @@ package com.jaquadro.minecraft.storagedrawers.inventory;
 import net.minecraft.item.ItemStack;
 
 public abstract class InventoryStack {
+
     private ItemStack inStack;
     private ItemStack outStack;
 

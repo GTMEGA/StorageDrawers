@@ -1,16 +1,19 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
-import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
-import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonTrimRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
+import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
+import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonTrimRenderer;
+
 public class TrimItemRender implements IItemRenderer {
+
     private CommonTrimRenderer commonRender = new CommonTrimRenderer();
 
     @Override

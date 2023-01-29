@@ -1,14 +1,16 @@
 package com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation;
 
+import net.minecraft.item.ItemStack;
+
 import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.ISpecialSortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.grid.SpecialLocalizedStack;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
-import net.minecraft.item.ItemStack;
 
 public class TileSortingDrawersStandard extends TileEntityDrawersStandard implements ISpecialSortingInventory {
+
     private DrawerSortingInventory sortingInventory;
 
     public TileSortingDrawersStandard() {

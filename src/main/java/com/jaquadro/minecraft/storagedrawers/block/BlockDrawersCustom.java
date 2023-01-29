@@ -1,13 +1,7 @@
 package com.jaquadro.minecraft.storagedrawers.block;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.api.pack.BlockType;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-import com.jaquadro.minecraft.storagedrawers.core.ClientProxy;
-import com.jaquadro.minecraft.storagedrawers.item.ItemCustomDrawers;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +10,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.api.pack.BlockType;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.core.ClientProxy;
+import com.jaquadro.minecraft.storagedrawers.item.ItemCustomDrawers;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockDrawersCustom extends BlockDrawers {
+
     @SideOnly(Side.CLIENT)
     private IIcon overlayHandle;
 
@@ -65,8 +69,8 @@ public class BlockDrawersCustom extends BlockDrawers {
         TileEntityDrawers tile = getTileEntity(world, x, y, z);
         if (tile == null) return ItemCustomDrawers.makeItemStack(this, 1, null, null, null);
 
-        return ItemCustomDrawers.makeItemStack(
-                this, 1, tile.getMaterialSide(), tile.getMaterialTrim(), tile.getMaterialFront());
+        return ItemCustomDrawers
+                .makeItemStack(this, 1, tile.getMaterialSide(), tile.getMaterialTrim(), tile.getMaterialFront());
     }
 
     @Override
@@ -75,8 +79,8 @@ public class BlockDrawersCustom extends BlockDrawers {
     }
 
     @Override
-    public boolean onBlockActivated(
-            World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
+            float hitY, float hitZ) {
         TileEntityDrawers tile = getTileEntity(world, x, y, z);
         if (tile != null && tile.getMaterialSide() == null) return false;
 

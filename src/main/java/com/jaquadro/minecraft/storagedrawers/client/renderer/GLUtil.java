@@ -2,9 +2,11 @@ package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 public final class GLUtil {
+
     private GLUtil() {}
 
     public static List<int[]> makeGLState() {
@@ -14,7 +16,7 @@ public final class GLUtil {
     public static List<int[]> makeGLState(int[] saveList) {
         List<int[]> state = new ArrayList<int[]>(saveList.length);
 
-        for (int i = 0, n = saveList.length; i < n; i++) state.add(new int[] {0, 0});
+        for (int i = 0, n = saveList.length; i < n; i++) state.add(new int[] { 0, 0 });
 
         return state;
     }

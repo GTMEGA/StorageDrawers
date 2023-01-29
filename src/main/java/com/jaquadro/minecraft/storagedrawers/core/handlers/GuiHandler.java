@@ -1,17 +1,19 @@
 package com.jaquadro.minecraft.storagedrawers.core.handlers;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
 import com.jaquadro.minecraft.storagedrawers.client.gui.GuiDrawers;
 import com.jaquadro.minecraft.storagedrawers.client.gui.GuiFraming;
 import com.jaquadro.minecraft.storagedrawers.inventory.*;
 import cpw.mods.fml.common.network.IGuiHandler;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public class GuiHandler implements IGuiHandler {
+
     public static int drawersGuiID = 0;
     public static int framingGuiID = 1;
 

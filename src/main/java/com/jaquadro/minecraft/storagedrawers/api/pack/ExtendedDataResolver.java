@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 
 public class ExtendedDataResolver extends StandardDataResolver implements IExtendedDataResolver {
+
     private Block[] planks = new Block[16];
     private int[] planksMeta = new int[16];
 

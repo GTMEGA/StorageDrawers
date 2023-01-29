@@ -3,9 +3,11 @@ package com.jaquadro.minecraft.storagedrawers.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import net.minecraftforge.oredict.OreDictionary;
 
 public class UniqueMetaRegistry<E> {
+
     private Map<UniqueMetaIdentifier, E> registry;
 
     public UniqueMetaRegistry() {

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import net.minecraft.item.Item;
 
 public class ItemMetaListRegistry<E> {
+
     private ItemMetaRegistry<List<E>> registry;
     private boolean compactTopLevel;
 
@@ -43,8 +45,7 @@ public class ItemMetaListRegistry<E> {
     }
 
     public void clear(Item item) {
-        for (Map.Entry<Integer, List<E>> map : registry.entrySet(item))
-            map.getValue().clear();
+        for (Map.Entry<Integer, List<E>> map : registry.entrySet(item)) map.getValue().clear();
     }
 
     public void clear() {

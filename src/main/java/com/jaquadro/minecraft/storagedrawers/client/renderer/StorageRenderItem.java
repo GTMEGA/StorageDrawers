@@ -5,14 +5,16 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
+
 import org.lwjgl.opengl.GL11;
 
 public class StorageRenderItem extends RenderItem {
+
     public ItemStack overrideStack;
 
     @Override
-    public void renderItemOverlayIntoGUI(
-            FontRenderer font, TextureManager texManager, ItemStack item, int x, int y, String text) {
+    public void renderItemOverlayIntoGUI(FontRenderer font, TextureManager texManager, ItemStack item, int x, int y,
+            String text) {
         if (item != overrideStack) {
             super.renderItemOverlayIntoGUI(font, texManager, item, x, y, text);
             return;

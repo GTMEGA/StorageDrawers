@@ -1,20 +1,25 @@
 package com.jaquadro.minecraft.storagedrawers.client.gui;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
-import com.jaquadro.minecraft.storagedrawers.inventory.ContainerFramingTable;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
+import com.jaquadro.minecraft.storagedrawers.inventory.ContainerFramingTable;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiFraming extends GuiContainer {
-    private static final ResourceLocation guiTextires =
-            new ResourceLocation(StorageDrawers.MOD_ID.toLowerCase(), "textures/gui/framing.png");
+
+    private static final ResourceLocation guiTextires = new ResourceLocation(
+            StorageDrawers.MOD_ID.toLowerCase(),
+            "textures/gui/framing.png");
     private TileEntityFramingTable tileFramingTable;
 
     public GuiFraming(InventoryPlayer inventory, TileEntityFramingTable tileEntity) {
@@ -27,8 +32,7 @@ public class GuiFraming extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = tileFramingTable.hasCustomInventoryName()
-                ? tileFramingTable.getInventoryName()
+        String name = tileFramingTable.hasCustomInventoryName() ? tileFramingTable.getInventoryName()
                 : I18n.format(tileFramingTable.getInventoryName());
         fontRendererObj.drawString(name, 8, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);

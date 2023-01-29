@@ -8,6 +8,7 @@ import com.jaquadro.minecraft.storagedrawers.api.registry.IRenderRegistry;
 import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaRegistry;
 
 public interface IStorageDrawersApi {
+
     /**
      * Recipe handlers are used to make custom recipes compatible with compacting drawers.
      */

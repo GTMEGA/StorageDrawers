@@ -1,8 +1,8 @@
 package com.jaquadro.minecraft.storagedrawers.inventory;
 
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,7 +10,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+
 public class ContainerDrawers extends Container {
+
     private static final int InventoryX = 8;
     private static final int InventoryY = 117;
     private static final int HotbarY = 175;
@@ -32,9 +35,8 @@ public class ContainerDrawers extends Container {
         upgradeInventory = new InventoryUpgrade(tileEntity);
 
         storageSlots = new ArrayList<Slot>();
-        for (int i = 0; i < tileEntity.getDrawerCount(); i++)
-            storageSlots.add(
-                    addSlotToContainer(new SlotStorage(storageInventory, i, getStorageSlotX(i), getStorageSlotY(i))));
+        for (int i = 0; i < tileEntity.getDrawerCount(); i++) storageSlots
+                .add(addSlotToContainer(new SlotStorage(storageInventory, i, getStorageSlotX(i), getStorageSlotY(i))));
 
         upgradeSlots = new ArrayList<Slot>();
         for (int i = 0; i < 5; i++)
@@ -42,9 +44,9 @@ public class ContainerDrawers extends Container {
 
         playerSlots = new ArrayList<Slot>();
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 9; j++)
-                playerSlots.add(addSlotToContainer(
-                        new Slot(playerInventory, j + i * 9 + 9, InventoryX + j * 18, InventoryY + i * 18)));
+            for (int j = 0; j < 9; j++) playerSlots.add(
+                    addSlotToContainer(
+                            new Slot(playerInventory, j + i * 9 + 9, InventoryX + j * 18, InventoryY + i * 18)));
         }
 
         hotbarSlots = new ArrayList<Slot>();
@@ -104,27 +106,21 @@ public class ContainerDrawers extends Container {
 
             // Try merge inventory to upgrades
             else if (slotIndex >= inventoryStart && slotIndex < hotbarEnd && slotStack != null) {
-                /*if (slotStack.getItem() == ModItems.upgrade || slotStack.getItem() == ModItems.upgradeStatus || slotStack.getItem() == ModItems.upgradeVoid) {
-                    ItemStack slotStack1 = slotStack.copy();
-                    slotStack1.stackSize = 1;
-
-                    if (!mergeItemStack(slotStack1, upgradeStart, upgradeEnd, false)) {
-                        if (slotIndex >= inventoryStart && slotIndex < hotbarEnd) {
-                            if (!mergeItemStack(slotStack, hotbarStart, hotbarEnd, false))
-                                return null;
-                        } else if (slotIndex >= hotbarStart && slotIndex < hotbarEnd && !mergeItemStack(slotStack, inventoryStart, hotbarStart, false))
-                            return null;
-                    }
-                    else {
-                        slotStack.stackSize--;
-                    }
-                }*/
+                /*
+                 * if (slotStack.getItem() == ModItems.upgrade || slotStack.getItem() == ModItems.upgradeStatus ||
+                 * slotStack.getItem() == ModItems.upgradeVoid) { ItemStack slotStack1 = slotStack.copy();
+                 * slotStack1.stackSize = 1; if (!mergeItemStack(slotStack1, upgradeStart, upgradeEnd, false)) { if
+                 * (slotIndex >= inventoryStart && slotIndex < hotbarEnd) { if (!mergeItemStack(slotStack, hotbarStart,
+                 * hotbarEnd, false)) return null; } else if (slotIndex >= hotbarStart && slotIndex < hotbarEnd &&
+                 * !mergeItemStack(slotStack, inventoryStart, hotbarStart, false)) return null; } else {
+                 * slotStack.stackSize--; } }
+                 */
 
                 if (slotIndex >= inventoryStart && slotIndex < hotbarStart) {
                     if (!mergeItemStack(slotStack, hotbarStart, hotbarEnd, false)) return null;
-                } else if (slotIndex >= hotbarStart
-                        && slotIndex < hotbarEnd
-                        && !mergeItemStack(slotStack, inventoryStart, hotbarStart, false)) return null;
+                } else if (slotIndex >= hotbarStart && slotIndex < hotbarEnd
+                        && !mergeItemStack(slotStack, inventoryStart, hotbarStart, false))
+                    return null;
             }
 
             // Try merge stack into inventory

@@ -1,16 +1,19 @@
 package com.jaquadro.minecraft.storagedrawers.core;
 
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersComp;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
-import com.jaquadro.minecraft.storagedrawers.client.renderer.*;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersComp;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
+import com.jaquadro.minecraft.storagedrawers.client.renderer.*;
+
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+
 public class ClientProxy extends CommonProxy {
+
     public static int renderPass = 0;
     private DrawersItemRenderer itemRenderer = new DrawersItemRenderer();
     private TrimItemRender trimItemRenderer = new TrimItemRender();

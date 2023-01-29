@@ -1,18 +1,21 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.lwjgl.opengl.GL11;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockController;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityController;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL11;
 
 public class ControllerRenderer implements ISimpleBlockRenderingHandler {
+
     private static final double unit = .0625f;
     private ModularBoxRenderer boxRenderer = new ModularBoxRenderer();
 
@@ -33,8 +36,8 @@ public class ControllerRenderer implements ISimpleBlockRenderingHandler {
         GL11.glRotatef(90, 0, 1, 0);
         GL11.glTranslatef(-.5f, -.5f, -.5f);
 
-        RenderHelper.instance.state.setUVRotation(
-                RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][side]);
+        RenderHelper.instance.state
+                .setUVRotation(RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][side]);
 
         renderExterior(block, 0, 0, 0, side, renderer);
 
@@ -49,22 +52,22 @@ public class ControllerRenderer implements ISimpleBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorldBlock(
-            IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
+            RenderBlocks renderer) {
         if (!(block instanceof BlockController)) return false;
 
         return renderWorldBlock(world, x, y, z, (BlockController) block, modelId, renderer);
     }
 
-    private boolean renderWorldBlock(
-            IBlockAccess world, int x, int y, int z, BlockController block, int modelId, RenderBlocks renderer) {
+    private boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, BlockController block, int modelId,
+            RenderBlocks renderer) {
         TileEntityController tile = block.getTileEntity(world, x, y, z);
         if (tile == null) return false;
 
         int side = tile.getDirection();
 
-        RenderHelper.instance.state.setUVRotation(
-                RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][side]);
+        RenderHelper.instance.state
+                .setUVRotation(RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][side]);
 
         boxRenderer.setUnit(unit);
         boxRenderer.setColor(ModularBoxRenderer.COLOR_WHITE);

@@ -1,14 +1,17 @@
 package com.jaquadro.minecraft.storagedrawers.util;
 
-import com.google.common.base.Objects;
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import com.google.common.base.Objects;
+
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public final class UniqueMetaIdentifier {
+
     public final String modId;
     public final String name;
     public final int meta;

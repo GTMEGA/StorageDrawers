@@ -6,6 +6,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 
 public class RenderHelperAO {
+
     private RenderHelperState state;
 
     private int aoBrightnessXYNI;
@@ -106,8 +107,8 @@ public class RenderHelperAO {
         this.state = state;
     }
 
-    public void setupYNegAOPartial(
-            IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g, float b) {
+    public void setupYNegAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
+            float b) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(983055);
 
@@ -118,12 +119,27 @@ public class RenderHelperAO {
         boolean blocksGrassYZNP = !blockAccess.getBlock(x, yGrass, z + 1).getCanBlockGrass();
         boolean blocksGrassYZNN = !blockAccess.getBlock(x, yGrass, z - 1).getCanBlockGrass();
 
-        if (state.renderMinY > 0)
-            setupAOBrightnessYNeg(
-                    blockAccess, block, x, y, z, blocksGrassXYPN, blocksGrassXYNN, blocksGrassYZNP, blocksGrassYZNN);
+        if (state.renderMinY > 0) setupAOBrightnessYNeg(
+                blockAccess,
+                block,
+                x,
+                y,
+                z,
+                blocksGrassXYPN,
+                blocksGrassXYNN,
+                blocksGrassYZNP,
+                blocksGrassYZNN);
 
         setupAOBrightnessYPos(
-                blockAccess, block, x, y - 1, z, blocksGrassXYPN, blocksGrassXYNN, blocksGrassYZNP, blocksGrassYZNN);
+                blockAccess,
+                block,
+                x,
+                y - 1,
+                z,
+                blocksGrassXYPN,
+                blocksGrassXYNN,
+                blocksGrassYZNP,
+                blocksGrassYZNN);
 
         float yClamp = MathHelper.clamp_float((float) state.renderMinY, 0, 1);
         mixAOBrightnessLightValueY(yClamp, 1 - yClamp);
@@ -133,18 +149,18 @@ public class RenderHelperAO {
             blockBrightness = block.getMixedBrightnessForBlock(blockAccess, x, y - 1, z);
 
         float aoOpposingBlock = blockAccess.getBlock(x, y - 1, z).getAmbientOcclusionLightValue();
-        float aoXYZNNP =
-                (aoLightValueScratchXYNI + aoLightValueScratchXYZNIP + aoOpposingBlock + aoLightValueScratchYZIP)
-                        / 4.0F;
-        float aoXYZPNP =
-                (aoOpposingBlock + aoLightValueScratchYZIP + aoLightValueScratchXYPI + aoLightValueScratchXYZPIP)
-                        / 4.0F;
-        float aoXYZPNN =
-                (aoLightValueScratchYZIN + aoOpposingBlock + aoLightValueScratchXYZPIN + aoLightValueScratchXYPI)
-                        / 4.0F;
-        float aoXYZNNN =
-                (aoLightValueScratchXYZNIN + aoLightValueScratchXYNI + aoLightValueScratchYZIN + aoOpposingBlock)
-                        / 4.0F;
+        float aoXYZNNP = (aoLightValueScratchXYNI + aoLightValueScratchXYZNIP
+                + aoOpposingBlock
+                + aoLightValueScratchYZIP) / 4.0F;
+        float aoXYZPNP = (aoOpposingBlock + aoLightValueScratchYZIP
+                + aoLightValueScratchXYPI
+                + aoLightValueScratchXYZPIP) / 4.0F;
+        float aoXYZPNN = (aoLightValueScratchYZIN + aoOpposingBlock
+                + aoLightValueScratchXYZPIN
+                + aoLightValueScratchXYPI) / 4.0F;
+        float aoXYZNNN = (aoLightValueScratchXYZNIN + aoLightValueScratchXYNI
+                + aoLightValueScratchYZIN
+                + aoOpposingBlock) / 4.0F;
 
         float aoTR = (float) ((double) aoXYZNNP * state.renderMinX * (1.0D - state.renderMaxZ)
                 + (double) aoXYZPNP * state.renderMinX * state.renderMaxZ
@@ -212,8 +228,8 @@ public class RenderHelperAO {
         state.scaleColor(state.colorTopRight, aoTR);
     }
 
-    public void setupYPosAOPartial(
-            IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g, float b) {
+    public void setupYPosAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
+            float b) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(983055);
 
@@ -269,18 +285,18 @@ public class RenderHelperAO {
             blockBrightness = block.getMixedBrightnessForBlock(blockAccess, x, y + 1, z);
 
         float aoOpposingBlock = blockAccess.getBlock(x, y + 1, z).getAmbientOcclusionLightValue();
-        float aoXYZNPN =
-                (aoLightValueScratchXYZNPP + aoLightValueScratchXYNP + aoLightValueScratchYZPP + aoOpposingBlock)
-                        / 4.0F; // TR
-        float aoXYZNPP =
-                (aoLightValueScratchYZPP + aoOpposingBlock + aoLightValueScratchXYZPPP + aoLightValueScratchXYPP)
-                        / 4.0F; // TL
-        float aoXYZPPP =
-                (aoOpposingBlock + aoLightValueScratchYZPN + aoLightValueScratchXYPP + aoLightValueScratchXYZPPN)
-                        / 4.0F; // BL
-        float aoXYZPPN =
-                (aoLightValueScratchXYNP + aoLightValueScratchXYZNPN + aoOpposingBlock + aoLightValueScratchYZPN)
-                        / 4.0F; // BR
+        float aoXYZNPN = (aoLightValueScratchXYZNPP + aoLightValueScratchXYNP
+                + aoLightValueScratchYZPP
+                + aoOpposingBlock) / 4.0F; // TR
+        float aoXYZNPP = (aoLightValueScratchYZPP + aoOpposingBlock
+                + aoLightValueScratchXYZPPP
+                + aoLightValueScratchXYPP) / 4.0F; // TL
+        float aoXYZPPP = (aoOpposingBlock + aoLightValueScratchYZPN
+                + aoLightValueScratchXYPP
+                + aoLightValueScratchXYZPPN) / 4.0F; // BL
+        float aoXYZPPN = (aoLightValueScratchXYNP + aoLightValueScratchXYZNPN
+                + aoOpposingBlock
+                + aoLightValueScratchYZPN) / 4.0F; // BR
 
         float aoTL = (float) ((double) aoXYZPPP * state.renderMaxX * (1.0D - state.renderMaxZ)
                 + (double) aoXYZNPP * state.renderMaxX * state.renderMaxZ
@@ -304,14 +320,34 @@ public class RenderHelperAO {
         int brXYZNPP = getAOBrightness(aoBrightnessYZPN, aoBrightnessXYZPPN, aoBrightnessXYPP, blockBrightness);
         int brXYZPPP = getAOBrightness(aoBrightnessXYZNPN, aoBrightnessXYNP, aoBrightnessYZPN, blockBrightness);
 
-        state.brightnessTopLeft =
-                mixAOBrightness(brXYZPPP, brXYZPPN, brXYZNPN, brXYZNPP, state.renderMaxZ, state.renderMaxX);
-        state.brightnessBottomLeft =
-                mixAOBrightness(brXYZPPP, brXYZPPN, brXYZNPN, brXYZNPP, state.renderMinZ, state.renderMaxX);
-        state.brightnessBottomRight =
-                mixAOBrightness(brXYZPPP, brXYZPPN, brXYZNPN, brXYZNPP, state.renderMinZ, state.renderMinX);
-        state.brightnessTopRight =
-                mixAOBrightness(brXYZPPP, brXYZPPN, brXYZNPN, brXYZNPP, state.renderMaxZ, state.renderMinX);
+        state.brightnessTopLeft = mixAOBrightness(
+                brXYZPPP,
+                brXYZPPN,
+                brXYZNPN,
+                brXYZNPP,
+                state.renderMaxZ,
+                state.renderMaxX);
+        state.brightnessBottomLeft = mixAOBrightness(
+                brXYZPPP,
+                brXYZPPN,
+                brXYZNPN,
+                brXYZNPP,
+                state.renderMinZ,
+                state.renderMaxX);
+        state.brightnessBottomRight = mixAOBrightness(
+                brXYZPPP,
+                brXYZPPN,
+                brXYZNPN,
+                brXYZNPP,
+                state.renderMinZ,
+                state.renderMinX);
+        state.brightnessTopRight = mixAOBrightness(
+                brXYZPPP,
+                brXYZPPN,
+                brXYZNPN,
+                brXYZNPP,
+                state.renderMaxZ,
+                state.renderMinX);
 
         state.setColor(r * state.colorMultYPos, g * state.colorMultYPos, b * state.colorMultYPos);
         state.scaleColor(state.colorTopLeft, aoTL);
@@ -320,8 +356,8 @@ public class RenderHelperAO {
         state.scaleColor(state.colorTopRight, aoTR);
     }
 
-    public void setupZNegAOPartial(
-            IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g, float b) {
+    public void setupZNegAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
+            float b) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(983055);
 
@@ -332,12 +368,27 @@ public class RenderHelperAO {
         boolean blocksGrassYZPN = !blockAccess.getBlock(x, y + 1, zGrass).getCanBlockGrass();
         boolean blocksGrassYZNN = !blockAccess.getBlock(x, y - 1, zGrass).getCanBlockGrass();
 
-        if (state.renderMinZ > 0)
-            setupAOBrightnessZNeg(
-                    blockAccess, block, x, y, z, blocksGrassXZPN, blocksGrassXZNN, blocksGrassYZPN, blocksGrassYZNN);
+        if (state.renderMinZ > 0) setupAOBrightnessZNeg(
+                blockAccess,
+                block,
+                x,
+                y,
+                z,
+                blocksGrassXZPN,
+                blocksGrassXZNN,
+                blocksGrassYZPN,
+                blocksGrassYZNN);
 
         setupAOBrightnessZPos(
-                blockAccess, block, x, y, z - 1, blocksGrassXZPN, blocksGrassXZNN, blocksGrassYZPN, blocksGrassYZNN);
+                blockAccess,
+                block,
+                x,
+                y,
+                z - 1,
+                blocksGrassXZPN,
+                blocksGrassXZNN,
+                blocksGrassYZPN,
+                blocksGrassYZNN);
 
         float zClamp = MathHelper.clamp_float((float) state.renderMinZ, 0, 1);
         mixAOBrightnessLightValueZ(zClamp, 1 - zClamp);
@@ -347,18 +398,18 @@ public class RenderHelperAO {
             blockBrightness = block.getMixedBrightnessForBlock(blockAccess, x, y, z - 1);
 
         float aoOpposingBlock = blockAccess.getBlock(x, y, z - 1).getAmbientOcclusionLightValue();
-        float aoXYZNPN =
-                (aoLightValueScratchXZNI + aoLightValueScratchXYZNPI + aoOpposingBlock + aoLightValueScratchYZPI)
-                        / 4.0F;
-        float aoXYZPPN =
-                (aoOpposingBlock + aoLightValueScratchYZPI + aoLightValueScratchXZPI + aoLightValueScratchXYZPPI)
-                        / 4.0F;
-        float aoXYZPNN =
-                (aoLightValueScratchYZNI + aoOpposingBlock + aoLightValueScratchXYZPNI + aoLightValueScratchXZPI)
-                        / 4.0F;
-        float aoXYZNNN =
-                (aoLightValueScratchXYZNNI + aoLightValueScratchXZNI + aoLightValueScratchYZNI + aoOpposingBlock)
-                        / 4.0F;
+        float aoXYZNPN = (aoLightValueScratchXZNI + aoLightValueScratchXYZNPI
+                + aoOpposingBlock
+                + aoLightValueScratchYZPI) / 4.0F;
+        float aoXYZPPN = (aoOpposingBlock + aoLightValueScratchYZPI
+                + aoLightValueScratchXZPI
+                + aoLightValueScratchXYZPPI) / 4.0F;
+        float aoXYZPNN = (aoLightValueScratchYZNI + aoOpposingBlock
+                + aoLightValueScratchXYZPNI
+                + aoLightValueScratchXZPI) / 4.0F;
+        float aoXYZNNN = (aoLightValueScratchXYZNNI + aoLightValueScratchXZNI
+                + aoLightValueScratchYZNI
+                + aoOpposingBlock) / 4.0F;
 
         float aoTL = (float) ((double) aoXYZNPN * state.renderMaxY * (1.0D - state.renderMinX)
                 + (double) aoXYZPPN * state.renderMaxY * state.renderMinX
@@ -426,8 +477,8 @@ public class RenderHelperAO {
         state.scaleColor(state.colorTopRight, aoTR);
     }
 
-    public void setupZPosAOPartial(
-            IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g, float b) {
+    public void setupZPosAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
+            float b) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(983055);
 
@@ -438,12 +489,27 @@ public class RenderHelperAO {
         boolean blocksGrassYZPP = !blockAccess.getBlock(x, y + 1, zGrass).getCanBlockGrass();
         boolean blocksGrassYZNP = !blockAccess.getBlock(x, y - 1, zGrass).getCanBlockGrass();
 
-        if (state.renderMaxZ < 1)
-            setupAOBrightnessZPos(
-                    blockAccess, block, x, y, z, blocksGrassXZPP, blocksGrassXZNP, blocksGrassYZPP, blocksGrassYZNP);
+        if (state.renderMaxZ < 1) setupAOBrightnessZPos(
+                blockAccess,
+                block,
+                x,
+                y,
+                z,
+                blocksGrassXZPP,
+                blocksGrassXZNP,
+                blocksGrassYZPP,
+                blocksGrassYZNP);
 
         setupAOBrightnessZNeg(
-                blockAccess, block, x, y, z + 1, blocksGrassXZPP, blocksGrassXZNP, blocksGrassYZPP, blocksGrassYZNP);
+                blockAccess,
+                block,
+                x,
+                y,
+                z + 1,
+                blocksGrassXZPP,
+                blocksGrassXZNP,
+                blocksGrassYZPP,
+                blocksGrassYZNP);
 
         float zClamp = MathHelper.clamp_float((float) state.renderMaxZ, 0, 1);
         mixAOBrightnessLightValueZ(zClamp, 1 - zClamp);
@@ -453,18 +519,18 @@ public class RenderHelperAO {
             blockBrightness = block.getMixedBrightnessForBlock(blockAccess, x, y, z + 1);
 
         float aoOpposingBlock = blockAccess.getBlock(x, y, z + 1).getAmbientOcclusionLightValue();
-        float aoXYZNPP =
-                (aoLightValueScratchXZNI + aoLightValueScratchXYZNPI + aoOpposingBlock + aoLightValueScratchYZPI)
-                        / 4.0F;
-        float aoXYZPPP =
-                (aoOpposingBlock + aoLightValueScratchYZPI + aoLightValueScratchXZPI + aoLightValueScratchXYZPPI)
-                        / 4.0F;
-        float aoXYZPNP =
-                (aoLightValueScratchYZNI + aoOpposingBlock + aoLightValueScratchXYZPNI + aoLightValueScratchXZPI)
-                        / 4.0F;
-        float aoXYZNNP =
-                (aoLightValueScratchXYZNNI + aoLightValueScratchXZNI + aoLightValueScratchYZNI + aoOpposingBlock)
-                        / 4.0F;
+        float aoXYZNPP = (aoLightValueScratchXZNI + aoLightValueScratchXYZNPI
+                + aoOpposingBlock
+                + aoLightValueScratchYZPI) / 4.0F;
+        float aoXYZPPP = (aoOpposingBlock + aoLightValueScratchYZPI
+                + aoLightValueScratchXZPI
+                + aoLightValueScratchXYZPPI) / 4.0F;
+        float aoXYZPNP = (aoLightValueScratchYZNI + aoOpposingBlock
+                + aoLightValueScratchXYZPNI
+                + aoLightValueScratchXZPI) / 4.0F;
+        float aoXYZNNP = (aoLightValueScratchXYZNNI + aoLightValueScratchXZNI
+                + aoLightValueScratchYZNI
+                + aoOpposingBlock) / 4.0F;
 
         float aoTL = (float) ((double) aoXYZNPP * state.renderMaxY * (1.0D - state.renderMinX)
                 + (double) aoXYZPPP * state.renderMaxY * state.renderMinX
@@ -532,8 +598,8 @@ public class RenderHelperAO {
         state.scaleColor(state.colorTopRight, aoTR);
     }
 
-    public void setupXNegAOPartial(
-            IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g, float b) {
+    public void setupXNegAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
+            float b) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(983055);
 
@@ -544,12 +610,27 @@ public class RenderHelperAO {
         boolean blocksGrassXZNN = !blockAccess.getBlock(xGrass, y, z - 1).getCanBlockGrass();
         boolean blocksGrassXZNP = !blockAccess.getBlock(xGrass, y, z + 1).getCanBlockGrass();
 
-        if (state.renderMinX > 0)
-            setupAOBrightnessXNeg(
-                    blockAccess, block, x, y, z, blocksGrassXYNP, blocksGrassXYNN, blocksGrassXZNN, blocksGrassXZNP);
+        if (state.renderMinX > 0) setupAOBrightnessXNeg(
+                blockAccess,
+                block,
+                x,
+                y,
+                z,
+                blocksGrassXYNP,
+                blocksGrassXYNN,
+                blocksGrassXZNN,
+                blocksGrassXZNP);
 
         setupAOBrightnessXPos(
-                blockAccess, block, x - 1, y, z, blocksGrassXYNP, blocksGrassXYNN, blocksGrassXZNN, blocksGrassXZNP);
+                blockAccess,
+                block,
+                x - 1,
+                y,
+                z,
+                blocksGrassXYNP,
+                blocksGrassXYNN,
+                blocksGrassXZNN,
+                blocksGrassXZNP);
 
         float xClamp = MathHelper.clamp_float((float) state.renderMinX, 0, 1);
         mixAOBrightnessLightValueX(xClamp, 1 - xClamp);
@@ -559,18 +640,18 @@ public class RenderHelperAO {
             blockBrightness = block.getMixedBrightnessForBlock(blockAccess, x - 1, y, z);
 
         float aoOpposingBlock = blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue();
-        float aoXYZNNP =
-                (aoLightValueScratchXYIN + aoLightValueScratchXYZINP + aoOpposingBlock + aoLightValueScratchXZIP)
-                        / 4.0F;
-        float aoXYZNPP =
-                (aoOpposingBlock + aoLightValueScratchXZIP + aoLightValueScratchXYIP + aoLightValueScratchXYZIPP)
-                        / 4.0F;
-        float aoXYZNPN =
-                (aoLightValueScratchXZIN + aoOpposingBlock + aoLightValueScratchXYZIPN + aoLightValueScratchXYIP)
-                        / 4.0F;
-        float aoXYZNNN =
-                (aoLightValueScratchXYZINN + aoLightValueScratchXYIN + aoLightValueScratchXZIN + aoOpposingBlock)
-                        / 4.0F;
+        float aoXYZNNP = (aoLightValueScratchXYIN + aoLightValueScratchXYZINP
+                + aoOpposingBlock
+                + aoLightValueScratchXZIP) / 4.0F;
+        float aoXYZNPP = (aoOpposingBlock + aoLightValueScratchXZIP
+                + aoLightValueScratchXYIP
+                + aoLightValueScratchXYZIPP) / 4.0F;
+        float aoXYZNPN = (aoLightValueScratchXZIN + aoOpposingBlock
+                + aoLightValueScratchXYZIPN
+                + aoLightValueScratchXYIP) / 4.0F;
+        float aoXYZNNN = (aoLightValueScratchXYZINN + aoLightValueScratchXYIN
+                + aoLightValueScratchXZIN
+                + aoOpposingBlock) / 4.0F;
 
         float aoTL = (float) ((double) aoXYZNPP * state.renderMaxY * state.renderMaxZ
                 + (double) aoXYZNPN * state.renderMaxY * (1.0D - state.renderMaxZ)
@@ -638,8 +719,8 @@ public class RenderHelperAO {
         state.scaleColor(state.colorTopRight, aoTR);
     }
 
-    public void setupXPosAOPartial(
-            IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g, float b) {
+    public void setupXPosAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
+            float b) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(983055);
 
@@ -650,12 +731,27 @@ public class RenderHelperAO {
         boolean blocksGrassXZNN = !blockAccess.getBlock(xGrass, y, z - 1).getCanBlockGrass();
         boolean blocksGrassXZNP = !blockAccess.getBlock(xGrass, y, z + 1).getCanBlockGrass();
 
-        if (state.renderMaxX < 1)
-            setupAOBrightnessXPos(
-                    blockAccess, block, x, y, z, blocksGrassXYNP, blocksGrassXYNN, blocksGrassXZNN, blocksGrassXZNP);
+        if (state.renderMaxX < 1) setupAOBrightnessXPos(
+                blockAccess,
+                block,
+                x,
+                y,
+                z,
+                blocksGrassXYNP,
+                blocksGrassXYNN,
+                blocksGrassXZNN,
+                blocksGrassXZNP);
 
         setupAOBrightnessXNeg(
-                blockAccess, block, x + 1, y, z, blocksGrassXYNP, blocksGrassXYNN, blocksGrassXZNN, blocksGrassXZNP);
+                blockAccess,
+                block,
+                x + 1,
+                y,
+                z,
+                blocksGrassXYNP,
+                blocksGrassXYNN,
+                blocksGrassXZNN,
+                blocksGrassXZNP);
 
         float xClamp = MathHelper.clamp_float((float) state.renderMaxX, 0, 1);
         mixAOBrightnessLightValueX(xClamp, 1 - xClamp);
@@ -665,18 +761,18 @@ public class RenderHelperAO {
             blockBrightness = block.getMixedBrightnessForBlock(blockAccess, x + 1, y, z);
 
         float aoOpposingBlock = blockAccess.getBlock(x + 1, y, z).getAmbientOcclusionLightValue();
-        float aoXYZPNP =
-                (aoLightValueScratchXYIN + aoLightValueScratchXYZINP + aoOpposingBlock + aoLightValueScratchXZIP)
-                        / 4.0F;
-        float aoXYZPNN =
-                (aoLightValueScratchXYZINN + aoLightValueScratchXYIN + aoLightValueScratchXZIN + aoOpposingBlock)
-                        / 4.0F;
-        float aoXYZPPN =
-                (aoLightValueScratchXZIN + aoOpposingBlock + aoLightValueScratchXYZIPN + aoLightValueScratchXYIP)
-                        / 4.0F;
-        float aoXYZPPP =
-                (aoOpposingBlock + aoLightValueScratchXZIP + aoLightValueScratchXYIP + aoLightValueScratchXYZIPP)
-                        / 4.0F;
+        float aoXYZPNP = (aoLightValueScratchXYIN + aoLightValueScratchXYZINP
+                + aoOpposingBlock
+                + aoLightValueScratchXZIP) / 4.0F;
+        float aoXYZPNN = (aoLightValueScratchXYZINN + aoLightValueScratchXYIN
+                + aoLightValueScratchXZIN
+                + aoOpposingBlock) / 4.0F;
+        float aoXYZPPN = (aoLightValueScratchXZIN + aoOpposingBlock
+                + aoLightValueScratchXYZIPN
+                + aoLightValueScratchXYIP) / 4.0F;
+        float aoXYZPPP = (aoOpposingBlock + aoLightValueScratchXZIP
+                + aoLightValueScratchXYIP
+                + aoLightValueScratchXYZIPP) / 4.0F;
 
         float aoTL = (float) ((double) aoXYZPNP * (1.0D - state.renderMinY) * state.renderMaxZ
                 + (double) aoXYZPNN * (1.0D - state.renderMinY) * (1.0D - state.renderMaxZ)
@@ -744,16 +840,8 @@ public class RenderHelperAO {
         state.scaleColor(state.colorTopRight, aoTR);
     }
 
-    private void setupAOBrightnessYNeg(
-            IBlockAccess blockAccess,
-            Block block,
-            int x,
-            int y,
-            int z,
-            boolean bgXP,
-            boolean bgXN,
-            boolean bgZP,
-            boolean bgZN) {
+    private void setupAOBrightnessYNeg(IBlockAccess blockAccess, Block block, int x, int y, int z, boolean bgXP,
+            boolean bgXN, boolean bgZP, boolean bgZN) {
         aoLightValueScratchXYNN = blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue();
         aoLightValueScratchYZNN = blockAccess.getBlock(x, y, z - 1).getAmbientOcclusionLightValue();
         aoLightValueScratchYZNP = blockAccess.getBlock(x, y, z + 1).getAmbientOcclusionLightValue();
@@ -793,16 +881,8 @@ public class RenderHelperAO {
         }
     }
 
-    private void setupAOBrightnessYPos(
-            IBlockAccess blockAccess,
-            Block block,
-            int x,
-            int y,
-            int z,
-            boolean bgXP,
-            boolean bgXN,
-            boolean bgZP,
-            boolean bgZN) {
+    private void setupAOBrightnessYPos(IBlockAccess blockAccess, Block block, int x, int y, int z, boolean bgXP,
+            boolean bgXN, boolean bgZP, boolean bgZN) {
         aoLightValueScratchXYNP = blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue();
         aoLightValueScratchYZPN = blockAccess.getBlock(x, y, z - 1).getAmbientOcclusionLightValue();
         aoLightValueScratchYZPP = blockAccess.getBlock(x, y, z + 1).getAmbientOcclusionLightValue();
@@ -842,16 +922,8 @@ public class RenderHelperAO {
         }
     }
 
-    private void setupAOBrightnessZNeg(
-            IBlockAccess blockAccess,
-            Block block,
-            int x,
-            int y,
-            int z,
-            boolean bgXP,
-            boolean bgXN,
-            boolean bgYP,
-            boolean bgYN) {
+    private void setupAOBrightnessZNeg(IBlockAccess blockAccess, Block block, int x, int y, int z, boolean bgXP,
+            boolean bgXN, boolean bgYP, boolean bgYN) {
         aoLightValueScratchXZNN = blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue();
         aoLightValueScratchYZNN = blockAccess.getBlock(x, y - 1, z).getAmbientOcclusionLightValue();
         aoLightValueScratchYZPN = blockAccess.getBlock(x, y + 1, z).getAmbientOcclusionLightValue();
@@ -891,16 +963,8 @@ public class RenderHelperAO {
         }
     }
 
-    private void setupAOBrightnessZPos(
-            IBlockAccess blockAccess,
-            Block block,
-            int x,
-            int y,
-            int z,
-            boolean bgXP,
-            boolean bgXN,
-            boolean bgYP,
-            boolean bgYN) {
+    private void setupAOBrightnessZPos(IBlockAccess blockAccess, Block block, int x, int y, int z, boolean bgXP,
+            boolean bgXN, boolean bgYP, boolean bgYN) {
         aoLightValueScratchXZNP = blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue();
         aoLightValueScratchXZPP = blockAccess.getBlock(x + 1, y, z).getAmbientOcclusionLightValue();
         aoLightValueScratchYZNP = blockAccess.getBlock(x, y - 1, z).getAmbientOcclusionLightValue();
@@ -940,16 +1004,8 @@ public class RenderHelperAO {
         }
     }
 
-    private void setupAOBrightnessXNeg(
-            IBlockAccess blockAccess,
-            Block block,
-            int x,
-            int y,
-            int z,
-            boolean bgYP,
-            boolean bgYN,
-            boolean bgZN,
-            boolean bgZP) {
+    private void setupAOBrightnessXNeg(IBlockAccess blockAccess, Block block, int x, int y, int z, boolean bgYP,
+            boolean bgYN, boolean bgZN, boolean bgZP) {
         aoLightValueScratchXYNN = blockAccess.getBlock(x, y - 1, z).getAmbientOcclusionLightValue();
         aoLightValueScratchXZNN = blockAccess.getBlock(x, y, z - 1).getAmbientOcclusionLightValue();
         aoLightValueScratchXZNP = blockAccess.getBlock(x, y, z + 1).getAmbientOcclusionLightValue();
@@ -989,16 +1045,8 @@ public class RenderHelperAO {
         }
     }
 
-    private void setupAOBrightnessXPos(
-            IBlockAccess blockAccess,
-            Block block,
-            int x,
-            int y,
-            int z,
-            boolean bgYP,
-            boolean bgYN,
-            boolean bgZN,
-            boolean bgZP) {
+    private void setupAOBrightnessXPos(IBlockAccess blockAccess, Block block, int x, int y, int z, boolean bgYP,
+            boolean bgYN, boolean bgZN, boolean bgZP) {
         aoLightValueScratchXYPN = blockAccess.getBlock(x, y - 1, z).getAmbientOcclusionLightValue();
         aoLightValueScratchXZPN = blockAccess.getBlock(x, y, z - 1).getAmbientOcclusionLightValue();
         aoLightValueScratchXZPP = blockAccess.getBlock(x, y, z + 1).getAmbientOcclusionLightValue();
@@ -1220,31 +1268,20 @@ public class RenderHelperAO {
         return com1 + com2 + com3 + base >> 2 & 16711935;
     }
 
-    public static int mixAOBrightness(
-            int part1,
-            int part2,
-            int part3,
-            int part4,
-            double weight1,
-            double weight2,
-            double weight3,
-            double weight4) {
-        int brightSky = (int) ((part1 >> 16 & 255) * weight1
-                        + (part2 >> 16 & 255) * weight2
-                        + (part3 >> 16 & 255) * weight3
-                        + (part4 >> 16 & 255) * weight4)
-                & 255;
-        int brightBlk = (int) ((part1 & 255) * weight1
-                        + (part2 & 255) * weight2
-                        + (part3 & 255) * weight3
-                        + (part4 & 255) * weight4)
-                & 255;
+    public static int mixAOBrightness(int part1, int part2, int part3, int part4, double weight1, double weight2,
+            double weight3, double weight4) {
+        int brightSky = (int) ((part1 >> 16 & 255) * weight1 + (part2 >> 16 & 255) * weight2
+                + (part3 >> 16 & 255) * weight3
+                + (part4 >> 16 & 255) * weight4) & 255;
+        int brightBlk = (int) ((part1 & 255) * weight1 + (part2 & 255) * weight2
+                + (part3 & 255) * weight3
+                + (part4 & 255) * weight4) & 255;
 
         return brightSky << 16 | brightBlk;
     }
 
-    public static int mixAOBrightness(
-            int brightTL, int brightBL, int brightBR, int brightTR, double lerpTB, double lerpLR) {
+    public static int mixAOBrightness(int brightTL, int brightBL, int brightBR, int brightTR, double lerpTB,
+            double lerpLR) {
         double brightSkyL = (brightTL >> 16 & 255) * (1 - lerpTB) + (brightBL >> 16 & 255) * lerpTB;
         double brightSkyR = (brightTR >> 16 & 255) * (1 - lerpTB) + (brightBR >> 16 & 255) * lerpTB;
         int brightSky = (int) (brightSkyL * (1 - lerpLR) + brightSkyR * lerpLR) & 255;

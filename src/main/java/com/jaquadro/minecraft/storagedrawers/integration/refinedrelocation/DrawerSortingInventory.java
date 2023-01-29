@@ -1,5 +1,9 @@
 package com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation;
 
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
@@ -9,11 +13,9 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHa
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
 import com.jaquadro.minecraft.storagedrawers.storage.IUpgradeProvider;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public class DrawerSortingInventory {
+
     private ISpecialSortingInventory parent;
     private IDrawerGroup group;
     private IInventory inventory;
@@ -23,8 +25,8 @@ public class DrawerSortingInventory {
     private DrawerFilter filter;
     private boolean isAttached;
 
-    public DrawerSortingInventory(
-            TileEntity tileEntity, IDrawerGroup group, IInventory inventory, IUpgradeProvider upgrade) {
+    public DrawerSortingInventory(TileEntity tileEntity, IDrawerGroup group, IInventory inventory,
+            IUpgradeProvider upgrade) {
         parent = (ISpecialSortingInventory) tileEntity;
         this.group = group;
         this.inventory = inventory;
@@ -64,8 +66,7 @@ public class DrawerSortingInventory {
             IDrawer drawer = group.getDrawer(i);
             if (drawer.isEmpty() || !drawer.canItemBeStored(itemStack)) continue;
 
-            int added = upgrade.isVoid()
-                    ? itemStack.stackSize
+            int added = upgrade.isVoid() ? itemStack.stackSize
                     : Math.min(drawer.getRemainingCapacity(), itemStack.stackSize);
             if (!simulate) drawer.setStoredItemCount(drawer.getStoredItemCount() + added);
 

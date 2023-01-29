@@ -5,6 +5,7 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IProtectable;
 import com.mojang.authlib.GameProfile;
 
 public class SecurityManager {
+
     private static ISecurityProvider defaultProvider = new DefaultSecurityProvider();
 
     public static boolean hasOwnership(GameProfile profile, IProtectable target) {

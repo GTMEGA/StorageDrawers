@@ -1,5 +1,9 @@
 package com.jaquadro.minecraft.storagedrawers;
 
+import java.io.File;
+
+import net.minecraftforge.common.MinecraftForge;
+
 import com.jaquadro.minecraft.storagedrawers.api.StorageDrawersApi;
 import com.jaquadro.minecraft.storagedrawers.config.*;
 import com.jaquadro.minecraft.storagedrawers.core.*;
@@ -9,6 +13,7 @@ import com.jaquadro.minecraft.storagedrawers.integration.IntegrationRegistry;
 import com.jaquadro.minecraft.storagedrawers.network.BlockClickMessage;
 import com.jaquadro.minecraft.storagedrawers.network.CountUpdateMessage;
 import com.jaquadro.minecraft.storagedrawers.security.SecurityRegistry;
+
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -20,8 +25,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
-import java.io.File;
-import net.minecraftforge.common.MinecraftForge;
 
 @Mod(
         modid = StorageDrawers.MOD_ID,
@@ -30,6 +33,7 @@ import net.minecraftforge.common.MinecraftForge;
         dependencies = "after:waila;",
         guiFactory = StorageDrawers.SOURCE_PATH + "core.ModGuiFactory")
 public class StorageDrawers {
+
     public static final String MOD_ID = "StorageDrawers";
     public static final String MOD_NAME = "Storage Drawers";
     public static final String MOD_VERSION = "GRADLETOKEN_VERSION";

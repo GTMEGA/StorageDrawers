@@ -1,12 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
-import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
-import com.jaquadro.minecraft.storagedrawers.item.ItemCustomDrawers;
-import com.jaquadro.minecraft.storagedrawers.item.ItemCustomTrim;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -14,11 +7,23 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+
 import org.lwjgl.opengl.GL11;
+
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
+import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
+import com.jaquadro.minecraft.storagedrawers.item.ItemCustomDrawers;
+import com.jaquadro.minecraft.storagedrawers.item.ItemCustomTrim;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class TileEntityFramingRenderer extends TileEntitySpecialRenderer {
+
     private RenderItem itemRenderer = new RenderItem() {
+
         @Override
         public byte getMiniBlockCount(ItemStack stack, byte original) {
             return 1;
@@ -57,8 +62,8 @@ public class TileEntityFramingRenderer extends TileEntitySpecialRenderer {
                         tileTable.getStackInSlot(3));
                 renderSlot(tileTable, x, y, z, result, 2f, 0f, .25f, 0f);
             } else if (block instanceof BlockTrimCustom) {
-                ItemStack result = ItemCustomTrim.makeItemStack(
-                        block, 1, tileTable.getStackInSlot(1), tileTable.getStackInSlot(2));
+                ItemStack result = ItemCustomTrim
+                        .makeItemStack(block, 1, tileTable.getStackInSlot(1), tileTable.getStackInSlot(2));
                 renderSlot(tileTable, x, y, z, result, 2f, 0f, .25f, 0f);
             }
         }
@@ -68,16 +73,8 @@ public class TileEntityFramingRenderer extends TileEntitySpecialRenderer {
         renderSlot(tileTable, x, y, z, tileTable.getStackInSlot(3), 1.15f, .225f, .15f, .65f);
     }
 
-    private void renderSlot(
-            TileEntityFramingTable tileTable,
-            double x,
-            double y,
-            double z,
-            ItemStack item,
-            float scale,
-            float tx,
-            float ty,
-            float tz) {
+    private void renderSlot(TileEntityFramingTable tileTable, double x, double y, double z, ItemStack item, float scale,
+            float tx, float ty, float tz) {
         if (item == null) return;
 
         Block itemBlock = Block.getBlockFromItem(item.getItem());
@@ -108,8 +105,7 @@ public class TileEntityFramingRenderer extends TileEntitySpecialRenderer {
             EntityItem itemEnt = new EntityItem(null, 0, 0, 0, item);
             itemEnt.hoverStart = 0;
             itemRenderer.doRender(itemEnt, 0, 0, 0, 0, 0);
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
 
         GL11.glPopMatrix();
     }

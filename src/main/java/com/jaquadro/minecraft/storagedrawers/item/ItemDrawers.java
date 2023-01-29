@@ -1,13 +1,7 @@
 package com.jaquadro.minecraft.storagedrawers.item;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
-import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -16,25 +10,25 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
+import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemDrawers extends ItemBlock {
+
     public ItemDrawers(Block block) {
         super(block);
         setMaxDamage(0);
     }
 
     @Override
-    public boolean placeBlockAt(
-            ItemStack stack,
-            EntityPlayer player,
-            World world,
-            int x,
-            int y,
-            int z,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            int metadata) {
+    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
+            float hitX, float hitY, float hitZ, int metadata) {
         if (!super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata)) return false;
 
         TileEntityDrawers tile = (TileEntityDrawers) world.getTileEntity(x, y, z);
@@ -60,12 +54,14 @@ public class ItemDrawers extends ItemBlock {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
         Block block = Block.getBlockFromItem(itemStack.getItem());
-        list.add(StatCollector.translateToLocalFormatted(
-                "storageDrawers.drawers.description", getCapacityForBlock(block)));
+        list.add(
+                StatCollector
+                        .translateToLocalFormatted("storageDrawers.drawers.description", getCapacityForBlock(block)));
 
         if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("tile")) {
-            list.add(EnumChatFormatting.YELLOW
-                    + StatCollector.translateToLocalFormatted("storageDrawers.drawers.sealed"));
+            list.add(
+                    EnumChatFormatting.YELLOW
+                            + StatCollector.translateToLocalFormatted("storageDrawers.drawers.sealed"));
         }
     }
 

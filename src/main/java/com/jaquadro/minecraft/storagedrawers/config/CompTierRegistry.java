@@ -1,14 +1,18 @@
 package com.jaquadro.minecraft.storagedrawers.config;
 
-import cpw.mods.fml.common.Loader;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import cpw.mods.fml.common.Loader;
+
 public class CompTierRegistry {
+
     public class Record {
+
         public ItemStack upper;
         public ItemStack lower;
         public int convRate;

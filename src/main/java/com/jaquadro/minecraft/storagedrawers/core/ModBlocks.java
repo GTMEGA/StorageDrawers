@@ -1,17 +1,20 @@
 package com.jaquadro.minecraft.storagedrawers.core;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.*;
 import com.jaquadro.minecraft.storagedrawers.block.tile.*;
 import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
 import com.jaquadro.minecraft.storagedrawers.item.*;
+
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModBlocks {
+
     public static DataResolver resolver;
 
     public static BlockDrawers fullDrawers1;
@@ -105,13 +108,19 @@ public class ModBlocks {
                 getQualifiedName(halfDrawers4));
 
         GameRegistry.registerTileEntityWithAlternatives(
-                TileEntityDrawersComp.class, getQualifiedName("tileDrawersComp"), getQualifiedName(compDrawers));
+                TileEntityDrawersComp.class,
+                getQualifiedName("tileDrawersComp"),
+                getQualifiedName(compDrawers));
 
         GameRegistry.registerTileEntityWithAlternatives(
-                TileEntityController.class, getQualifiedName("tileController"), getQualifiedName(controller));
+                TileEntityController.class,
+                getQualifiedName("tileController"),
+                getQualifiedName(controller));
 
         GameRegistry.registerTileEntityWithAlternatives(
-                TileEntitySlave.class, getQualifiedName("tileControllerSlave"), getQualifiedName(controllerSlave));
+                TileEntitySlave.class,
+                getQualifiedName("tileControllerSlave"),
+                getQualifiedName(controllerSlave));
 
         GameRegistry.registerTileEntity(TileEntityFramingTable.class, getQualifiedName("framingTable"));
 
@@ -130,15 +139,15 @@ public class ModBlocks {
         StorageDrawers.proxy.registerDrawer(halfCustom2);
         StorageDrawers.proxy.registerDrawer(halfCustom4);
 
-        for (String key : new String[] {"drawerBasic"})
+        for (String key : new String[] { "drawerBasic" })
             OreDictionary.registerOre(key, new ItemStack(fullDrawers1, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] {"drawerBasic"})
+        for (String key : new String[] { "drawerBasic" })
             OreDictionary.registerOre(key, new ItemStack(fullDrawers2, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] {"drawerBasic"})
+        for (String key : new String[] { "drawerBasic" })
             OreDictionary.registerOre(key, new ItemStack(fullDrawers4, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] {"drawerBasic"})
+        for (String key : new String[] { "drawerBasic" })
             OreDictionary.registerOre(key, new ItemStack(halfDrawers2, 1, OreDictionary.WILDCARD_VALUE));
-        for (String key : new String[] {"drawerBasic"})
+        for (String key : new String[] { "drawerBasic" })
             OreDictionary.registerOre(key, new ItemStack(halfDrawers4, 1, OreDictionary.WILDCARD_VALUE));
 
         resolver.init();

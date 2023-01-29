@@ -1,11 +1,13 @@
 package com.jaquadro.minecraft.storagedrawers.storage;
 
-import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
+
 public interface ICentralInventory {
+
     public ItemStack getStoredItemPrototype(int slot);
 
     public IDrawer setStoredItem(int slot, ItemStack itemPrototype, int amount);

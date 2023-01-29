@@ -6,6 +6,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 public class InventoryContainerProxy implements IInventory {
+
     private IInventory parent;
     private Container container;
 

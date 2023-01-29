@@ -1,13 +1,15 @@
 package com.jaquadro.minecraft.storagedrawers.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemBasicDrawers extends ItemDrawers {
+
     protected final Block blockTemplate;
     protected final String[] blockNames;
 

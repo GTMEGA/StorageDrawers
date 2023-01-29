@@ -1,14 +1,16 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer.common;
 
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+
 import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
 import com.jaquadro.minecraft.storagedrawers.client.renderer.ModularBoxRenderer;
 import com.jaquadro.minecraft.storagedrawers.client.renderer.PanelBoxRenderer;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 
 public class CommonDrawerRenderer {
+
     private PanelBoxRenderer panelRenderer = new PanelBoxRenderer();
 
     private double depth;
@@ -35,7 +37,8 @@ public class CommonDrawerRenderer {
 
         renderHelper.state.setRotateTransform(RenderHelper.ZNEG, direction);
         renderHelper.state.setUVRotation(
-                RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][direction]);
+                RenderHelper.YPOS,
+                RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][direction]);
 
         return renderHelper;
     }
@@ -47,16 +50,8 @@ public class CommonDrawerRenderer {
         renderHelper.state.clearUVRotation(RenderHelper.YPOS);
     }
 
-    public void renderBasePass(
-            IBlockAccess world,
-            int x,
-            int y,
-            int z,
-            BlockDrawersCustom block,
-            int direction,
-            IIcon iconSide,
-            IIcon iconTrim,
-            IIcon iconFront) {
+    public void renderBasePass(IBlockAccess world, int x, int y, int z, BlockDrawersCustom block, int direction,
+            IIcon iconSide, IIcon iconTrim, IIcon iconFront) {
         RenderHelper renderHelper = start(world, x, y, z, block, direction);
 
         panelRenderer.setTrimIcon(iconTrim);
@@ -108,15 +103,8 @@ public class CommonDrawerRenderer {
         end();
     }
 
-    public void renderOverlayPass(
-            IBlockAccess world,
-            int x,
-            int y,
-            int z,
-            BlockDrawersCustom block,
-            int direction,
-            IIcon iconTrim,
-            IIcon iconFront) {
+    public void renderOverlayPass(IBlockAccess world, int x, int y, int z, BlockDrawersCustom block, int direction,
+            IIcon iconTrim, IIcon iconFront) {
         RenderHelper renderHelper = start(world, x, y, z, block, direction);
 
         IIcon trimShadow = block.getTrimShadowOverlay(iconTrim == iconFront);

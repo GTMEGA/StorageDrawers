@@ -1,14 +1,17 @@
 package com.jaquadro.minecraft.storagedrawers.storage;
 
+import net.minecraft.tileentity.TileEntity;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 import com.jaquadro.minecraft.storagedrawers.network.CountUpdateMessage;
+
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import net.minecraft.tileentity.TileEntity;
 
 public class DefaultStorageProvider implements IStorageProvider {
+
     TileEntity tile;
     IDrawerGroup group;
 
@@ -83,7 +86,11 @@ public class DefaultStorageProvider implements IStorageProvider {
 
         IMessage message = new CountUpdateMessage(tile.xCoord, tile.yCoord, tile.zCoord, slot, count);
         NetworkRegistry.TargetPoint targetPoint = new NetworkRegistry.TargetPoint(
-                tile.getWorldObj().provider.dimensionId, tile.xCoord, tile.yCoord, tile.zCoord, 500);
+                tile.getWorldObj().provider.dimensionId,
+                tile.xCoord,
+                tile.yCoord,
+                tile.zCoord,
+                500);
 
         StorageDrawers.network.sendToAllAround(message, targetPoint);
 

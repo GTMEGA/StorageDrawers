@@ -1,10 +1,12 @@
 package com.jaquadro.minecraft.storagedrawers.item.pack;
 
-import com.jaquadro.minecraft.storagedrawers.block.pack.BlockTrimPack;
-import com.jaquadro.minecraft.storagedrawers.item.ItemTrim;
 import net.minecraft.block.Block;
 
+import com.jaquadro.minecraft.storagedrawers.block.pack.BlockTrimPack;
+import com.jaquadro.minecraft.storagedrawers.item.ItemTrim;
+
 public class ItemTrimPack extends ItemTrim {
+
     public ItemTrimPack(Block block) {
         super(block, getUnlocalizedNames(block));
     }

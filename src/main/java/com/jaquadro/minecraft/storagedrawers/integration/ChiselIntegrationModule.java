@@ -1,5 +1,8 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockWood;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.pack.IPackDataResolver;
 import com.jaquadro.minecraft.storagedrawers.block.pack.BlockDrawersPack;
@@ -8,19 +11,18 @@ import com.jaquadro.minecraft.storagedrawers.block.pack.BlockSortingTrimPack;
 import com.jaquadro.minecraft.storagedrawers.block.pack.BlockTrimPack;
 import com.jaquadro.minecraft.storagedrawers.config.ConfigManager;
 import com.jaquadro.minecraft.storagedrawers.core.ModBlocks;
+
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockWood;
 
 public class ChiselIntegrationModule extends IntegrationModule {
 
     private static final String chiselModID = "chisel";
     private static final String addVariation = "variation:add";
 
-    private static final boolean chiselEnabled =
-            (Loader.isModLoaded(chiselModID) && StorageDrawers.config.integrationConfig.isChiselEnabled());
+    private static final boolean chiselEnabled = (Loader.isModLoaded(chiselModID)
+            && StorageDrawers.config.integrationConfig.isChiselEnabled());
 
     public static boolean isEnabled() {
         return chiselEnabled;

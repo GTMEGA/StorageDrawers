@@ -8,24 +8,15 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemFramingTable extends ItemBlock {
+
     public ItemFramingTable(Block block) {
         super(block);
         setMaxDamage(0);
     }
 
     @Override
-    public boolean placeBlockAt(
-            ItemStack stack,
-            EntityPlayer player,
-            World world,
-            int x,
-            int y,
-            int z,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            int metadata) {
+    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
+            float hitX, float hitY, float hitZ, int metadata) {
         metadata = 0;
         if (side == 0) return false;
         if (side == 1) {

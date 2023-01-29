@@ -1,9 +1,10 @@
 package com.jaquadro.minecraft.storagedrawers.integration.refinedrelocation;
 
+import net.minecraft.tileentity.TileEntity;
+
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileSortingTrim extends TileEntity implements ISortingMember {
 

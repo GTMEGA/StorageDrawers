@@ -1,16 +1,7 @@
 package com.jaquadro.minecraft.storagedrawers.block.tile;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.api.inventory.IDrawerInventory;
-import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
-import com.jaquadro.minecraft.storagedrawers.api.storage.*;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.BlockSlave;
-import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
-import com.jaquadro.minecraft.storagedrawers.util.ItemMetaListRegistry;
-import com.mojang.authlib.GameProfile;
 import java.util.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -22,8 +13,20 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.api.inventory.IDrawerInventory;
+import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
+import com.jaquadro.minecraft.storagedrawers.api.storage.*;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.BlockSlave;
+import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
+import com.jaquadro.minecraft.storagedrawers.util.ItemMetaListRegistry;
+import com.mojang.authlib.GameProfile;
+
 public class TileEntityController extends TileEntity
         implements IDrawerGroup, IPriorityGroup, ISmartGroup, ISidedInventory {
+
     private static final int PRI_VOID = 0;
     private static final int PRI_LOCKED = 1;
     private static final int PRI_NORMAL = 2;
@@ -35,6 +38,7 @@ public class TileEntityController extends TileEntity
     private static final int[] emptySlots = new int[0];
 
     private static class StorageRecord {
+
         public IDrawerGroup storage;
         public boolean mark;
         public int invStorageSize;
@@ -51,6 +55,7 @@ public class TileEntityController extends TileEntity
     }
 
     private static class SlotRecord {
+
         public BlockCoord coord;
         public int slot;
 
@@ -64,6 +69,7 @@ public class TileEntityController extends TileEntity
     }
 
     private Comparator<SlotRecord> slotRecordComparator = new Comparator<SlotRecord>() {
+
         @Override
         public int compare(SlotRecord o1, SlotRecord o2) {
             return o1.priority - o2.priority;
@@ -114,7 +120,7 @@ public class TileEntityController extends TileEntity
 
     private int[] inventorySlots = new int[0];
     private int[] drawerSlots = new int[0];
-    private int[] autoSides = new int[] {0, 1, 2, 3, 4, 5};
+    private int[] autoSides = new int[] { 0, 1, 2, 3, 4, 5 };
     private int direction;
 
     private int drawerSize = 0;
@@ -129,7 +135,7 @@ public class TileEntityController extends TileEntity
 
     public TileEntityController() {
         invSlotList.add(new SlotRecord(null, 0));
-        inventorySlots = new int[] {0};
+        inventorySlots = new int[] { 0 };
         range = StorageDrawers.config.getControllerRange();
         maxDrawers = StorageDrawers.config.getControllerMaxDrawers();
     }
@@ -366,8 +372,8 @@ public class TileEntityController extends TileEntity
         return slotMap;
     }
 
-    private void rebuildPrimaryLookup(
-            ItemMetaListRegistry<SlotRecord> lookup, List<SlotRecord> records, boolean invBased) {
+    private void rebuildPrimaryLookup(ItemMetaListRegistry<SlotRecord> lookup, List<SlotRecord> records,
+            boolean invBased) {
         lookup.clear();
 
         for (SlotRecord record : records) {
@@ -515,14 +521,12 @@ public class TileEntityController extends TileEntity
             record.mark = true;
             record.distance = depth;
 
-            BlockCoord[] neighbors = new BlockCoord[] {
-                new BlockCoord(coord.x() + 1, coord.y(), coord.z()),
-                new BlockCoord(coord.x() - 1, coord.y(), coord.z()),
-                new BlockCoord(coord.x(), coord.y(), coord.z() + 1),
-                new BlockCoord(coord.x(), coord.y(), coord.z() - 1),
-                new BlockCoord(coord.x(), coord.y() + 1, coord.z()),
-                new BlockCoord(coord.x(), coord.y() - 1, coord.z()),
-            };
+            BlockCoord[] neighbors = new BlockCoord[] { new BlockCoord(coord.x() + 1, coord.y(), coord.z()),
+                    new BlockCoord(coord.x() - 1, coord.y(), coord.z()),
+                    new BlockCoord(coord.x(), coord.y(), coord.z() + 1),
+                    new BlockCoord(coord.x(), coord.y(), coord.z() - 1),
+                    new BlockCoord(coord.x(), coord.y() + 1, coord.z()),
+                    new BlockCoord(coord.x(), coord.y() - 1, coord.z()), };
 
             for (BlockCoord n : neighbors) {
                 if (!searchDiscovered.contains(n)) {
@@ -820,6 +824,7 @@ public class TileEntityController extends TileEntity
     }
 
     private class DrawerStackIterator implements Iterable<Integer> {
+
         private ItemStack stack;
         private boolean strict;
         private boolean insert;
@@ -835,8 +840,9 @@ public class TileEntityController extends TileEntity
             if (this.stack == null) return new ArrayList<Integer>(0).iterator();
 
             return new Iterator<Integer>() {
-                List<SlotRecord> primaryRecords =
-                        drawerPrimaryLookup.getEntries(stack.getItem(), stack.getItemDamage());
+
+                List<SlotRecord> primaryRecords = drawerPrimaryLookup
+                        .getEntries(stack.getItem(), stack.getItemDamage());
                 Iterator<SlotRecord> iter1;
                 int index2;
                 Integer nextSlot = null;
@@ -898,7 +904,8 @@ public class TileEntityController extends TileEntity
                         if (insert) {
                             boolean voiding = (drawer instanceof IVoidable) ? ((IVoidable) drawer).isVoid() : false;
                             if (!(drawer.canItemBeStored(stack)
-                                    && (drawer.isEmpty() || drawer.getRemainingCapacity() > 0 || voiding))) continue;
+                                    && (drawer.isEmpty() || drawer.getRemainingCapacity() > 0 || voiding)))
+                                continue;
                         } else {
                             if (!(drawer.canItemBeExtracted(stack) && drawer.getStoredItemCount() > 0)) continue;
                         }
@@ -913,8 +920,7 @@ public class TileEntityController extends TileEntity
                 }
             };
         }
-    }
-    ;
+    };
 
     public Iterable<Integer> enumerateDrawersForInsertion(ItemStack stack, boolean strict) {
         return new DrawerStackIterator(stack, strict, true);

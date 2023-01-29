@@ -1,11 +1,13 @@
 package com.jaquadro.minecraft.storagedrawers.config;
 
-import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaRegistry;
-import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaTooltipHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaRegistry;
+import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaTooltipHandler;
+
 public class WailaRegistry implements IWailaRegistry {
+
     private List<IWailaTooltipHandler> registry = new ArrayList<IWailaTooltipHandler>();
 
     @Override

@@ -1,12 +1,7 @@
 package com.jaquadro.minecraft.storagedrawers.item;
 
-import com.google.common.collect.Multimap;
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
-import com.jaquadro.minecraft.storagedrawers.integration.IntegrationRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,8 +13,17 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 
+import com.google.common.collect.Multimap;
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
+import com.jaquadro.minecraft.storagedrawers.integration.IntegrationRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemPersonalKey extends Item {
-    public static final String[] iconNames = new String[] {"default", "cofh"};
+
+    public static final String[] iconNames = new String[] { "default", "cofh" };
 
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
@@ -71,7 +75,8 @@ public class ItemPersonalKey extends Item {
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item, 1, 0));
         if (StorageDrawers.config.cache.enableThermalFoundationIntegration
-                && IntegrationRegistry.instance().isModLoaded("ThermalFoundation")) list.add(new ItemStack(item, 1, 1));
+                && IntegrationRegistry.instance().isModLoaded("ThermalFoundation"))
+            list.add(new ItemStack(item, 1, 1));
     }
 
     @Override

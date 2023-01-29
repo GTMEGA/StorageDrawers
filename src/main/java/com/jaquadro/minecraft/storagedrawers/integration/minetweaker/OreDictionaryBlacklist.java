@@ -1,13 +1,15 @@
 package com.jaquadro.minecraft.storagedrawers.integration.minetweaker;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+
 @ZenClass("mods.storagedrawers.OreDictionaryBlacklist")
 public class OreDictionaryBlacklist {
+
     @ZenMethod
     public static void add(String name) {
         if (name != null && name.length() > 0) MineTweakerAPI.apply(new AddNameAction(name));
@@ -21,6 +23,7 @@ public class OreDictionaryBlacklist {
     }
 
     private static class AddNameAction implements IUndoableAction {
+
         String name;
         boolean added;
 
@@ -63,6 +66,7 @@ public class OreDictionaryBlacklist {
     }
 
     private static class AddPrefixAction implements IUndoableAction {
+
         String name;
         boolean added;
 
@@ -93,9 +97,8 @@ public class OreDictionaryBlacklist {
 
         @Override
         public String describeUndo() {
-            if (added)
-                return "Removing previously added ore dictionary prefix '" + name
-                        + "' from drawer conversion blacklist.";
+            if (added) return "Removing previously added ore dictionary prefix '" + name
+                    + "' from drawer conversion blacklist.";
             else return "";
         }
 

@@ -1,16 +1,20 @@
 package com.jaquadro.minecraft.storagedrawers.integration.minetweaker;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+
 import net.minecraft.item.ItemStack;
+
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+
 @ZenClass("mods.storagedrawers.Compaction")
 public class Compaction {
+
     @ZenMethod
     public static void add(IItemStack upper, IItemStack lower, int conversion) {
         ItemStack upperStack = MineTweakerMC.getItemStack(upper);
@@ -22,6 +26,7 @@ public class Compaction {
     }
 
     private static class AddRecordAction implements IUndoableAction {
+
         ItemStack upper;
         ItemStack lower;
         int conversionRate;
@@ -50,17 +55,15 @@ public class Compaction {
 
         @Override
         public String describe() {
-            if (added)
-                return "Adding compacting tier: 1 '" + upper.getDisplayName() + "' = " + conversionRate + " '"
-                        + lower.getDisplayName() + "'.";
+            if (added) return "Adding compacting tier: 1 '" + upper
+                    .getDisplayName() + "' = " + conversionRate + " '" + lower.getDisplayName() + "'.";
             else return "Failed to add compacting tier.";
         }
 
         @Override
         public String describeUndo() {
-            if (added)
-                return "Removing previously added compacting tier: 1 '" + upper.getDisplayName() + "' = "
-                        + conversionRate + " '" + lower.getDisplayName() + "'.";
+            if (added) return "Removing previously added compacting tier: 1 '" + upper
+                    .getDisplayName() + "' = " + conversionRate + " '" + lower.getDisplayName() + "'.";
             else return "";
         }
 

@@ -30,6 +30,7 @@ public class TileEntityDrawersStandard extends TileEntityDrawers {
     }
 
     private class StandardStorageProvider extends DefaultStorageProvider {
+
         public StandardStorageProvider() {
             super(TileEntityDrawersStandard.this, TileEntityDrawersStandard.this);
         }

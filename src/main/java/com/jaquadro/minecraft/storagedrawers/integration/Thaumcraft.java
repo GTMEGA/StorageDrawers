@@ -1,13 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.integration;
 
-import com.jaquadro.minecraft.storagedrawers.api.StorageDrawersApi;
-import com.jaquadro.minecraft.storagedrawers.api.event.DrawerPopulatedEvent;
-import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaTooltipHandler;
-import com.jaquadro.minecraft.storagedrawers.api.render.IRenderLabel;
-import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
-import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -21,12 +13,25 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
+
 import org.lwjgl.opengl.GL11;
+
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 
+import com.jaquadro.minecraft.storagedrawers.api.StorageDrawersApi;
+import com.jaquadro.minecraft.storagedrawers.api.event.DrawerPopulatedEvent;
+import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaTooltipHandler;
+import com.jaquadro.minecraft.storagedrawers.api.render.IRenderLabel;
+import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
+import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class Thaumcraft extends IntegrationModule {
+
     private Item[] aspectItems;
 
     @Override
@@ -38,14 +43,11 @@ public class Thaumcraft extends IntegrationModule {
     public void init() throws Throwable {
         MinecraftForge.EVENT_BUS.register(this);
 
-        aspectItems = new Item[] {
-            GameRegistry.findItem(getModID(), "ItemResource"),
-            GameRegistry.findItem(getModID(), "ItemEssence"),
-            GameRegistry.findItem(getModID(), "ItemWispEssence"),
-            GameRegistry.findItem(getModID(), "ItemCrystalEssence"),
-            GameRegistry.findItem(getModID(), "BlockJarFilledItem"),
-            GameRegistry.findItem(getModID(), "ItemManaBean"),
-        };
+        aspectItems = new Item[] { GameRegistry.findItem(getModID(), "ItemResource"),
+                GameRegistry.findItem(getModID(), "ItemEssence"), GameRegistry.findItem(getModID(), "ItemWispEssence"),
+                GameRegistry.findItem(getModID(), "ItemCrystalEssence"),
+                GameRegistry.findItem(getModID(), "BlockJarFilledItem"),
+                GameRegistry.findItem(getModID(), "ItemManaBean"), };
 
         StorageDrawersApi.instance().renderRegistry().registerPreLabelRenderHandler(new LabelRenderHandler());
         StorageDrawersApi.instance().wailaRegistry().registerTooltipHandler(new WailaTooltipHandler());
@@ -119,8 +121,8 @@ public class Thaumcraft extends IntegrationModule {
     private class LabelRenderHandler implements IRenderLabel {
 
         @Override
-        public void render(
-                TileEntity tileEntity, IDrawerGroup drawerGroup, int slot, float brightness, float partialTickTime) {
+        public void render(TileEntity tileEntity, IDrawerGroup drawerGroup, int slot, float brightness,
+                float partialTickTime) {
             IDrawer drawer = drawerGroup.getDrawer(slot);
             if (drawer == null) return;
 
@@ -128,8 +130,8 @@ public class Thaumcraft extends IntegrationModule {
             if (!(aspectObj instanceof Aspect)) return;
 
             EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-            Vec3 blockPos =
-                    Vec3.createVectorHelper(tileEntity.xCoord + .5, tileEntity.yCoord + .5, tileEntity.zCoord + .5);
+            Vec3 blockPos = Vec3
+                    .createVectorHelper(tileEntity.xCoord + .5, tileEntity.yCoord + .5, tileEntity.zCoord + .5);
             double distance = blockPos.distanceTo(player.getPosition(partialTickTime));
 
             if (distance > 10) return;

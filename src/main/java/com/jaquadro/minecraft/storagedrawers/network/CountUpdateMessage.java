@@ -1,7 +1,14 @@
 package com.jaquadro.minecraft.storagedrawers.network;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
+import org.apache.logging.log4j.Level;
+
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -9,12 +16,9 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import org.apache.logging.log4j.Level;
 
 public class CountUpdateMessage implements IMessage {
+
     private int x;
     private int y;
     private int z;
@@ -51,6 +55,7 @@ public class CountUpdateMessage implements IMessage {
 
     @SideOnly(Side.CLIENT)
     public static class Handler implements IMessageHandler<CountUpdateMessage, IMessage> {
+
         @Override
         public IMessage onMessage(CountUpdateMessage message, MessageContext ctx) {
             if (ctx.side == Side.CLIENT) {
@@ -66,6 +71,7 @@ public class CountUpdateMessage implements IMessage {
     }
 
     public static class HandlerStub implements IMessageHandler<CountUpdateMessage, IMessage> {
+
         @Override
         public IMessage onMessage(CountUpdateMessage message, MessageContext ctx) {
             FMLLog.log(StorageDrawers.MOD_ID, Level.WARN, "CountUpdateMessage stub handler called.");

@@ -8,6 +8,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityTrim extends TileEntity {
+
     private ItemStack materialSide;
     private ItemStack materialTrim;
 

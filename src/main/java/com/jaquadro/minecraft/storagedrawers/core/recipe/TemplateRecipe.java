@@ -1,15 +1,18 @@
 package com.jaquadro.minecraft.storagedrawers.core.recipe;
 
-import com.jaquadro.minecraft.storagedrawers.core.ModItems;
-import com.jaquadro.minecraft.storagedrawers.item.ItemDrawers;
 import java.util.List;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
+import com.jaquadro.minecraft.storagedrawers.core.ModItems;
+import com.jaquadro.minecraft.storagedrawers.item.ItemDrawers;
+
 public class TemplateRecipe implements IRecipe {
+
     @Override
     public boolean matches(InventoryCrafting inventory, World world) {
         return getCraftingResult(inventory) != null;

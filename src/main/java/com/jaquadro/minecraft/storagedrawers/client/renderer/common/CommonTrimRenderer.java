@@ -1,13 +1,15 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer.common;
 
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+
 import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
 import com.jaquadro.minecraft.storagedrawers.client.renderer.ModularBoxRenderer;
 import com.jaquadro.minecraft.storagedrawers.client.renderer.PanelBoxRenderer;
 import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 
 public class CommonTrimRenderer {
+
     private PanelBoxRenderer panelRenderer = new PanelBoxRenderer();
 
     private double trimWidth;

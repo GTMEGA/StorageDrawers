@@ -1,17 +1,19 @@
 package com.jaquadro.minecraft.storagedrawers.block;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockWood;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+
 import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
 import com.jaquadro.minecraft.storagedrawers.api.pack.BlockType;
 import com.jaquadro.minecraft.storagedrawers.api.pack.ExtendedDataResolver;
 import com.jaquadro.minecraft.storagedrawers.core.ModBlocks;
 import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
 import com.jaquadro.minecraft.storagedrawers.integration.RefinedRelocation;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockWood;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 
 public class DataResolver extends ExtendedDataResolver {
+
     private static String[] textureNames = BlockWood.field_150096_a;
 
     public DataResolver(String modID) {

@@ -1,5 +1,10 @@
 package com.jaquadro.minecraft.storagedrawers.integration.ae2;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
+
 import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.BaseActionSource;
@@ -7,15 +12,14 @@ import appeng.api.storage.IMEInventory;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
+
 import com.jaquadro.minecraft.storagedrawers.api.storage.*;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.ILockable;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IVoidable;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
-import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.item.ItemStack;
 
 public class DrawerMEInventory implements IMEInventory<IAEItemStack> {
+
     final IDrawerGroup group;
 
     public DrawerMEInventory(IDrawerGroup drawerGroup) {
@@ -78,9 +82,9 @@ public class DrawerMEInventory implements IMEInventory<IAEItemStack> {
                 IDrawer drawer = group.getDrawer(slot);
                 ItemStack itemProto = drawer.getStoredItemPrototype();
 
-                if (itemProto == null
-                        && drawer instanceof ILockable
-                        && ((ILockable) drawer).isLocked(LockAttribute.LOCK_EMPTY)) continue;
+                if (itemProto == null && drawer instanceof ILockable
+                        && ((ILockable) drawer).isLocked(LockAttribute.LOCK_EMPTY))
+                    continue;
 
                 if (itemProto == null) {
                     itemProto = input.getItemStack();

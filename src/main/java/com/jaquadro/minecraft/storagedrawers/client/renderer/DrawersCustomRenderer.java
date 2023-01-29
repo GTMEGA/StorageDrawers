@@ -1,28 +1,24 @@
 package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonDrawerRenderer;
-import com.jaquadro.minecraft.storagedrawers.core.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.BlockDrawersCustom;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonDrawerRenderer;
+import com.jaquadro.minecraft.storagedrawers.core.ClientProxy;
+
 public class DrawersCustomRenderer extends DrawersRenderer {
+
     private CommonDrawerRenderer commonRender = new CommonDrawerRenderer();
 
     @Override
-    protected void renderBaseBlock(
-            IBlockAccess world,
-            TileEntityDrawers tile,
-            int x,
-            int y,
-            int z,
-            BlockDrawers block,
+    protected void renderBaseBlock(IBlockAccess world, TileEntityDrawers tile, int x, int y, int z, BlockDrawers block,
             RenderBlocks renderer) {
         BlockDrawersCustom custom = (BlockDrawersCustom) block;
 
