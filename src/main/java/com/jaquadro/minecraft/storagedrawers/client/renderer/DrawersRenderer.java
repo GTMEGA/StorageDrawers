@@ -6,6 +6,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
@@ -16,10 +17,13 @@ import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = true)
 public class DrawersRenderer implements ISimpleBlockRenderingHandler {
 
     private static final double unit = .0625f;
     private ModularBoxRenderer boxRenderer = new ModularBoxRenderer();
+
+    private RenderHelper renderHelper = RenderHelper.instances.get();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -70,7 +74,7 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
         int side = tile.getDirection();
         int meta = world.getBlockMetadata(x, y, z);
 
-        RenderHelper.instance.state
+        renderHelper.state
                 .setUVRotation(RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZNEG][side]);
 
         boxRenderer.setUnit(block.getTrimWidth());
@@ -82,7 +86,7 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
 
         renderExterior(block, x, y, z, side, renderer);
 
-        RenderHelper.instance.state.clearUVRotation(RenderHelper.YPOS);
+        renderHelper.state.clearUVRotation(RenderHelper.YPOS);
 
         int maxStorageLevel = tile.getMaxStorageLevel();
         if (maxStorageLevel > 1 && StorageDrawers.config.cache.renderStorageUpgrades && !tile.shouldHideUpgrades()) {
@@ -108,11 +112,10 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
         double depth = block.halfDepth ? .5 : 1;
         IIcon iconLock = block.getLockIcon(locked, owned);
 
-        RenderHelper.instance.setRenderBounds(0.46875, 0.9375, 0, 0.53125, 1, depth + .005);
-        RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-        RenderHelper.instance
-                .renderPartialFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconLock, 0, 0, 1, 1);
-        RenderHelper.instance.state.clearRotateTransform();
+        renderHelper.setRenderBounds(0.46875, 0.9375, 0, 0.53125, 1, depth + .005);
+        renderHelper.state.setRotateTransform(RenderHelper.ZPOS, side);
+        renderHelper.renderPartialFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconLock, 0, 0, 1, 1);
+        renderHelper.state.clearRotateTransform();
     }
 
     private void renderVoid(BlockDrawers block, int x, int y, int z, int side, RenderBlocks renderer, boolean voided) {
@@ -121,11 +124,10 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
         double depth = block.halfDepth ? .5 : 1;
         IIcon iconVoid = block.getVoidIcon();
 
-        RenderHelper.instance.setRenderBounds(1 - .0625, 0.9375, 0, 1, 1, depth + .005);
-        RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-        RenderHelper.instance
-                .renderPartialFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconVoid, 0, 0, 1, 1);
-        RenderHelper.instance.state.clearRotateTransform();
+        renderHelper.setRenderBounds(1 - .0625, 0.9375, 0, 1, 1, depth + .005);
+        renderHelper.state.setRotateTransform(RenderHelper.ZPOS, side);
+        renderHelper.renderPartialFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconVoid, 0, 0, 1, 1);
+        renderHelper.state.clearRotateTransform();
     }
 
     private void renderTape(BlockDrawers block, int x, int y, int z, int side, RenderBlocks renderer, boolean taped) {
@@ -134,10 +136,10 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
         double depth = block.halfDepth ? .5 : 1;
         IIcon iconTape = block.getTapeIcon();
 
-        RenderHelper.instance.setRenderBounds(0, 0, 0, 1, 1, depth + .005);
-        RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-        RenderHelper.instance.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconTape);
-        RenderHelper.instance.state.clearRotateTransform();
+        renderHelper.setRenderBounds(0, 0, 0, 1, 1, depth + .005);
+        renderHelper.state.setRotateTransform(RenderHelper.ZPOS, side);
+        renderHelper.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconTape);
+        renderHelper.state.clearRotateTransform();
     }
 
     private static final int[] cut = new int[] {
@@ -207,16 +209,16 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
             float subX = xywh[0] + (xywh[2] - w) / 2;
             float subY = xywh[1] + (xywh[3] - h) / 2;
 
-            RenderHelper.instance.setRenderBounds(
+            renderHelper.setRenderBounds(
                     subX * unit,
                     subY * unit,
                     0,
                     (subX + w) * unit,
                     (subY + h) * unit,
                     (depth - depthAdj + .05) * unit);
-            RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-            RenderHelper.instance.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, icon);
-            RenderHelper.instance.state.clearRotateTransform();
+            renderHelper.state.setRotateTransform(RenderHelper.ZPOS, side);
+            renderHelper.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, icon);
+            renderHelper.state.clearRotateTransform();
         }
     }
 
@@ -252,30 +254,30 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
 
             float[] xywh = xywhSet[i];
 
-            RenderHelper.instance.setRenderBounds(
+            renderHelper.setRenderBounds(
                     xywh[0] * unit,
                     xywh[1] * unit,
                     0,
                     (xywh[0] + xywh[2]) * unit,
                     (xywh[1] + xywh[3]) * unit,
                     (depth - depthAdj + .05) * unit);
-            RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-            RenderHelper.instance.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconOff);
-            RenderHelper.instance.state.clearRotateTransform();
+            renderHelper.state.setRotateTransform(RenderHelper.ZPOS, side);
+            renderHelper.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconOff);
+            renderHelper.state.clearRotateTransform();
 
             if (level == 1 && drawer.getMaxCapacity() > 0 && drawer.getRemainingCapacity() == 0) {
-                RenderHelper.instance.state.setColorMult(1, 1, .9f, 1);
-                RenderHelper.instance.setRenderBounds(
+                renderHelper.state.setColorMult(1, 1, .9f, 1);
+                renderHelper.setRenderBounds(
                         xywh[0] * unit,
                         xywh[1] * unit,
                         0,
                         (xywh[0] + xywh[2]) * unit,
                         (xywh[1] + xywh[3]) * unit,
                         (depth - depthAdj + .06) * unit);
-                RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-                RenderHelper.instance.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconOn);
-                RenderHelper.instance.state.clearRotateTransform();
-                RenderHelper.instance.state.resetColorMult();
+                renderHelper.state.setRotateTransform(RenderHelper.ZPOS, side);
+                renderHelper.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconOn);
+                renderHelper.state.clearRotateTransform();
+                renderHelper.state.resetColorMult();
             } else if (level >= 2) {
                 double indXStart = xywh[0] + block.getIndStart() / unit;
                 double indXEnd = xywh[0] + block.getIndEnd() / unit;
@@ -287,18 +289,18 @@ public class DrawersRenderer implements ISimpleBlockRenderingHandler {
                 double indYCur = indYEnd;
 
                 if (indXCur > indXStart) {
-                    RenderHelper.instance.state.setColorMult(1, 1, .9f, 1);
-                    RenderHelper.instance.setRenderBounds(
+                    renderHelper.state.setColorMult(1, 1, .9f, 1);
+                    renderHelper.setRenderBounds(
                             indXStart * unit,
                             indYStart * unit,
                             0,
                             indXCur * unit,
                             indYCur * unit,
                             (depth - depthAdj + .06) * unit);
-                    RenderHelper.instance.state.setRotateTransform(RenderHelper.ZPOS, side);
-                    RenderHelper.instance.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconOn);
-                    RenderHelper.instance.state.clearRotateTransform();
-                    RenderHelper.instance.state.resetColorMult();
+                    renderHelper.state.setRotateTransform(RenderHelper.ZPOS, side);
+                    renderHelper.renderFace(RenderHelper.ZPOS, renderer.blockAccess, block, x, y, z, iconOn);
+                    renderHelper.state.clearRotateTransform();
+                    renderHelper.state.resetColorMult();
                 }
             }
         }

@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockTrimCustom;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
@@ -13,6 +14,7 @@ import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonTrimRe
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = false)
 public class TrimCustomRenderer implements ISimpleBlockRenderingHandler {
 
     private CommonTrimRenderer commonRender = new CommonTrimRenderer();

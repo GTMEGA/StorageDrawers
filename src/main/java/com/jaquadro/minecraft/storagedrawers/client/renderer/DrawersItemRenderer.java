@@ -24,6 +24,8 @@ public class DrawersItemRenderer implements IItemRenderer {
     // private PanelBoxRenderer panelRenderer = new PanelBoxRenderer();
     // private float[] colorScratch = new float[3];
 
+    private static RenderHelper renderHelper = RenderHelper.instances.get();
+
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         return true;
@@ -59,8 +61,8 @@ public class DrawersItemRenderer implements IItemRenderer {
 
         if (item.hasTagCompound() && item.getTagCompound().hasKey("tile")) {
             double depth = block.halfDepth ? .5 : 1;
-            RenderHelper.instance.setRenderBounds(1 - depth - .005, 0, 0, 1, 1, 1);
-            RenderHelper.instance.renderFace(side, null, block, block.getTapeIcon(), 1, 1, 1);
+            RenderHelper.instances.get().setRenderBounds(1 - depth - .005, 0, 0, 1, 1, 1);
+            RenderHelper.instances.get().renderFace(side, null, block, block.getTapeIcon(), 1, 1, 1);
         }
 
         if (renderType == ItemRenderType.INVENTORY || renderType == ItemRenderType.ENTITY)
@@ -70,7 +72,7 @@ public class DrawersItemRenderer implements IItemRenderer {
     private void renderBaseBlock(BlockDrawers block, ItemStack item, RenderBlocks renderer) {
         int side = 4;
 
-        RenderHelper.instance.state
+        RenderHelper.instances.get().state
                 .setUVRotation(RenderHelper.YPOS, RenderHelperState.ROTATION_BY_FACE_FACE[RenderHelper.ZPOS][side]);
 
         boxRenderer.setUnit(block.getTrimWidth());
@@ -79,7 +81,7 @@ public class DrawersItemRenderer implements IItemRenderer {
 
         renderExterior(block, 0, 0, 0, side, renderer);
 
-        RenderHelper.instance.state.clearUVRotation(RenderHelper.YPOS);
+        RenderHelper.instances.get().state.clearUVRotation(RenderHelper.YPOS);
 
         boxRenderer.setUnit(0);
         boxRenderer.setInteriorIcon(block.getIcon(side, item.getItemDamage()), ForgeDirection.OPPOSITES[side]);
