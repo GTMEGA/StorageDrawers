@@ -9,6 +9,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 
+import com.jaquadro.minecraft.storagedrawers.util.TessProvider;
+
 public final class RenderUtil {
 
     private static float[] colorScratch = new float[3];
@@ -146,7 +148,7 @@ public final class RenderUtil {
             float r, float g, float b) {
         if (icon == null) return;
 
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setColorOpaque_F(.5f * r, .5f * g, .5f * b);
         if (renderer.blockAccess == null) {
             tessellator.startDrawingQuads();
@@ -164,7 +166,7 @@ public final class RenderUtil {
             float r, float g, float b) {
         if (icon == null) return;
 
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setColorOpaque_F(1f * r, 1f * g, 1f * b);
         if (renderer.blockAccess == null) {
             tessellator.startDrawingQuads();
@@ -182,7 +184,7 @@ public final class RenderUtil {
             float r, float g, float b) {
         if (icon == null) return;
 
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setColorOpaque_F(.8f * r, .8f * g, .8f * b);
         if (renderer.blockAccess == null) {
             tessellator.startDrawingQuads();
@@ -200,7 +202,7 @@ public final class RenderUtil {
             float r, float g, float b) {
         if (icon == null) return;
 
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setColorOpaque_F(.8f * r, .8f * g, .8f * b);
         if (renderer.blockAccess == null) {
             tessellator.startDrawingQuads();
@@ -218,7 +220,7 @@ public final class RenderUtil {
             float r, float g, float b) {
         if (icon == null) return;
 
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setColorOpaque_F(.6f * r, .6f * g, .6f * b);
         if (renderer.blockAccess == null) {
             tessellator.startDrawingQuads();
@@ -236,7 +238,7 @@ public final class RenderUtil {
             float r, float g, float b) {
         if (icon == null) return;
 
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setColorOpaque_F(.6f * r, .6f * g, .6f * b);
         if (renderer.blockAccess == null) {
             tessellator.startDrawingQuads();
@@ -608,7 +610,7 @@ public final class RenderUtil {
 
     public static void renderFaceYNegAOPartial(RenderBlocks renderer, Block block, int x, int y, int z, IIcon icon,
             float r, float g, float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         if (renderer.renderMinY <= 0.0D) --y;
@@ -766,7 +768,7 @@ public final class RenderUtil {
 
     public static void renderFaceYPosAOPartial(RenderBlocks renderer, Block block, int x, int y, int z, IIcon icon,
             float r, float g, float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         if (renderer.renderMaxY >= 1.0D) ++y;
@@ -913,7 +915,7 @@ public final class RenderUtil {
 
     public static void renderFaceZNegAOPartial(RenderBlocks renderer, Block block, int x, int y, int z, IIcon icon,
             float r, float g, float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int zGrass = (renderer.renderMinZ <= 0) ? z - 1 : z;
@@ -1056,7 +1058,7 @@ public final class RenderUtil {
 
     public static void renderFaceZPosAOPartial(RenderBlocks renderer, Block block, int x, int y, int z, IIcon icon,
             float r, float g, float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int zGrass = (renderer.renderMaxZ >= 1) ? z + 1 : z;
@@ -1199,7 +1201,7 @@ public final class RenderUtil {
 
     public static void renderFaceXNegAOPartial(RenderBlocks renderer, Block block, int x, int y, int z, IIcon icon,
             float r, float g, float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int xGrass = (renderer.renderMinX <= 0) ? x - 1 : x;
@@ -1342,7 +1344,7 @@ public final class RenderUtil {
 
     public static void renderFaceXPosAOPartial(RenderBlocks renderer, Block block, int x, int y, int z, IIcon icon,
             float r, float g, float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int xGrass = (renderer.renderMaxX >= 1) ? x + 1 : x;

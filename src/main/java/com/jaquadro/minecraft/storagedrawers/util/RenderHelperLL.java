@@ -443,7 +443,7 @@ public class RenderHelperLL {
     }
 
     private void renderXYZUV(int[][] index, int uvRotate) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
 
         int[] tl = index[TL];
         int[] bl = index[BL];
@@ -469,7 +469,7 @@ public class RenderHelperLL {
     }
 
     private void renderXYZUVAO(int[][] index, int uvRotate) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
 
         int[] tl = index[TL];
         int[] bl = index[BL];

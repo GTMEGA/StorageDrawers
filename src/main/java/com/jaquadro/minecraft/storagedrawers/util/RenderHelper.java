@@ -87,7 +87,7 @@ public class RenderHelper {
     }
 
     public void setColorAndBrightness(IBlockAccess blockAccess, Block block, int x, int y, int z) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(block.getMixedBrightnessForBlock(blockAccess, x, y, z));
 
         calculateBaseColor(colorScratch, block.colorMultiplier(blockAccess, x, y, z));
@@ -151,7 +151,7 @@ public class RenderHelper {
         face = RenderHelperState.FACE_BY_FACE_ROTATION[face][state.rotateTransform];
         llHelper.drawFace(face, x, y, z, icon);
 
-        if (blockAccess == null) Tessellator.instance.draw();
+        if (blockAccess == null) TessProvider.getTess().draw();
     }
 
     public void renderFaceAOPartial(int face, IBlockAccess blockAccess, Block block, int x, int y, int z, IIcon icon,
@@ -219,7 +219,7 @@ public class RenderHelper {
         setupColorMult(face, r, g, b);
         renderPartialFace(face, icon, uMin, vMin, uMax, vMax);
 
-        Tessellator.instance.draw();
+        TessProvider.getTess().draw();
     }
 
     public void renderPartialFaceColorMult(int face, IBlockAccess blockAccess, Block block, int x, int y, int z,
@@ -227,7 +227,7 @@ public class RenderHelper {
         setupColorMult(face, blockAccess, block, x, y, z, r, g, b);
         renderPartialFace(face, x, y, z, icon, uMin, vMin, uMax, vMax);
 
-        if (blockAccess == null) Tessellator.instance.draw();
+        if (blockAccess == null) TessProvider.getTess().draw();
     }
 
     public void renderPartialFaceAOPartial(int face, IBlockAccess blockAccess, Block block, int x, int y, int z,
@@ -276,7 +276,7 @@ public class RenderHelper {
     }
 
     public void renderCrossedSquares(Block block, int meta, IIcon icon) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(FULL_BRIGHTNESS);
 
         calculateBaseColor(colorScratch, block.getRenderColor(meta));
@@ -305,7 +305,7 @@ public class RenderHelper {
     }
 
     public void renderCrossedSquares(IBlockAccess blockAccess, Block block, int x, int y, int z, IIcon icon) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(block.getMixedBrightnessForBlock(blockAccess, x, y, z));
 
         calculateBaseColor(colorScratch, block.colorMultiplier(blockAccess, x, y, z));
@@ -315,7 +315,7 @@ public class RenderHelper {
     }
 
     public void drawCrossedSquares(IIcon icon, double x, double y, double z, float scale) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
 
         x += state.renderOffsetX;
         y += state.renderOffsetY;
@@ -354,7 +354,7 @@ public class RenderHelper {
     }
 
     public void drawCrossedSquaresBounded(IIcon icon, double x, double y, double z, float scale) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
 
         x += state.renderOffsetX;
         y += state.renderOffsetY;
@@ -412,7 +412,7 @@ public class RenderHelper {
     }
 
     private void setupColorMult(int face, float r, float g, float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         float[] norm = normMap[face];
         float scale = state.getColorMult(face);
 
@@ -425,7 +425,7 @@ public class RenderHelper {
 
     private void setupColorMult(int face, IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
             float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         float[] norm = normMap[face];
         float scale = state.getColorMult(face);
 

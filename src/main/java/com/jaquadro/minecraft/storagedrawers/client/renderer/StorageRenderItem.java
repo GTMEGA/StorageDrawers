@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
+import com.jaquadro.minecraft.storagedrawers.util.TessProvider;
+
 public class StorageRenderItem extends RenderItem {
 
     public ItemStack overrideStack;
@@ -62,7 +64,7 @@ public class StorageRenderItem extends RenderItem {
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                 GL11.glDisable(GL11.GL_BLEND);
-                Tessellator tessellator = Tessellator.instance;
+                Tessellator tessellator = TessProvider.getTess();
                 int l = 255 - k << 16 | k << 8;
                 int i1 = (255 - k) / 4 << 16 | 16128;
                 this.renderQuad(tessellator, x + 2, y + 13, 13, 2, 0);

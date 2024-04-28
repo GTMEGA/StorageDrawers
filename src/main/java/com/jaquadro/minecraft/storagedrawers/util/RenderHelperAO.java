@@ -109,7 +109,7 @@ public class RenderHelperAO {
 
     public void setupYNegAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
             float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int yGrass = (state.renderMinY <= 0) ? y - 1 : y;
@@ -230,7 +230,7 @@ public class RenderHelperAO {
 
     public void setupYPosAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
             float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         if (state.renderMaxY >= 1.0D) ++y;
@@ -358,7 +358,7 @@ public class RenderHelperAO {
 
     public void setupZNegAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
             float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int zGrass = (state.renderMinZ <= 0) ? z - 1 : z;
@@ -479,7 +479,7 @@ public class RenderHelperAO {
 
     public void setupZPosAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
             float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int zGrass = (state.renderMaxZ >= 1) ? z + 1 : z;
@@ -600,7 +600,7 @@ public class RenderHelperAO {
 
     public void setupXNegAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
             float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int xGrass = (state.renderMinX <= 0) ? x - 1 : x;
@@ -721,7 +721,7 @@ public class RenderHelperAO {
 
     public void setupXPosAOPartial(IBlockAccess blockAccess, Block block, int x, int y, int z, float r, float g,
             float b) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = TessProvider.getTess();
         tessellator.setBrightness(983055);
 
         int xGrass = (state.renderMaxX >= 1) ? x + 1 : x;

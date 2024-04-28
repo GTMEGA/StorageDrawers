@@ -22,6 +22,7 @@ import com.jaquadro.minecraft.storagedrawers.api.registry.IWailaTooltipHandler;
 import com.jaquadro.minecraft.storagedrawers.api.render.IRenderLabel;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
+import com.jaquadro.minecraft.storagedrawers.util.TessProvider;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -170,7 +171,7 @@ public class Thaumcraft extends IntegrationModule {
             ResourceLocation aspectResource = aspect.getImage();
             Minecraft.getMinecraft().renderEngine.bindTexture(aspectResource);
 
-            Tessellator tessellator = Tessellator.instance;
+            Tessellator tessellator = TessProvider.getTess();
             tessellator.startDrawingQuads();
             tessellator.addVertexWithUV(x, y + h, 0, 0, 1);
             tessellator.addVertexWithUV(x + w, y + h, 0, 1, 1);

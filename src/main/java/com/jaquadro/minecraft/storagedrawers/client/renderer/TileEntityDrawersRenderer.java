@@ -35,6 +35,7 @@ import com.jaquadro.minecraft.storagedrawers.api.render.IRenderLabel;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.util.TessProvider;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.Side;
@@ -150,7 +151,7 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
 
                 float hScale = (i < 1) ? 4.0F : -1.0F;
 
-                Tessellator tessellator = Tessellator.instance;
+                Tessellator tessellator = TessProvider.getTess();
                 tessellator.startDrawingQuads();
                 tessellator
                         .addVertexWithUV(x + 0, y + h, 0, (u + (float) h * hScale) * uScale, (v + (float) h) * vScale);
