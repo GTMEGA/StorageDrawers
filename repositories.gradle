@@ -1,4 +1,12 @@
 // Add any additional repositories for your dependencies here
 
 repositories {
+    maven {
+        url = "https://mvn.falsepattern.com/gtmega_releases/"
+        name = "mega"
+    }
+    maven {
+        url = "https://mvn.falsepattern.com/jitpack"
+        name = "jitpack"
+    }
 }

@@ -6,7 +6,6 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockFramingTable;
 import com.jaquadro.minecraft.storagedrawers.client.renderer.common.CommonFramingRenderer;
@@ -15,7 +14,6 @@ import com.jaquadro.minecraft.storagedrawers.util.RenderHelper;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
-@ThreadSafeISBRH(perThread = true)
 public class FramingTableRenderer implements ISimpleBlockRenderingHandler {
 
     private CommonFramingRenderer framingRenderer = new CommonFramingRenderer();

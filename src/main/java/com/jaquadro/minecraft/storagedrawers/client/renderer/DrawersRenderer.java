@@ -6,7 +6,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
@@ -17,7 +16,6 @@ import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
-@ThreadSafeISBRH(perThread = true)
 public class DrawersRenderer implements ISimpleBlockRenderingHandler {
 
     private static final double unit = .0625f;

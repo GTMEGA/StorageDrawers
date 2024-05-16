@@ -7,7 +7,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockController;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityController;
@@ -16,7 +15,6 @@ import com.jaquadro.minecraft.storagedrawers.util.RenderHelperState;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
-@ThreadSafeISBRH(perThread = true)
 public class ControllerRenderer implements ISimpleBlockRenderingHandler {
 
     private static final double unit = .0625f;
