@@ -1,5 +1,28 @@
 package com.jaquadro.minecraft.storagedrawers.block;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
+import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
+import com.jaquadro.minecraft.storagedrawers.api.pack.BlockType;
+import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
+import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
+import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
+import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
+import com.jaquadro.minecraft.storagedrawers.core.ModItems;
+import com.jaquadro.minecraft.storagedrawers.core.handlers.GuiHandler;
+import com.jaquadro.minecraft.storagedrawers.item.ItemPersonalKey;
+import com.jaquadro.minecraft.storagedrawers.item.ItemTrim;
+import com.jaquadro.minecraft.storagedrawers.item.ItemUpgrade;
+import com.jaquadro.minecraft.storagedrawers.item.ItemUpgradeCreative;
+import com.jaquadro.minecraft.storagedrawers.network.BlockClickMessage;
+import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,13 +31,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockEnderChest;
-import net.minecraft.block.BlockWood;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
@@ -40,39 +57,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.logging.log4j.Level;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.jaquadro.minecraft.storagedrawers.StorageDrawers;
-import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
-import com.jaquadro.minecraft.storagedrawers.api.pack.BlockType;
-import com.jaquadro.minecraft.storagedrawers.api.security.ISecurityProvider;
-import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
-import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawersStandard;
-import com.jaquadro.minecraft.storagedrawers.core.ModCreativeTabs;
-import com.jaquadro.minecraft.storagedrawers.core.ModItems;
-import com.jaquadro.minecraft.storagedrawers.core.handlers.GuiHandler;
-import com.jaquadro.minecraft.storagedrawers.item.ItemPersonalKey;
-import com.jaquadro.minecraft.storagedrawers.item.ItemTrim;
-import com.jaquadro.minecraft.storagedrawers.item.ItemUpgrade;
-import com.jaquadro.minecraft.storagedrawers.item.ItemUpgradeCreative;
-import com.jaquadro.minecraft.storagedrawers.network.BlockClickMessage;
-import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
-
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class BlockDrawers extends BlockContainer implements IExtendedBlockClickHandler, INetworked {
-
-    private static final ResourceLocation blockConfig = new ResourceLocation(
-            StorageDrawers.MOD_ID + ":textures/blocks/block_config.mcmeta");
+    private static final ResourceLocation blockConfig =
+            new ResourceLocation(StorageDrawers.MOD_ID + ":textures/blocks/block_config.mcmeta");
 
     public final boolean halfDepth;
     public final int drawerCount;
@@ -284,8 +274,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     }
 
     @Override
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list,
-            Entity entity) {
+    public void addCollisionBoxesToList(
+            World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity) {
         setBlockBoundsBasedOnState(world, x, y, z);
         super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
     }
@@ -320,8 +310,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
-            float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (world.isRemote && Minecraft.getMinecraft().getSystemTime() == ignoreEventTime) {
             ignoreEventTime = 0;
             return false;
@@ -349,63 +339,51 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
                 return true;
             }
             /**
-             * Gee, it'd be nice if we could make all of these Items descend from one thing, almost like children and it
-             * would great if we could just find if it was an instance of said thing. Crazy concept!
-             */
-            else if (item.getItem() == ModItems.upgrade || item.getItem() == ModItems.upgradeStatus
+             * Gee, it'd be nice if we could make all of these Items descend from one thing, almost like children
+             * and it would great if we could just find if it was an instance of said thing.
+             * Crazy concept!
+             * */
+            else if (item.getItem() == ModItems.upgrade
+                    || item.getItem() == ModItems.upgradeStatus
                     || item.getItem() == ModItems.upgradeVoid
                     || item.getItem() == ModItems.upgradeCreative
                     || item.getItem() == ModItems.upgradeRedstone
                     || item.getItem() == ModItems.upgradeDowngrade) {
-                        if (!tileDrawers.addUpgrade(item)) {
-                            player.addChatMessage(new ChatComponentTranslation("storagedrawers.msg.maxUpgrades"));
-                            return false;
-                        }
+                if (!tileDrawers.addUpgrade(item)) {
+                    player.addChatMessage(new ChatComponentTranslation("storagedrawers.msg.maxUpgrades"));
+                    return false;
+                }
 
-                        world.markBlockForUpdate(x, y, z);
+                world.markBlockForUpdate(x, y, z);
 
-                        if (player != null && !player.capabilities.isCreativeMode) {
-                            if (--item.stackSize <= 0)
-                                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-                        }
+                if (player != null && !player.capabilities.isCreativeMode) {
+                    if (--item.stackSize <= 0)
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                }
 
-                        return true;
-                    } else
-                if (item.getItem() == ModItems.upgradeLock) {
-                    boolean locked = tileDrawers.isLocked(LockAttribute.LOCK_POPULATED);
+                return true;
+            } else if (item.getItem() == ModItems.upgradeLock) {
+                boolean locked = tileDrawers.isLocked(LockAttribute.LOCK_POPULATED);
+                tileDrawers.setLocked(LockAttribute.LOCK_POPULATED, !locked);
+                tileDrawers.setLocked(LockAttribute.LOCK_EMPTY, !locked);
 
-                    if (locked) {
-                        int slot = getDrawerSlot(side, hitX, hitY, hitZ);
-                        IDrawer drawer = tileDrawers.getDrawer(slot);
-                        ItemStack stack = drawer.getStoredItemPrototype();
-                        int count = drawer.getStoredItemCount();
+                return true;
+            } else if (item.getItem() == ModItems.shroudKey) {
+                tileDrawers.setIsShrouded(!tileDrawers.isShrouded());
+                return true;
+            } else if (item.getItem() instanceof ItemPersonalKey) {
+                String securityKey = ((ItemPersonalKey) item.getItem()).getSecurityProviderKey(item.getItemDamage());
+                ISecurityProvider provider = StorageDrawers.securityRegistry.getProvider(securityKey);
 
-                        if (stack != null && count == 0) {
-                            drawer.setStoredItemRedir(null, 0);
-                            return true;
-                        }
-                    }
-                    tileDrawers.setLocked(LockAttribute.LOCK_POPULATED, !locked);
-                    tileDrawers.setLocked(LockAttribute.LOCK_EMPTY, !locked);
-
-                    return true;
-                } else if (item.getItem() == ModItems.shroudKey) {
-                    tileDrawers.setIsShrouded(!tileDrawers.isShrouded());
-                    return true;
-                } else if (item.getItem() instanceof ItemPersonalKey) {
-                    String securityKey = ((ItemPersonalKey) item.getItem())
-                            .getSecurityProviderKey(item.getItemDamage());
-                    ISecurityProvider provider = StorageDrawers.securityRegistry.getProvider(securityKey);
-
-                    if (tileDrawers.getOwner() == null) {
-                        tileDrawers.setOwner(player.getPersistentID());
-                        tileDrawers.setSecurityProvider(provider);
-                    } else if (SecurityManager.hasOwnership(player.getGameProfile(), tileDrawers)) {
-                        tileDrawers.setOwner(null);
-                        tileDrawers.setSecurityProvider(null);
-                    } else return false;
-                    return true;
-                } else if (item.getItem() == ModItems.tape) return false;
+                if (tileDrawers.getOwner() == null) {
+                    tileDrawers.setOwner(player.getPersistentID());
+                    tileDrawers.setSecurityProvider(provider);
+                } else if (SecurityManager.hasOwnership(player.getGameProfile(), tileDrawers)) {
+                    tileDrawers.setOwner(null);
+                    tileDrawers.setSecurityProvider(null);
+                } else return false;
+                return true;
+            } else if (item.getItem() == ModItems.tape) return false;
         } else if (item == null && player.isSneaking()) {
             if (tileDrawers.isSealed()) {
                 tileDrawers.setIsSealed(false);
@@ -482,14 +460,23 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     }
 
     @Override
-    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY,
-            float hitZ, boolean invertShift) {
+    public void onBlockClicked(
+            World world,
+            int x,
+            int y,
+            int z,
+            EntityPlayer player,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            boolean invertShift) {
         if (StorageDrawers.config.cache.debugTrace)
             FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, "IExtendedBlockClickHandler.onBlockClicked");
 
         if (!player.capabilities.isCreativeMode) {
-            PlayerInteractEvent event = ForgeEventFactory
-                    .onPlayerInteract(player, PlayerInteractEvent.Action.LEFT_CLICK_BLOCK, x, y, z, side, world);
+            PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(
+                    player, PlayerInteractEvent.Action.LEFT_CLICK_BLOCK, x, y, z, side, world);
             if (event.isCanceled()) return;
         }
 
@@ -517,13 +504,14 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
                 ForgeDirection dir = ForgeDirection.getOrientation(side);
                 dropItemStack(world, x + dir.offsetX, y, z + dir.offsetZ, player, item);
                 world.markBlockForUpdate(x, y, z);
-            } else world.playSoundEffect(
-                    x + .5f,
-                    y + .5f,
-                    z + .5f,
-                    "random.pop",
-                    .2f,
-                    ((world.rand.nextFloat() - world.rand.nextFloat()) * .7f + 1) * 2);
+            } else
+                world.playSoundEffect(
+                        x + .5f,
+                        y + .5f,
+                        z + .5f,
+                        "random.pop",
+                        .2f,
+                        ((world.rand.nextFloat() - world.rand.nextFloat()) * .7f + 1) * 2);
         }
     }
 
@@ -585,20 +573,6 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
         return super.removedByPlayer(world, player, x, y, z);
     }
 
-    private void dropBigStackInWorld(World world, int x, int y, int z, ItemStack stack) {
-        if (stack == null || stack.stackSize <= 0) return;
-        Random rand = world.rand;
-
-        float ex = rand.nextFloat() * .8f + .1f;
-        float ey = rand.nextFloat() * .8f + .1f;
-        float ez = rand.nextFloat() * .8f + .1f;
-
-        EntityItem entity = new EntityItem(world, x + ex, y + ey, z + ez, stack);
-        if (stack.hasTagCompound())
-            entity.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
-        world.spawnEntityInWorld(entity);
-    }
-
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
         TileEntityDrawers tile = getTileEntity(world, x, y, z);
@@ -613,69 +587,16 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
             }
 
             if (!tile.isVending()) {
-                switch (StorageDrawers.config.cache.breakDrawerDropMode) {
-                    case "merge":
-                        /* Only a minimum number of ItemStack are dropped */
-                        for (int i = 0; i < tile.getDrawerCount(); i++) {
-                            if (!tile.isDrawerEnabled(i)) continue;
-                            IDrawer drawer = tile.getDrawer(i);
+                for (int i = 0; i < tile.getDrawerCount(); i++) {
+                    if (!tile.isDrawerEnabled(i)) continue;
 
-                            final ItemStack rawStoredItem = drawer.getStoredItemPrototype();
-                            if (rawStoredItem != null && rawStoredItem.isStackable()) {
-                                dropBigStackInWorld(world, x, y, z, drawer.getStoredItemCopy());
-                                drawer.setStoredItemCount(0);
-                            } else {
-                                forEachSplitStack(tile, i, stack -> dropStackInBatches(world, x, y, z, stack));
-                            }
-                        }
-                        break;
-                    case "destroy":
-                        /* Destroy excess items */
-                        int maxDropNum = 2048 / tile.getDrawerCount();
-                        for (int i = 0; i < tile.getDrawerCount(); i++) {
-                            if (!tile.isDrawerEnabled(i)) continue;
-                            IDrawer drawer = tile.getDrawer(i);
-                            if (drawer.getStoredItemCount() > maxDropNum) drawer.setStoredItemCount(maxDropNum);
+                    IDrawer drawer = tile.getDrawer(i);
+                    while (drawer.getStoredItemCount() > 0) {
+                        ItemStack stack = tile.takeItemsFromSlot(i, drawer.getStoredItemStackSize());
+                        if (stack == null || stack.stackSize == 0) break;
 
-                            forEachSplitStack(tile, i, stack -> dropStackInBatches(world, x, y, z, stack));
-                        }
-                        break;
-                    case "cluster":
-                        /* System.out.println("hello"); */
-                        if (cpw.mods.fml.common.Loader.isModLoaded("Avaritia")) {
-                            try {
-                                Class<?> itemMatterClusterClass = Class
-                                        .forName("fox.spiteful.avaritia.items.ItemMatterCluster");
-                                Method method = itemMatterClusterClass.getMethod("makeClusters", List.class);
-                                /* May not be used */
-                                for (int i = 0; i < tile.getDrawerCount(); i++) {
-                                    List<ItemStack> stacks = new ArrayList<>();
-                                    forEachSplitStack(tile, i, stacks::add);
-
-                                    List<ItemStack> clusters = (List<ItemStack>) method
-                                            .invoke(itemMatterClusterClass, stacks);
-                                    for (ItemStack stack : clusters) {
-                                        dropStackInBatches(world, x, y, z, stack);
-                                    }
-                                }
-                                break; /* switch */
-                            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException
-                                    | ClassNotFoundException e) {
-                                StorageDrawers.config.cache.breakDrawerDropMode = "default";
-                                FMLLog.log(
-                                        StorageDrawers.MOD_ID,
-                                        Level.INFO,
-                                        "Avaritia does not exist or cannot build a cluster!");
-                                if (StorageDrawers.config.cache.debugTrace)
-                                    FMLLog.log(StorageDrawers.MOD_ID, Level.INFO, e.getMessage());
-                                // :P
-                            }
-                        }
-                    case "default":
-                    default:
-                        for (int i = 0; i < tile.getDrawerCount(); i++) {
-                            forEachSplitStack(tile, i, stack -> dropStackInBatches(world, x, y, z, stack));
-                        }
+                        dropStackInBatches(world, x, y, z, stack);
+                    }
                 }
             }
 
@@ -683,18 +604,6 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
         }
 
         super.breakBlock(world, x, y, z, block, meta);
-    }
-
-    private void forEachSplitStack(TileEntityDrawers tile, int index, Consumer<ItemStack> forEachStack) {
-        if (!tile.isDrawerEnabled(index)) return;
-        IDrawer drawer = tile.getDrawer(index);
-
-        while (drawer.getStoredItemCount() > 0) {
-            ItemStack stack = tile.takeItemsFromSlot(index, drawer.getStoredItemStackSize());
-            if (stack == null || stack.stackSize == 0) break;
-
-            forEachStack.accept(stack);
-        }
     }
 
     private void dropStackInBatches(World world, int x, int y, int z, ItemStack stack) {
@@ -723,7 +632,8 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
             entity.motionZ = rand.nextGaussian() * motionUnit;
 
             if (stack.hasTagCompound())
-                entity.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
+                entity.getEntityItem()
+                        .setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
         }
     }
 
@@ -735,6 +645,7 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
     @Override
     public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
         if (willHarvest) return true;
+
         return super.removedByPlayer(world, player, x, y, z, willHarvest);
     }
 
