@@ -23,6 +23,7 @@ import net.minecraft.client.resources.IResource;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -161,6 +162,11 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
         setBlockName(blockName);
         setConfigName(blockName);
         setLightOpacity(255);
+    }
+
+    @Override
+    public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+        return false;
     }
 
     public boolean retrimBlock(World world, int x, int y, int z, ItemStack prototype) {
