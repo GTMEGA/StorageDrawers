@@ -57,6 +57,9 @@ public class ItemDrawers extends ItemBlock {
         list.add(
                 StatCollector
                         .translateToLocalFormatted("storageDrawers.drawers.description", getCapacityForBlock(block)));
+        list.add(
+                StatCollector
+                        .translateToLocalFormatted("storageDrawers.drawers.description2"));
 
         if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("tile")) {
             list.add(

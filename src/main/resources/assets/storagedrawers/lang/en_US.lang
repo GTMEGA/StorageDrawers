@@ -105,11 +105,12 @@ tile.trim.jungle.name=Jungle Trim
 tile.trim.acacia.name=Acacia Trim
 tile.trim.big_oak.name=Dark Oak Trim
 
-storageDrawers.drawers.description=Holds %d stacks per drawer
-storageDrawers.drawers.sealed=Contents sealed within
-storageDrawers.upgrade.description=Increases storage to %d times base value
-storageDrawers.controller.description=Interact with a bank of connected drawers
-storageDrawers.controllerSlave.description=Extra attach points for controllers
+storageDrawers.drawers.description=Holds %d stacks per drawer.
+storageDrawers.drawers.description2=Items will void when broken.
+storageDrawers.drawers.sealed=Contents sealed within.
+storageDrawers.upgrade.description=Increases storage to %d times base value.
+storageDrawers.controller.description=Interact with a bank of connected drawers.
+storageDrawers.controllerSlave.description=Extra attach points for controllers.
 
 # Integration
 storageDrawers.waila.empty=<Empty>
